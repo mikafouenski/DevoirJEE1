@@ -2,6 +2,7 @@ package database;
 
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -29,42 +30,43 @@ public class JDBC implements IDatabase {
 	}
 	
 	private void initTablePerson() {
-		String create =  "CREATE OR REPLACE table PERSON ("
-				+ "id int(6) auto_increment primary key,"
-				+ "name varchar(50) not null,"
-				+ "firstname varchar(50) not null,"
-				+ "mail varchar(50) not null,"
-				+ "website varchar(50) not null,"
-				+ "birthdate date,"
-				+ "password varchar(50) not null"
-				+ "FOREIGN KEY (idGroup) REFERENCES GROUP(id));";
+		String create =  "CREATE table if not exists PERSON ("
+				+ "idPER int auto_increment, primary key (idPER), "
+				+ "name varchar(50) not null, "
+				+ "firstname varchar(50) not null, "
+				+ "mail varchar(50) not null, "
+				+ "website varchar(50) not null, "
+				+ "birthdate date, "
+				+ "password varchar(50) not null, "
+				+ "idGRP int,"
+				+ "FOREIGN KEY (idGRP) REFERENCES GROUPS(idGRP) )";
 		
 		try(Connection c = bds.getConnection();
 			Statement sta = c.createStatement()){
-			sta.execute(create);
+			sta.executeUpdate(create);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("table person already exist");
 		}
-	}
+	} 
 	
 	private void initTableGroup() {
-		String create = "CREATE OR REPLACE table GROUP ("
-				+ "id int(6) auto_increment primary key,"
-				+ "name varchar(50) not null);";
+		String create = "CREATE TABLE IF NOT EXISTS GROUPS ( "
+				+ "idGRP INT AUTO_INCREMENT, PRIMARY KEY (idGRP), "
+				+ "name VARCHAR(50) NOT NULL )";
 		try(Connection c = bds.getConnection();
 				Statement sta = c.createStatement()){
-				sta.execute(create);
+				sta.executeUpdate(create);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println("table group already exist");
 			}
 	}
 	
 	
 	private void initDatabase() {
-		initTablePerson();
 		initTableGroup();
+		initTablePerson();
 	}
 	
 	@PostConstruct

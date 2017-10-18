@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestJDBC {
 
 	@Autowired
-	JDBC jdbc;
+	IDatabase jdbc;
 	
 	@Test
 	public void TestMultiConnection() throws InterruptedException {
@@ -44,7 +44,6 @@ public class TestJDBC {
 			try(Connection c = jdbc.newConnection()) {
 				Thread.sleep(5000);
 			} catch (Exception e) {
-				System.out.println("blop");
 			}
 		};
 		ExecutorService exec = Executors.newFixedThreadPool(10);

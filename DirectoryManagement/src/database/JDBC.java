@@ -1,8 +1,9 @@
 package database;
 
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.annotation.PostConstruct;
 
@@ -17,10 +18,6 @@ public class JDBC implements IDatabase {
 	private String password = "gRAYUM!.";
 	private BasicDataSource bds;
 	
-	@PostConstruct
-	public void init() {
-		initBasicDataSource();
-	}
 	
 	private void initBasicDataSource() {
 		bds = new BasicDataSource();
@@ -31,17 +28,53 @@ public class JDBC implements IDatabase {
 		bds.setMaxTotal(5);
 	}
 	
-	public void initDatabase() {
-		String create = "create table person ("
+	private void initTablePerson() {
+		String create =  "CREATE OR REPLACE table PERSON ("
 				+ "id int(6) auto_increment primary key,"
 				+ "name varchar(50) not null,"
 				+ "firstname varchar(50) not null,"
 				+ "mail varchar(50) not null,"
 				+ "website varchar(50) not null,"
 				+ "birthdate date,"
-				+ "password varchar(50) not null);";
-	}
+				+ "password varchar(50) not null"
+				+ "FOREIGN KEY (idGroup) REFERENCES GROUP(id));";
 		
+		try(Connection c = bds.getConnection();
+			Statement sta = c.createStatement()){
+			sta.execute(create);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void initTableGroup() {
+		String create = "CREATE OR REPLACE table GROUP ("
+				+ "id int(6) auto_increment primary key,"
+				+ "name varchar(50) not null);";
+		try(Connection c = bds.getConnection();
+				Statement sta = c.createStatement()){
+				sta.execute(create);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	
+	
+	private void initDatabase() {
+		initTablePerson();
+		initTableGroup();
+	}
+	
+	@PostConstruct
+	public void init() {
+		initBasicDataSource();
+		initDatabase();
+		
+	}
+	
+	
 	public Connection newConnection() throws SQLException {
 		return bds.getConnection();
 	}

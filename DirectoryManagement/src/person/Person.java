@@ -5,26 +5,12 @@ import java.util.Date;
 public class Person {
 
 	private int id;
-	private String nom;
-	private String prenom;
+	private String name;
+	private String firstname;
 	private String mail;
 	private String website;
 	private Date birthdate;
 	private String password;
-
-	public Person(int id, String nom, String prenom, String mail, String website, Date birthdate, String password) {
-		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.mail = mail;
-		this.website = website;
-		this.birthdate = birthdate;
-		this.password = password;
-	}
-
-	public Person() {
-		super();
-	}
 
 	public int getId() {
 		return id;
@@ -34,20 +20,20 @@ public class Person {
 		this.id = id;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getPrenom() {
-		return prenom;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
 	public String getMail() {

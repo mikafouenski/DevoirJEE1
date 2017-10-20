@@ -2,8 +2,8 @@ package database;
 
 import java.util.Collection;
 
-import group.Group;
-import person.Person;
+import beans.Group;
+import beans.Person;
 
 public interface DaoPerson {
 

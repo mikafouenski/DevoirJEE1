@@ -6,8 +6,8 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import group.Group;
-import person.Person;
+import beans.Group;
+import beans.Person;
 
 @Service
 public class DaoPersonImpl implements DaoPerson {
@@ -21,7 +21,6 @@ public class DaoPersonImpl implements DaoPerson {
 		try {
 			db.newConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

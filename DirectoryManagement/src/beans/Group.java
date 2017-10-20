@@ -1,8 +1,6 @@
-package group;
+package beans;
 
 import java.util.Collection;
-
-import person.Person;
 
 public class Group {
 

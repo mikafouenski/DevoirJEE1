@@ -1,4 +1,4 @@
-package person;
+package beans;
 
 import java.util.Date;
 

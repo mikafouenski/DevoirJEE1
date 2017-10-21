@@ -4,19 +4,20 @@ import java.util.Date;
 
 public class Person {
 
-	private int id;
+	private Long id;
 	private String name;
 	private String firstname;
 	private String mail;
 	private String website;
 	private Date birthdate;
 	private String password;
+	private int idGRP;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -66,6 +67,14 @@ public class Person {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getIdGRP() {
+		return idGRP;
+	}
+
+	public void setIdGRP(int idGRP) {
+		this.idGRP = idGRP;
 	}
 
 }

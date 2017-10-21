@@ -1,12 +1,15 @@
 package database;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,25 @@ public class TestJDBC {
 
 	@Autowired
 	IDatabase jdbc;
+
+	@Test
+	@Ignore
+	public void TestInitDatabase() {
+		new JDBC(true);
+	}
+
+	@Test
+	public void testNewDefaultConnection() throws SQLException {
+		Connection c = jdbc.newConnection();
+		assertNotNull(c);
+	}
+
+	@Test
+	public void testQuietClose() throws SQLException {
+		Connection c = jdbc.newConnection();
+		jdbc.quietClose(c);
+		assertTrue(c.isClosed());
+	}
 
 	@Test
 	public void TestMultiConnection() throws InterruptedException {
@@ -37,7 +59,7 @@ public class TestJDBC {
 		exec.awaitTermination(10, TimeUnit.HOURS);
 		long fin = System.currentTimeMillis();
 		long val = (fin - debut);
-		assertTrue(val <= 12000 && val >= 10000);
+		assertTrue("val = " + val, val <= 16000 && val >= 10000);
 	}
 
 }

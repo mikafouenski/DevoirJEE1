@@ -1,8 +1,5 @@
 package database;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,13 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JDBC implements IDatabase {
+	
+	private static final int MAX_CONNEXION = 5;
 
 	private String url = "jdbc:mysql://127.0.0.1:9999/b13002175";
 	private String id = "b13002175";
@@ -26,17 +23,12 @@ public class JDBC implements IDatabase {
 
 	public JDBC() {
 		initBasicDataSource();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("Use init of database ? (y / n)");
-		String input = "";
-		try {
-			input = br.readLine();
-		} catch (IOException e) {
-		}
-		if (input.equals("y")) {
+	}
+	
+	public JDBC(boolean init) {
+		initBasicDataSource();
+		if (init)
 			initDatabase();
-			insertInitData();
-		}
 	}
 
 	private void initBasicDataSource() {
@@ -44,49 +36,53 @@ public class JDBC implements IDatabase {
 		bds.setUrl(url);
 		bds.setPassword(password);
 		bds.setUsername(id);
-		bds.setInitialSize(5);
-		bds.setMaxTotal(5);
-	}
-
-	private void insertInitData() {
-		String create = "INSERT INTO `PERSON` (`idPER`,`name`,`firstname`,`mail`,`website`,`birthdate`,`password`, `idGRP`) VALUES (1,\"Witt\",\"Candice\",\"sit.amet@libero.edu\",\"ligula.Aenean@temporestac.com\",\"01/02/94\",\"massa.\"),(2,\"Kelley\",\"Emma\",\"pharetra.Quisque@Curabiturvellectus.co.uk\",\"nec.urna@ultricesposuerecubilia.co.uk\",\"10/01/12\",\"Morbi\"),(3,\"Newman\",\"Joy\",\"odio@dignissim.org\",\"nulla.Cras.eu@aliquetdiam.edu\",\"05/07/15\",\"natoque\"),(4,\"Mcneil\",\"Karly\",\"consectetuer.adipiscing@egetipsumSuspendisse.org\",\"sapien@rutrumnonhendrerit.co.uk\",\"03/05/06\",\"vestibulum,\"),(5,\"Rollins\",\"Britanney\",\"risus.quis.diam@neque.co.uk\",\"Nullam.suscipit.est@Cumsociis.edu\",\"07/19/10\",\"sapien,\"),(6,\"Kennedy\",\"Candice\",\"netus.et.malesuada@ornaresagittis.org\",\"mauris.Integer.sem@mi.org\",\"09/20/92\",\"euismod\"),(7,\"Hammond\",\"Keely\",\"id@porttitor.org\",\"dis.parturient.montes@Nullam.net\",\"02/15/08\",\"luctus,\"),(8,\"Aguilar\",\"Jessica\",\"enim.commodo@Namtempor.edu\",\"Vivamus.sit@anteVivamus.com\",\"11/02/10\",\"Phasellus\"),(9,\"Stewart\",\"Xena\",\"nulla@ligulatortor.net\",\"euismod@varius.co.uk\",\"08/10/99\",\"enim\"),(10,\"Jensen\",\"Brielle\",\"consequat.lectus@feugiatnecdiam.com\",\"tempus.scelerisque@dolorQuisque.ca\",\"12/25/94\",\"tempor\");\n" + 
-				"";
-		try (Connection c = bds.getConnection(); Statement sta = c.createStatement()) {
-			sta.executeUpdate(create);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("table person already exist");
-		}
-	}
-
-	private void initTablePerson() {
-		String create = "CREATE table if not exists PERSON (" + "idPER int auto_increment, primary key (idPER), "
-				+ "name varchar(50) not null, " + "firstname varchar(50) not null, " + "mail varchar(50) not null, "
-				+ "website varchar(50) not null, " + "birthdate date, " + "password varchar(50) not null, "
-				+ "idGRP int," + "FOREIGN KEY (idGRP) REFERENCES GROUPS(idGRP) )";
-
-		try (Connection c = bds.getConnection(); Statement sta = c.createStatement()) {
-			sta.executeUpdate(create);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("table person already exist");
-		}
-	}
-
-	private void initTableGroup() {
-		String create = "CREATE TABLE IF NOT EXISTS GROUPS ( " + "idGRP INT AUTO_INCREMENT, PRIMARY KEY (idGRP), "
-				+ "name VARCHAR(50) NOT NULL )";
-		try (Connection c = bds.getConnection(); Statement sta = c.createStatement()) {
-			sta.executeUpdate(create);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("table group already exist");
-		}
+		bds.setInitialSize(MAX_CONNEXION);
+		bds.setMaxTotal(MAX_CONNEXION);
 	}
 
 	private void initDatabase() {
-		initTableGroup();
-		initTablePerson();
+		String createGroups = "CREATE TABLE IF NOT EXISTS `GROUPS` (" + 
+			"  `idGRP` int(11) NOT NULL AUTO_INCREMENT," + 
+			"  `name` varchar(50) NOT NULL," + 
+			"  PRIMARY KEY (`idGRP`)" + 
+			") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;";
+		String insertGroups = "INSERT INTO `GROUPS` (`idGRP`, `name`) VALUES" + 
+			"(1, 'Ut Sagittis Lobortis LLP')," + 
+			"(2, 'Magna Suspendisse PC')," + 
+			"(3, 'Mi Ac Corp.')," + 
+			"(4, 'Vitae Foundation')," + 
+			"(5, 'At Lacus Quisque Institute')";
+		String createPerson = "CREATE TABLE IF NOT EXISTS `PERSON` (" + 
+			"  `idPER` int(11) NOT NULL AUTO_INCREMENT," + 
+			"  `name` varchar(50) NOT NULL," + 
+			"  `firstname` varchar(50) NOT NULL," + 
+			"  `mail` varchar(50) NOT NULL," + 
+			"  `website` varchar(50) NOT NULL," + 
+			"  `birthdate` date DEFAULT NULL," + 
+			"  `password` varchar(50) NOT NULL," + 
+			"  `idGRP` int(11) DEFAULT NULL," + 
+			"  PRIMARY KEY (`idPER`)," + 
+			"  KEY `idGRP` (`idGRP`)" + 
+			") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11";
+		String insertPerson = "INSERT INTO `PERSON` (`idPER`, `name`, `firstname`, `mail`, `website`, `birthdate`, `password`, `idGRP`) VALUES" + 
+			"(1, 'Witt', 'Candice', 'sit.amet@libero.edu', 'ligula.Aenean@temporestac.com', '2017-10-12', 'massa.', 1)," + 
+			"(2, 'Kelley', 'Emma', 'pharetra.Quisque@Curabiturvellectus.co.uk', 'nec.urna@ultricesposuerecubilia.co.uk', '2017-10-12', 'Morbi', 1)," + 
+			"(3, 'Newman', 'Joy', 'odio@dignissim.org', 'nulla.Cras.eu@aliquetdiam.edu', '2017-10-12', 'natoque', 1),\n" + 
+			"(4, 'Mcneil', 'Karly', 'consectetuer.adipiscing@egetipsumSuspendisse.org', 'sapien@rutrumnonhendrerit.co.uk', '2017-10-12', 'vestibulum,', 2)," + 
+			"(5, 'Rollins', 'Britanney', 'risus.quis.diam@neque.co.uk', 'Nullam.suscipit.est@Cumsociis.edu', '2017-10-12', 'sapien,', 2)," + 
+			"(6, 'Kennedy', 'Candice', 'netus.et.malesuada@ornaresagittis.org', 'mauris.Integer.sem@mi.org', '2017-10-12', 'euismod', 2)," + 
+			"(7, 'Hammond', 'Keely', 'id@porttitor.org', 'dis.parturient.montes@Nullam.net', '2017-10-12', 'luctus,', 3)," + 
+			"(8, 'Aguilar', 'Jessica', 'enim.commodo@Namtempor.edu', 'Vivamus.sit@anteVivamus.com', '2017-10-12', 'Phasellus', 3)," + 
+			"(9, 'Stewart', 'Xena', 'nulla@ligulatortor.net', 'euismod@varius.co.uk', '2017-10-12', 'enim', 4)," + 
+			"(10, 'Jensen', 'Brielle', 'consequat.lectus@feugiatnecdiam.com', 'tempus.scelerisque@dolorQuisque.ca', '2017-10-12', 'tempor', 5)";
+		try (Connection c = bds.getConnection(); Statement sta = c.createStatement()) {
+			sta.executeUpdate(createGroups);
+			sta.executeUpdate(createPerson);
+			sta.executeUpdate(insertGroups);
+			sta.executeUpdate(insertPerson);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Connection newConnection() throws SQLException {

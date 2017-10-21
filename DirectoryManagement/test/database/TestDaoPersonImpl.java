@@ -1,6 +1,7 @@
 package database;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,6 +21,20 @@ public class TestDaoPersonImpl {
 	DaoPerson dao;
 	
 	@Test
+	public void a() {
+		Person person = new Person();
+		person.setName("test");
+		person.setFirstname("test");
+		person.setMail("a@a.com");
+		person.setPassword("test");
+		person.setIdGRP(2);
+		person.setWebsite("a.fr");
+		person.setBirthdate(new Date());
+		dao.savePerson(person);
+		// HAHA ca marche ! dodo maintenant ^^
+	}
+	
+	@Test
 	public void tesFindAllGroup() {
 		Collection<Group> c = dao.findAllGroups();
 		Assert.assertEquals(5, c.size());
@@ -27,7 +42,7 @@ public class TestDaoPersonImpl {
 	
 	@Test
 	public void tesFindAllPerson() {
-		Collection<Group> c = dao.findAllPersons();
+		Collection<Person> c = dao.findAllPersons(1);
 		Assert.assertEquals(5, c.size());
 	}
 }

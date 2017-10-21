@@ -27,7 +27,7 @@ public class TestDaoPersonImpl {
 		person.setFirstname("test");
 		person.setMail("a@a.com");
 		person.setPassword("test");
-		person.setIdGRP(2);
+		person.setIdGroup(2);
 		person.setWebsite("a.fr");
 		person.setBirthdate(new Date());
 		dao.savePerson(person);

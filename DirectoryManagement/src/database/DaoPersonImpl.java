@@ -20,11 +20,24 @@ public class DaoPersonImpl implements DaoPerson {
 	IDatabase db;
 
 	private final String FIND_PERSON_BY_ID = "SELECT * FROM PERSON WHERE idPER = ?";
-	private final String LIST_PERSON_FROM_GROUP_ID = "SELECT * FROM PERSON WHERE idGRP = ?";
-	private final String LIST_GROUP_ORDER_BY_ID = "SELECT * FROM GROUPS ORDER BY idGRP";
 
 	private final String INSERT_PERSON = "INSERT INTO PERSON (name, firstname, mail, website, birthdate, password, idGRP) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private final String UPDATE_PERSON = "UPDATE PERSON SET name = ?, firstname = ?, mail = ?, website = ?, birthdate = ?, password = ?, idGRP = ? WHERE idPER = ? ";
+
+	public <T> Collection<T> findBeans(BeantoPrepareStatement BeanToPrep, ResultSetToBean<T> mapper)
+			throws SQLException {
+		Collection<T> array = null;
+		try (Connection c = db.newConnection();
+				PreparedStatement prep = BeanToPrep.createPrep(c);
+				Statement st = c.createStatement();
+				ResultSet rs = prep.executeQuery();) {
+			array = new ArrayList<T>();
+			while (rs.next()) {
+				array.add(mapper.toBean(rs));
+			}
+			return array;
+		}
+	}
 
 	private Person mapPerson(ResultSet resultSet) throws SQLException {
 		Person person = new Person();
@@ -35,17 +48,10 @@ public class DaoPersonImpl implements DaoPerson {
 		person.setWebsite(resultSet.getString("website"));
 		person.setBirthdate(resultSet.getDate("birthdate"));
 		person.setPassword(resultSet.getString("password"));
-		person.setIdGRP(resultSet.getInt("idGRP"));
+		person.setIdGroup(resultSet.getLong("idGRP"));
 		return person;
 	}
 
-	private Group mapGroup(ResultSet resultSet) throws SQLException {
-		Group group = new Group();
-		group.setId(resultSet.getInt("idGRP"));
-		group.setName(resultSet.getString("name"));
-		group.setPersons(findAllPersons(group.getId()));
-		return group;
-	}
 
 	private java.sql.Date toSqlDate(java.util.Date date) {
 		return (date != null) ? new java.sql.Date(date.getTime()) : null;
@@ -53,33 +59,55 @@ public class DaoPersonImpl implements DaoPerson {
 
 	@Override
 	public Collection<Group> findAllGroups() throws DaoException {
-		Collection<Group> groups = new ArrayList<Group>();
-		try (Connection c = db.newConnection();
-				PreparedStatement preparedStatement = c.prepareStatement(LIST_GROUP_ORDER_BY_ID)) {
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				groups.add(mapGroup(resultSet));
-			}
+		String sql = "SELECT idGRP,name FROM GROUPS ORDER BY idGRP";
+		ResultSetToBean<Group> toBean = (rs) -> {
+			Group gr = new Group();
+			gr.setId(rs.getInt("idGRP"));
+			gr.setName(rs.getString("name"));
+			return gr;
+		};
+		BeantoPrepareStatement p = (c) -> {
+			PreparedStatement prep = c.prepareStatement(sql);
+			return prep;
+		};
+		Collection<Group> groups = null;
+		try {
+			groups = findBeans(p, toBean);
 		} catch (SQLException e) {
-			throw new DaoException(e);
+			e.printStackTrace();
 		}
 		return groups;
 	}
 
 	@Override
 	public Collection<Person> findAllPersons(long groupId) throws DaoException {
-		Collection<Person> persons = new ArrayList<Person>();
-		try (Connection c = db.newConnection();
-				PreparedStatement preparedStatement = c.prepareStatement(LIST_PERSON_FROM_GROUP_ID)) {
-			preparedStatement.setLong(1, groupId);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				persons.add(mapPerson(resultSet));
-			}
+		String sql = "Select idPER,name,firstname,mail,website,password,birthdate,idGRP "
+				+ "FROM PERSON WHERE idGRP = ?";
+		ResultSetToBean<Person> toBean = (rs) -> {
+			Person prs = new Person();
+			prs.setId(rs.getLong("idPER"));
+			prs.setName(rs.getString("name"));
+			prs.setFirstname(rs.getString("firstname"));
+			prs.setMail(rs.getString("mail"));
+			prs.setWebsite(rs.getString("website"));
+			prs.setPassword(rs.getString("password"));
+			prs.setBirthdate(rs.getDate("birthdate"));
+			prs.setIdGroup(rs.getInt("idGRP"));
+			return prs;
+		};
+		BeantoPrepareStatement p = (c) -> {
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setLong(1, groupId);
+			return prep;
+		};
+		Collection<Person> pers = null;
+		try {
+			pers = findBeans(p, toBean);
 		} catch (SQLException e) {
-			throw new DaoException(e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return persons;
+		return pers;
 	}
 
 	@Override
@@ -111,7 +139,7 @@ public class DaoPersonImpl implements DaoPerson {
 
 	private void createPerson(Person p) {
 		Object[] values = { p.getName(), p.getFirstname(), p.getMail(), p.getWebsite(), toSqlDate(p.getBirthdate()),
-				p.getPassword(), p.getIdGRP() };
+				p.getPassword(), p.getIdGroup() };
 		try (Connection c = db.newConnection();
 				PreparedStatement preparedStatement = preparedStatementWithValues(c, INSERT_PERSON, values)) {
 			if (preparedStatement.executeUpdate() == 0)
@@ -129,7 +157,7 @@ public class DaoPersonImpl implements DaoPerson {
 
 	private void updatePerson(Person p) {
 		Object[] values = { p.getName(), p.getFirstname(), p.getMail(), p.getWebsite(), toSqlDate(p.getBirthdate()),
-				p.getPassword(), p.getIdGRP(), p.getId() };
+				p.getPassword(), p.getIdGroup(), p.getId() };
 		try (Connection c = db.newConnection();
 				PreparedStatement preparedStatement = preparedStatementWithValues(c, UPDATE_PERSON, values)) {
 			if (preparedStatement.executeUpdate() == 0)

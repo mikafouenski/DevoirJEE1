@@ -69,12 +69,12 @@ public class Person {
 		this.password = password;
 	}
 
-	public long getIdGRP() {
-		return idGRP;
+	public long getIdGroup() {
+		return idGroup;
 	}
 
-	public void setIdGRP(long idGRP) {
-		this.idGRP = idGRP;
+	public void setIdGroup(long idGroup) {
+		this.idGroup = idGroup;
 	}
 
 }

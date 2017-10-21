@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
-public interface BeantoPrepareStatement {
+public interface ToPrepareStatement {
 	
 	PreparedStatement createPrep(Connection c) throws SQLException;
 

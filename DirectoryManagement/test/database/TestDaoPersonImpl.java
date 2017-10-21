@@ -23,13 +23,14 @@ public class TestDaoPersonImpl {
 	@Test
 	public void a() {
 		Person person = new Person();
-		person.setName("test");
+		person.setName("testa");
 		person.setFirstname("test");
 		person.setMail("a@a.com");
 		person.setPassword("test");
 		person.setIdGroup(2);
 		person.setWebsite("a.fr");
 		person.setBirthdate(new Date());
+		person.setIdGroup(2);
 		dao.savePerson(person);
 		// HAHA ca marche ! dodo maintenant ^^
 	}

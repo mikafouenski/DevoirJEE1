@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class Group {
 
-	private int id;
+	private long id;
 	private String name;
 	private Collection<Person> persons;
 
@@ -18,11 +18,11 @@ public class Group {
 		this.persons = persons;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

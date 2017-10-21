@@ -21,13 +21,15 @@ public class DaoPersonImpl implements DaoPerson {
 	
 	private final String INSERT_PERSON = "INSERT INTO PERSON (name, firstname, mail, website, birthdate, password, idGRP) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private final String UPDATE_PERSON = "UPDATE PERSON SET name = ?, firstname = ?, mail = ?, website = ?, birthdate = ?, password = ?, idGRP = ? WHERE idPER = ? ";
+	
+	private final String INSERT_GROUP = "INSERT INTO GROUP (name) VALUES (?)";
+	private final String UPDATE_GROUP = "UPDATE GROUP SET name = ? WHERE idGRP = ? ";
 
-	private <T> Collection<T> findBeans(BeantoPrepareStatement BeanToPrep, ResultSetToBean<T> mapper)
+	private <T> Collection<T> findBeans(ToPrepareStatement BeanToPrep, ResultSetToBean<T> mapper)
 			throws SQLException {
-		Collection<T> array = null;
+		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.newConnection();
 				PreparedStatement prep = BeanToPrep.createPrep(c);
-				Statement st = c.createStatement();
 				ResultSet rs = prep.executeQuery();) {
 			array = new ArrayList<T>();
 			while (rs.next()) {
@@ -36,7 +38,41 @@ public class DaoPersonImpl implements DaoPerson {
 			return array;
 		}
 	}
-
+	
+	private void updateBean(ToPrepareStatement BeanToPrep) {
+		try (Connection c = db.newConnection();
+				PreparedStatement prep = BeanToPrep.createPrep(c);
+			){
+			if (prep.executeUpdate() == 0)
+				throw new DaoException();
+			}catch (SQLException e) {
+				throw new DaoException(e);
+			}
+	}
+	
+	private long insertBean(ToPrepareStatement BeanToPrep) {
+		long id = 0;
+		try (Connection c = db.newConnection();
+				PreparedStatement prep = BeanToPrep.createPrep(c);
+			){
+			if (prep.executeUpdate() == 0)
+				throw new DaoException();
+			ResultSet generatedKeys = prep.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getLong(1);
+			}
+			else {
+				generatedKeys.close();
+				throw new DaoException();
+			}
+			generatedKeys.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
 	private java.sql.Date toSqlDate(java.util.Date date) {
 		return (date != null) ? new java.sql.Date(date.getTime()) : null;
 	}
@@ -50,7 +86,7 @@ public class DaoPersonImpl implements DaoPerson {
 			gr.setName(rs.getString("name"));
 			return gr;
 		};
-		BeantoPrepareStatement p = (c) -> {
+		ToPrepareStatement p = (c) -> {
 			PreparedStatement prep = c.prepareStatement(sql);
 			return prep;
 		};
@@ -83,12 +119,12 @@ public class DaoPersonImpl implements DaoPerson {
 	public Collection<Person> findAllPersons(long groupId) throws DaoException {
 		String sql = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP "
 				+ "FROM PERSON WHERE idGRP = ?";
-		BeantoPrepareStatement p = (c) -> {
+		ToPrepareStatement p = (c) -> {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setLong(1, groupId);
 			return prep;
 		};
-		Collection<Person> pers = null;
+		Collection<Person> pers = new ArrayList<Person>();
 		try {
 			pers = findBeans(p,personToResult());
 		} catch (SQLException e) {
@@ -102,7 +138,7 @@ public class DaoPersonImpl implements DaoPerson {
 	public Person findPerson(long id) throws DaoException {
 		String sql = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP "
 				+ "FROM PERSON WHERE idPER = ?";
-		BeantoPrepareStatement p = (c) -> {
+		ToPrepareStatement p = (c) -> {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setLong(1, id);
 			return prep;
@@ -116,70 +152,44 @@ public class DaoPersonImpl implements DaoPerson {
 		return pers.iterator().next();
 	}
 
-	private PreparedStatement preparedStatementWithValues(Connection c, String query, Object[] values)
-			throws SQLException {
-		PreparedStatement preparedStatement = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-		int i = 0;
-		for (Object object : values) {
-			preparedStatement.setObject(i + 1, object);
-			i++;
-		}
-		return preparedStatement;
-	}
-
-	private long insertBean(BeantoPrepareStatement BeanToPrep) {
-		long id = 0;
-		try (Connection c = db.newConnection();
-				PreparedStatement prep = BeanToPrep.createPrep(c);
-			){
-			if (prep.executeUpdate() == 0)
-				throw new DaoException();
-			ResultSet generatedKeys = prep.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			}
-			else {
-				generatedKeys.close();
-				throw new DaoException();
-			}
-			generatedKeys.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return id;
+	private ToPrepareStatement preparedStatementCreatePerson(Person p,String sql) {
+		ToPrepareStatement pr = (c) -> {
+			PreparedStatement prep = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			prep.setString (1, p.getName());
+			prep.setString (2, p.getFirstname());
+			prep.setString (3, p.getMail());
+			prep.setString (4, p.getWebsite());
+			prep.setDate   (5, toSqlDate(p.getBirthdate()));
+			prep.setString (6, p.getPassword());
+			prep.setLong   (7, p.getIdGroup());
+			return prep;
+		};
+		return pr;
 	}
 	
-	
+	private ToPrepareStatement preparedStatementUpdatePerson(Person p,String sql) {
+		ToPrepareStatement pr = (c) -> {
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString (1, p.getName());
+			prep.setString (2, p.getFirstname());
+			prep.setString (3, p.getMail());
+			prep.setString (4, p.getWebsite());
+			prep.setDate   (5, toSqlDate(p.getBirthdate()));
+			prep.setString (6, p.getPassword());
+			prep.setLong   (7, p.getIdGroup());
+			prep.setLong   (8, p.getId());
+			return prep;
+		};
+		return pr;
+	}
 	
 	private void createPerson(Person p) {
-		Object[] values = { p.getName(), p.getFirstname(), p.getMail(), p.getWebsite(), toSqlDate(p.getBirthdate()),
-				p.getPassword(), p.getIdGroup() };
-		try (Connection c = db.newConnection();
-			 PreparedStatement preparedStatement = preparedStatementWithValues(c, INSERT_PERSON, values)) {
-			if (preparedStatement.executeUpdate() == 0)
-				throw new DaoException();
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				p.setId(generatedKeys.getLong(1));
-			} else {
-				throw new DaoException();
-			}
-		} catch (SQLException e) {
-			throw new DaoException(e);
-		}
+		long newId = insertBean(preparedStatementCreatePerson(p,INSERT_PERSON));
+		p.setId(newId);
 	}
 
 	private void updatePerson(Person p) {
-		Object[] values = { p.getName(), p.getFirstname(), p.getMail(), p.getWebsite(), toSqlDate(p.getBirthdate()),
-				p.getPassword(), p.getIdGroup(), p.getId() };
-		try (Connection c = db.newConnection();
-				PreparedStatement preparedStatement = preparedStatementWithValues(c, UPDATE_PERSON, values)) {
-			if (preparedStatement.executeUpdate() == 0)
-				throw new DaoException();
-		} catch (SQLException e) {
-			throw new DaoException(e);
-		}
+		updateBean(preparedStatementUpdatePerson(p,UPDATE_PERSON));
 	}
 
 	@Override
@@ -190,10 +200,31 @@ public class DaoPersonImpl implements DaoPerson {
 			updatePerson(p);
 		}
 	}
+	
+	private void createGroup(Group g) {
+		ToPrepareStatement pr = (c) -> {
+			PreparedStatement prep = c.prepareStatement(INSERT_GROUP, Statement.RETURN_GENERATED_KEYS);
+			prep.setString (1, g.getName());
+			return prep;};
+		long newId = insertBean(pr);
+		g.setId(newId);
+	}
 
-	@Override
+	private void updateGroup(Group g) {
+		ToPrepareStatement pr = (c) -> {
+			PreparedStatement prep = c.prepareStatement(UPDATE_GROUP);
+			prep.setString (1, g.getName());
+			return prep;
+		};
+		updateBean(pr);
+	}
+	
 	public void saveGroup(Group g) {
-		// TODO Auto-generated method stub
+		if (g.getId() != 0) {
+			createGroup(g);
+		} else {
+			updateGroup(g);
+		}
 	}
 
 }

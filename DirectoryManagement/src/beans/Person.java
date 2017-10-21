@@ -11,6 +11,15 @@ public class Person {
 	private String website;
 	private Date birthdate;
 	private String password;
+	private int idGroup;
+
+	public int getIdGroup() {
+		return idGroup;
+	}
+
+	public void setIdGroup(int idGroup) {
+		this.idGroup = idGroup;
+	}
 
 	public int getId() {
 		return id;

@@ -72,17 +72,13 @@ public class DaoPersonImpl implements DaoPerson {
 		}
 		return id;
 	}
-	
-	private java.sql.Date toSqlDate(java.util.Date date) {
-		return (date != null) ? new java.sql.Date(date.getTime()) : null;
-	}
 
 	@Override
 	public Collection<Group> findAllGroups() throws DaoException {
 		String sql = "SELECT idGRP,name FROM GROUPS ORDER BY idGRP";
 		ResultSetToBean<Group> toBean = (rs) -> {
 			Group gr = new Group();
-			gr.setId(rs.getInt("idGRP"));
+			gr.setId(rs.getLong("idGRP"));
 			gr.setName(rs.getString("name"));
 			return gr;
 		};
@@ -108,8 +104,9 @@ public class DaoPersonImpl implements DaoPerson {
 			prs.setMail(rs.getString("mail"));
 			prs.setWebsite(rs.getString("website"));
 			prs.setPassword(rs.getString("password"));
+			System.out.println(rs.getDate("birthdate").getTime());
 			prs.setBirthdate(rs.getDate("birthdate"));
-			prs.setIdGroup(rs.getInt("idGRP"));
+			prs.setIdGroup(rs.getLong("idGRP"));
 			return prs;
 		};
 		return toBean;
@@ -159,7 +156,8 @@ public class DaoPersonImpl implements DaoPerson {
 			prep.setString (2, p.getFirstname());
 			prep.setString (3, p.getMail());
 			prep.setString (4, p.getWebsite());
-			prep.setDate   (5, toSqlDate(p.getBirthdate()));
+			System.out.println(p.getBirthdate().getTime());
+			prep.setDate   (5, p.getBirthdate());
 			prep.setString (6, p.getPassword());
 			prep.setLong   (7, p.getIdGroup());
 			return prep;
@@ -174,7 +172,7 @@ public class DaoPersonImpl implements DaoPerson {
 			prep.setString (2, p.getFirstname());
 			prep.setString (3, p.getMail());
 			prep.setString (4, p.getWebsite());
-			prep.setDate   (5, toSqlDate(p.getBirthdate()));
+			prep.setDate   (5, p.getBirthdate());
 			prep.setString (6, p.getPassword());
 			prep.setLong   (7, p.getIdGroup());
 			prep.setLong   (8, p.getId());
@@ -220,7 +218,7 @@ public class DaoPersonImpl implements DaoPerson {
 	}
 	
 	public void saveGroup(Group g) {
-		if (g.getId() != 0) {
+		if (g.getId() == null) {
 			createGroup(g);
 		} else {
 			updateGroup(g);

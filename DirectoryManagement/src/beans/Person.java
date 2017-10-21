@@ -1,6 +1,6 @@
 package beans;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Person {
 
@@ -11,7 +11,7 @@ public class Person {
 	private String website;
 	private Date birthdate;
 	private String password;
-    private long idGroup;
+	private Long idGroup;
 
 	public Long getId() {
 		return id;
@@ -69,12 +69,24 @@ public class Person {
 		this.password = password;
 	}
 
-	public long getIdGroup() {
+	public Long getIdGroup() {
 		return idGroup;
 	}
 
-	public void setIdGroup(long idGroup) {
+	public void setIdGroup(Long idGroup) {
 		this.idGroup = idGroup;
+	}
+
+	public boolean equals(Person p) {
+		return id.equals(p.getId()) && name.equals(p.getName()) && firstname.equals(p.getFirstname())
+				&& mail.equals(p.getMail()) && website.equals(p.getWebsite())
+				&& password.equals(p.getPassword()) && idGroup.equals(p.getIdGroup());
+	}
+
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", name=" + name + ", firstname=" + firstname + ", mail=" + mail + ", website="
+				+ website + ", birthdate=" + birthdate + ", password=" + password + ", idGroup=" + idGroup + "]";
 	}
 
 }

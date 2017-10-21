@@ -71,7 +71,7 @@ public class DaoPersonImpl implements DaoPerson {
 		Collection<Person> persons = new ArrayList<Person>();
 		try (Connection c = db.newConnection();
 				PreparedStatement preparedStatement = c.prepareStatement(LIST_PERSON_FROM_GROUP_ID)) {
-			preparedStatement.setLong(0, groupId);
+			preparedStatement.setLong(1, groupId);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				persons.add(mapPerson(resultSet));
@@ -87,7 +87,7 @@ public class DaoPersonImpl implements DaoPerson {
 		Person person = null;
 		try (Connection c = db.newConnection();
 				PreparedStatement preparedStatement = c.prepareStatement(FIND_PERSON_BY_ID)) {
-			preparedStatement.setLong(0, id);
+			preparedStatement.setLong(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				person = mapPerson(resultSet);

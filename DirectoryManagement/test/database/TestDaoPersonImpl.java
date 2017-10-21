@@ -45,4 +45,10 @@ public class TestDaoPersonImpl {
 		Collection<Person> c = dao.findAllPersons(1);
 		Assert.assertEquals(5, c.size());
 	}
+	
+	@Test
+	public void tesFindPerson() {
+		Person c = dao.findPerson(1);
+		Assert.assertNotNull(c);
+	}
 }

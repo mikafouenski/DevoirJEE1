@@ -1,9 +1,10 @@
 package database;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Iterator;
 import java.sql.Date;
 
 import org.junit.Assert;
@@ -23,31 +24,27 @@ public class TestDaoPersonImpl {
 	@Autowired
 	DaoPerson dao;
 	
-//	@Test
-//	public void a() {
-//		Person person = new Person();
-//		person.setName("testa");
-//		person.setFirstname("test");
-//		person.setMail("a@a.com");
-//		person.setPassword("test");
-//		person.setIdGroup(new Long(2));
-//		person.setWebsite("a.fr");
-//		person.setBirthdate(new Date());
-//		person.setIdGroup(new Long(2));
-//		dao.savePerson(person);
-//		// HAHA ca marche ! dodo maintenant ^^
-//	}
+	/*
+	 * UTIL 
+	 */
 	
-	@Test
-	public void testFindAllGroup() {
-		Collection<Group> c = dao.findAllGroups();
-		Assert.assertEquals(5, c.size());
+	private <T> boolean contain(Collection<T> collection,T other) {
+		for (Iterator<T> iterator = collection.iterator(); iterator.hasNext();) {
+			T obj = (T) iterator.next();
+			if(obj.equals(other))
+				return true;
+		}
+		return false;
 	}
+		
+	/*
+	 *  PERSON
+	 */
 	
 	@Test
 	public void testFindAllPerson() {
 		Collection<Person> c = dao.findAllPersons(1);
-		Assert.assertEquals(5, c.size());
+		Assert.assertEquals(3, c.size());
 	}
 	
 	@Test
@@ -56,7 +53,7 @@ public class TestDaoPersonImpl {
 		Assert.assertNotNull(c);
 	}
 	
-	@Test
+	@Test 
 	public void testSavePerson() {
 		Person person = new Person();
 		person.setName("coucou2");
@@ -65,10 +62,75 @@ public class TestDaoPersonImpl {
 		person.setPassword("test");
 		person.setIdGroup(new Long(2));
 		person.setWebsite("a.fr");
-		person.setBirthdate(new Date(100000000));
+		person.setBirthdate(new Date(Calendar.getInstance().getTime().getTime()));
 		dao.savePerson(person);
 		Person person2 = dao.findPerson(person.getId());
-		assertTrue(person+ " = " + person2, person.equals(person2));
-		assertEquals(0, person.getBirthdate().compareTo(person2.getBirthdate()));
+		assertTrue(person.equals(person2));
 	}
+	
+	@Test
+	public void testUpdatePerson() {
+		Person p = new Person();
+		p.setId(new Long(2));
+		java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		p.setBirthdate(sqlDate);
+		p.setMail("Mimidu13@hotmail.fr");
+		p.setPassword("azerty");
+		p.setWebsite("skyblogMimi.fr");
+		p.setFirstname("Mickah");
+		p.setName("Bearnordinie");
+		p.setIdGroup(new Long(1));
+		dao.savePerson(p);
+		boolean isPresent = false;
+		Collection<Person> c = dao.findAllPersons(p.getIdGroup());
+		for (Iterator<Person> iterator = c.iterator(); iterator.hasNext();) {
+			Person person = (Person) iterator.next();
+			if(person.equals(p))
+				isPresent = true;
+		}
+		assertTrue(isPresent);
+	}
+	
+	/*
+	 * GROUP 
+	 */
+	
+	@Test
+	public void testFindAllGroup() {
+		Collection<Group> c = dao.findAllGroups();
+		Assert.assertEquals(5, c.size());
+	}
+	
+	@Test
+	public void testUpdateGroup() {
+		Group g = new Group(new Long(1), "Oui j'ai tuer ton nom", null);
+		dao.saveGroup(g);
+		Collection<Group> c = dao.findAllGroups();
+		boolean isPresent = false;
+		for (Iterator<Group> iterator = c.iterator(); iterator.hasNext();) {
+			Group group = iterator.next();
+			if(group.equals(g))
+				isPresent = true;
+			
+		}
+		assertTrue(isPresent);
+	}
+	
+	@Test
+	public void testInsertGroup() {
+		Group g = new Group();
+		g.setName("Nouveau");
+		dao.saveGroup(g);
+		Collection<Group> c = dao.findAllGroups();
+		boolean isPresent = false;
+		for (Iterator<Group> iterator = c.iterator(); iterator.hasNext();) {
+			Group group = iterator.next();
+			if(group.equals(g))
+				isPresent = true;
+			
+		}
+		assertTrue(isPresent);
+	}
+	
+	
 }

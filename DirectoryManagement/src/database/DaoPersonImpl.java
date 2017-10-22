@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,9 @@ public class DaoPersonImpl implements DaoPerson {
 
 	@Autowired
 	IDatabase db;
+	private final String FIND_ALL_PERSON = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON";
+	private final String FIND_ALL_GROUP = "SELECT idGRP,name FROM GROUPS";
 	
-	private final String INSERT_PERSON = "INSERT INTO PERSON (name, firstname, mail, website, birthdate, password, idGRP) VALUES (?, ?, ?, ?, ?, ?, ?)";
-	private final String UPDATE_PERSON = "UPDATE PERSON SET name = ?, firstname = ?, mail = ?, website = ?, birthdate = ?, password = ?, idGRP = ? WHERE idPER = ? ";
-	
-	private final String INSERT_GROUP = "INSERT INTO GROUP (name) VALUES (?)";
-	private final String UPDATE_GROUP = "UPDATE GROUP SET name = ? WHERE idGRP = ? ";
-
 	private <T> Collection<T> findBeans(ToPrepareStatement BeanToPrep, ResultSetToBean<T> mapper)
 			throws SQLException {
 		Collection<T> array = new ArrayList<T>();
@@ -39,33 +34,24 @@ public class DaoPersonImpl implements DaoPerson {
 		}
 	}
 	
-	private void updateBean(ToPrepareStatement BeanToPrep) {
+	private void updateBean(ToPrepareStatement beanToPrep, ResultUpdate resultUpt) {
 		try (Connection c = db.newConnection();
-				PreparedStatement prep = BeanToPrep.createPrep(c);
+				PreparedStatement prep = beanToPrep.createPrep(c);
+				ResultSet result = prep.executeQuery()
 			){
-			if (prep.executeUpdate() == 0)
-				throw new DaoException();
-			}catch (SQLException e) {
-				throw new DaoException(e);
-			}
+			resultUpt.resultSetUpdate(result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private long insertBean(ToPrepareStatement BeanToPrep) {
+	private long insertBean(ToPrepareStatement beanToPrep,ResultInsert resultInser) {
 		long id = 0;
 		try (Connection c = db.newConnection();
-				PreparedStatement prep = BeanToPrep.createPrep(c);
+			 PreparedStatement prep = beanToPrep.createPrep(c);
+			 ResultSet result = prep.executeQuery();
 			){
-			if (prep.executeUpdate() == 0)
-				throw new DaoException();
-			ResultSet generatedKeys = prep.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				id = generatedKeys.getLong(1);
-			}
-			else {
-				generatedKeys.close();
-				throw new DaoException();
-			}
-			generatedKeys.close();
+			id = resultInser.resultSetInsert(result);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,7 +61,7 @@ public class DaoPersonImpl implements DaoPerson {
 
 	@Override
 	public Collection<Group> findAllGroups() throws DaoException {
-		String sql = "SELECT idGRP,name FROM GROUPS ORDER BY idGRP";
+		
 		ResultSetToBean<Group> toBean = (rs) -> {
 			Group gr = new Group();
 			gr.setId(rs.getLong("idGRP"));
@@ -83,7 +69,7 @@ public class DaoPersonImpl implements DaoPerson {
 			return gr;
 		};
 		ToPrepareStatement p = (c) -> {
-			PreparedStatement prep = c.prepareStatement(sql);
+			PreparedStatement prep = c.prepareStatement(FIND_ALL_GROUP);
 			return prep;
 		};
 		Collection<Group> groups = null;
@@ -104,7 +90,6 @@ public class DaoPersonImpl implements DaoPerson {
 			prs.setMail(rs.getString("mail"));
 			prs.setWebsite(rs.getString("website"));
 			prs.setPassword(rs.getString("password"));
-			System.out.println(rs.getDate("birthdate").getTime());
 			prs.setBirthdate(rs.getDate("birthdate"));
 			prs.setIdGroup(rs.getLong("idGRP"));
 			return prs;
@@ -149,45 +134,56 @@ public class DaoPersonImpl implements DaoPerson {
 		return pers.iterator().next();
 	}
 
-	private ToPrepareStatement preparedStatementCreatePerson(Person p,String sql) {
-		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prep.setString (1, p.getName());
-			prep.setString (2, p.getFirstname());
-			prep.setString (3, p.getMail());
-			prep.setString (4, p.getWebsite());
-			System.out.println(p.getBirthdate().getTime());
-			prep.setDate   (5, p.getBirthdate());
-			prep.setString (6, p.getPassword());
-			prep.setLong   (7, p.getIdGroup());
-			return prep;
+	private ResultInsert resultInsertPerson(Person p) {
+		ResultInsert resultInsert = (rs) -> {
+			rs.moveToInsertRow();
+			rs.updateString("name", p.getName());
+			rs.updateString("FirstName", p.getFirstname());
+			rs.updateString("mail", p.getMail());
+			rs.updateString("website", p.getWebsite());
+			rs.updateDate("birthdate", p.getBirthdate());
+			rs.updateString("password", p.getPassword());
+			rs.updateLong("idGRP", p.getIdGroup());
+			rs.insertRow();
+			rs.last();
+			return rs.getLong("idPER");
 		};
-		return pr;
-	}
-	
-	private ToPrepareStatement preparedStatementUpdatePerson(Person p,String sql) {
-		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString (1, p.getName());
-			prep.setString (2, p.getFirstname());
-			prep.setString (3, p.getMail());
-			prep.setString (4, p.getWebsite());
-			prep.setDate   (5, p.getBirthdate());
-			prep.setString (6, p.getPassword());
-			prep.setLong   (7, p.getIdGroup());
-			prep.setLong   (8, p.getId());
-			return prep;
-		};
-		return pr;
+		return resultInsert;
 	}
 	
 	private void createPerson(Person p) {
-		long newId = insertBean(preparedStatementCreatePerson(p,INSERT_PERSON));
+		ToPrepareStatement pr = (c) -> {
+			PreparedStatement prep = c.prepareStatement(FIND_ALL_PERSON,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE );
+			return prep;};
+		long newId = insertBean(pr,resultInsertPerson(p));
 		p.setId(newId);
 	}
 
+	
+	private ResultUpdate resultUpdatePerson(Person p) {
+		ResultUpdate ru = (rs) -> {
+			rs.first();
+			rs.updateString("name", p.getName());
+			rs.updateString("FirstName", p.getFirstname());
+			rs.updateString("mail", p.getMail());
+			rs.updateString("website", p.getWebsite());
+			rs.updateDate("birthdate", p.getBirthdate());
+			rs.updateString("password", p.getPassword());
+			rs.updateLong("idGRP", p.getIdGroup());
+			rs.updateRow();
+		};
+		return ru;
+	}
+	
 	private void updatePerson(Person p) {
-		updateBean(preparedStatementUpdatePerson(p,UPDATE_PERSON));
+		ToPrepareStatement pr = (c) -> {
+			PreparedStatement prep = c.prepareStatement("SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP"
+					+ " FROM PERSON WHERE idPER = ?"
+					,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prep.setLong (1, p.getId());
+			return prep;
+		};
+		updateBean(pr,resultUpdatePerson(p));
 	}
 
 	@Override
@@ -201,20 +197,32 @@ public class DaoPersonImpl implements DaoPerson {
 	
 	private void createGroup(Group g) {
 		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement(INSERT_GROUP, Statement.RETURN_GENERATED_KEYS);
-			prep.setString (1, g.getName());
+			PreparedStatement prep = c.prepareStatement(FIND_ALL_GROUP,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE );
 			return prep;};
-		long newId = insertBean(pr);
+		ResultInsert rsi = (rs) -> {
+			rs.moveToInsertRow();
+			rs.updateString("name", g.getName());
+			rs.insertRow();
+			rs.last();
+			return rs.getLong("idGRP");
+		};
+		long newId = insertBean(pr,rsi);
 		g.setId(newId);
 	}
 
 	private void updateGroup(Group g) {
 		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement(UPDATE_GROUP);
-			prep.setString (1, g.getName());
+			PreparedStatement prep = c.prepareStatement("SELECT idGRP,name FROM GROUPS WHERE idGRP = ?"
+					,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prep.setLong (1, g.getId());
 			return prep;
 		};
-		updateBean(pr);
+		ResultUpdate Ru = (rs) -> {
+			rs.first();
+			rs.updateString("name", g.getName());
+			rs.updateRow();
+		};
+		updateBean(pr,Ru);
 	}
 	
 	public void saveGroup(Group g) {

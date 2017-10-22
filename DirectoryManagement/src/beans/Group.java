@@ -4,6 +4,11 @@ import java.util.Collection;
 
 public class Group {
 
+	@Override
+	public String toString() {
+		return "Group [id=" + id + ", name=" + name + "]";
+	}
+
 	private Long id;
 	private String name;
 	private Collection<Person> persons;
@@ -40,6 +45,11 @@ public class Group {
 
 	public void setPersons(Collection<Person> persons) {
 		this.persons = persons;
+	}
+	
+	public boolean equals(Group p) {
+		// TODO Auto-generated method stub
+		return this.getId().equals(p.getId()) && this.getName().equals(p.getName());
 	}
 
 }

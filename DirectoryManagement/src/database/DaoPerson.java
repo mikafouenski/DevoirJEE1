@@ -9,6 +9,8 @@ public interface DaoPerson {
 
 	// récupérer les groupes
 	Collection<Group> findAllGroups() throws DaoException;
+	
+	Group findGroup(long id) throws DaoException;
 
 	// récupérer les personnes
 	Collection<Person> findAllPersons(long groupId) throws DaoException;

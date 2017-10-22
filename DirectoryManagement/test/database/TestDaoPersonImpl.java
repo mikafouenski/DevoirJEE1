@@ -25,19 +25,6 @@ public class TestDaoPersonImpl {
 	DaoPerson dao;
 	
 	/*
-	 * UTIL 
-	 */
-	
-	private <T> boolean contain(Collection<T> collection,T other) {
-		for (Iterator<T> iterator = collection.iterator(); iterator.hasNext();) {
-			T obj = (T) iterator.next();
-			if(obj.equals(other))
-				return true;
-		}
-		return false;
-	}
-		
-	/*
 	 *  PERSON
 	 */
 	
@@ -103,17 +90,10 @@ public class TestDaoPersonImpl {
 	
 	@Test
 	public void testUpdateGroup() {
-		Group g = new Group(new Long(1), "Oui j'ai tuer ton nom", null);
+		Group g = new Group(new Long(1), "Oui j'ai tuer ton nommmmmmm", null);
 		dao.saveGroup(g);
-		Collection<Group> c = dao.findAllGroups();
-		boolean isPresent = false;
-		for (Iterator<Group> iterator = c.iterator(); iterator.hasNext();) {
-			Group group = iterator.next();
-			if(group.equals(g))
-				isPresent = true;
-			
-		}
-		assertTrue(isPresent);
+		Group g2 = dao.findGroup(g.getId());
+		assertTrue(g.equals(g2));
 	}
 	
 	@Test

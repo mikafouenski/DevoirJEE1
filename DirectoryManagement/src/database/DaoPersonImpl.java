@@ -11,225 +11,130 @@ import org.springframework.stereotype.Service;
 
 import beans.Group;
 import beans.Person;
+import database.daoUtils.DaoUtils;
+import database.daoUtils.DaoUtilsGroup;
+import database.daoUtils.DaoUtilsPerson;
 
 @Service
 public class DaoPersonImpl implements DaoPerson {
 
 	@Autowired
 	IDatabase db;
-	private final String FIND_ALL_PERSON = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON";
-	private final String FIND_ALL_GROUP = "SELECT idGRP,name FROM GROUPS";
-	
-	private <T> Collection<T> findBeans(ToPrepareStatement BeanToPrep, ResultSetToBean<T> mapper)
-			throws SQLException {
+
+	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.newConnection();
-				PreparedStatement prep = BeanToPrep.createPrep(c);
+				PreparedStatement prep = utils.createTableViewList(c, template);
 				ResultSet rs = prep.executeQuery();) {
 			array = new ArrayList<T>();
 			while (rs.next()) {
-				array.add(mapper.toBean(rs));
+				array.add(utils.toBean(rs));
 			}
 			return array;
 		}
 	}
 	
-	private void updateBean(ToPrepareStatement beanToPrep, ResultUpdate resultUpt) {
+	private <T> T findBean(DaoUtils<T> utils, T template) throws SQLException {
+		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.newConnection();
-				PreparedStatement prep = beanToPrep.createPrep(c);
-				ResultSet result = prep.executeQuery()
-			){
-			resultUpt.resultSetUpdate(result);
-		} catch (SQLException e) {
-			e.printStackTrace();
+				PreparedStatement prep = utils.createTableViewSingleton(c, template);
+				ResultSet rs = prep.executeQuery();) {
+			array = new ArrayList<T>();
+			while (rs.next()) {
+				array.add(utils.toBean(rs));
+			}
+			return array.iterator().next();
 		}
 	}
-	
-	private long insertBean(ToPrepareStatement beanToPrep,ResultInsert resultInser) {
+
+	private <T> void updateBean(DaoUtils<T> utils, T template) throws DaoException {
+		try (Connection c = db.newConnection();
+				PreparedStatement prep = utils.createTableViewSingleton(c, template);
+				ResultSet result = prep.executeQuery()) {
+			utils.resultSetUpdate(result, template);
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+	}
+
+	private <T> long insertBean(DaoUtils<T> utils, T template) throws DaoException {
 		long id = 0;
 		try (Connection c = db.newConnection();
-			 PreparedStatement prep = beanToPrep.createPrep(c);
-			 ResultSet result = prep.executeQuery();
-			){
-			id = resultInser.resultSetInsert(result);
+				PreparedStatement prep = utils.createTableViewList(c, template);
+				ResultSet result = prep.executeQuery();) {
+			id = utils.resultSetInsert(result, template);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException();
 		}
 		return id;
 	}
 
 	@Override
 	public Collection<Group> findAllGroups() throws DaoException {
-		
-		ResultSetToBean<Group> toBean = (rs) -> {
-			Group gr = new Group();
-			gr.setId(rs.getLong("idGRP"));
-			gr.setName(rs.getString("name"));
-			return gr;
-		};
-		ToPrepareStatement p = (c) -> {
-			PreparedStatement prep = c.prepareStatement(FIND_ALL_GROUP);
-			return prep;
-		};
 		Collection<Group> groups = null;
 		try {
-			groups = findBeans(p, toBean);
+			groups = findBeans(new DaoUtilsGroup(), new Group());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException();
 		}
 		return groups;
 	}
 
-	private ResultSetToBean<Person> personToResult() {
-		ResultSetToBean<Person> toBean = (rs) -> {
-			Person prs = new Person();
-			prs.setId(rs.getLong("idPER"));
-			prs.setName(rs.getString("name"));
-			prs.setFirstname(rs.getString("firstname"));
-			prs.setMail(rs.getString("mail"));
-			prs.setWebsite(rs.getString("website"));
-			prs.setPassword(rs.getString("password"));
-			prs.setBirthdate(rs.getDate("birthdate"));
-			prs.setIdGroup(rs.getLong("idGRP"));
-			return prs;
-		};
-		return toBean;
-	}
-	
 	@Override
 	public Collection<Person> findAllPersons(long groupId) throws DaoException {
-		String sql = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP "
-				+ "FROM PERSON WHERE idGRP = ?";
-		ToPrepareStatement p = (c) -> {
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setLong(1, groupId);
-			return prep;
-		};
-		Collection<Person> pers = new ArrayList<Person>();
+		Collection<Person> persons = null;
 		try {
-			pers = findBeans(p,personToResult());
+			Person p = new Person();
+			p.setIdGroup(groupId);
+			persons = findBeans(new DaoUtilsPerson(), p);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException();
 		}
-		return pers;
+		return persons;
 	}
 
 	@Override
 	public Person findPerson(long id) throws DaoException {
-		String sql = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP "
-				+ "FROM PERSON WHERE idPER = ?";
-		ToPrepareStatement p = (c) -> {
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setLong(1, id);
-			return prep;
-		};
-		Collection<Person> pers = null;
+		Person person = null;
 		try {
-			pers = findBeans(p, personToResult());
+			Person p = new Person();
+			p.setId(id);
+			person = findBean(new DaoUtilsPerson(), p);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException();
 		}
-		return pers.iterator().next();
-	}
-
-	private ResultInsert resultInsertPerson(Person p) {
-		ResultInsert resultInsert = (rs) -> {
-			rs.moveToInsertRow();
-			rs.updateString("name", p.getName());
-			rs.updateString("FirstName", p.getFirstname());
-			rs.updateString("mail", p.getMail());
-			rs.updateString("website", p.getWebsite());
-			rs.updateDate("birthdate", p.getBirthdate());
-			rs.updateString("password", p.getPassword());
-			rs.updateLong("idGRP", p.getIdGroup());
-			rs.insertRow();
-			rs.last();
-			return rs.getLong("idPER");
-		};
-		return resultInsert;
+		return person;
 	}
 	
-	private void createPerson(Person p) {
-		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement(FIND_ALL_PERSON,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE );
-			return prep;};
-		long newId = insertBean(pr,resultInsertPerson(p));
-		p.setId(newId);
-	}
-
-	
-	private ResultUpdate resultUpdatePerson(Person p) {
-		ResultUpdate ru = (rs) -> {
-			rs.first();
-			rs.updateString("name", p.getName());
-			rs.updateString("FirstName", p.getFirstname());
-			rs.updateString("mail", p.getMail());
-			rs.updateString("website", p.getWebsite());
-			rs.updateDate("birthdate", p.getBirthdate());
-			rs.updateString("password", p.getPassword());
-			rs.updateLong("idGRP", p.getIdGroup());
-			rs.updateRow();
-		};
-		return ru;
-	}
-	
-	private void updatePerson(Person p) {
-		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement("SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP"
-					+ " FROM PERSON WHERE idPER = ?"
-					,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			prep.setLong (1, p.getId());
-			return prep;
-		};
-		updateBean(pr,resultUpdatePerson(p));
+	@Override
+	public Group findGroup(long id) throws DaoException {
+		Group group = null;
+		try {
+			Group g = new Group();
+			g.setId(id);
+			group = findBean(new DaoUtilsGroup(), g);
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+		return group;
 	}
 
 	@Override
-	public void savePerson(Person p) {
+	public void savePerson(Person p) throws DaoException {
 		if (p.getId() == null) {
-			createPerson(p);
+			long newId = insertBean(new DaoUtilsPerson(), p);
+			p.setId(newId);
 		} else {
-			updatePerson(p);
+			updateBean(new DaoUtilsPerson(), p);
 		}
 	}
-	
-	private void createGroup(Group g) {
-		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement(FIND_ALL_GROUP,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE );
-			return prep;};
-		ResultInsert rsi = (rs) -> {
-			rs.moveToInsertRow();
-			rs.updateString("name", g.getName());
-			rs.insertRow();
-			rs.last();
-			return rs.getLong("idGRP");
-		};
-		long newId = insertBean(pr,rsi);
-		g.setId(newId);
-	}
 
-	private void updateGroup(Group g) {
-		ToPrepareStatement pr = (c) -> {
-			PreparedStatement prep = c.prepareStatement("SELECT idGRP,name FROM GROUPS WHERE idGRP = ?"
-					,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			prep.setLong (1, g.getId());
-			return prep;
-		};
-		ResultUpdate Ru = (rs) -> {
-			rs.first();
-			rs.updateString("name", g.getName());
-			rs.updateRow();
-		};
-		updateBean(pr,Ru);
-	}
-	
-	public void saveGroup(Group g) {
+	public void saveGroup(Group g) throws DaoException {
 		if (g.getId() == null) {
-			createGroup(g);
+			long newId = insertBean(new DaoUtilsGroup(), g);
+			g.setId(newId);
 		} else {
-			updateGroup(g);
+			updateBean(new DaoUtilsGroup(), g);
 		}
 	}
 

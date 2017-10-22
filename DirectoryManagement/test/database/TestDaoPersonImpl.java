@@ -68,14 +68,7 @@ public class TestDaoPersonImpl {
 		p.setName("Bearnordinie");
 		p.setIdGroup(new Long(1));
 		dao.savePerson(p);
-		boolean isPresent = false;
-		Collection<Person> c = dao.findAllPersons(p.getIdGroup());
-		for (Iterator<Person> iterator = c.iterator(); iterator.hasNext();) {
-			Person person = (Person) iterator.next();
-			if(person.equals(p))
-				isPresent = true;
-		}
-		assertTrue(isPresent);
+		assertTrue(dao.findPerson(p.getId()).equals(p));
 	}
 	
 	/*
@@ -101,15 +94,7 @@ public class TestDaoPersonImpl {
 		Group g = new Group();
 		g.setName("Nouveau");
 		dao.saveGroup(g);
-		Collection<Group> c = dao.findAllGroups();
-		boolean isPresent = false;
-		for (Iterator<Group> iterator = c.iterator(); iterator.hasNext();) {
-			Group group = iterator.next();
-			if(group.equals(g))
-				isPresent = true;
-			
-		}
-		assertTrue(isPresent);
+		assertTrue(dao.findGroup(g.getId()).equals(g));
 	}
 	
 	

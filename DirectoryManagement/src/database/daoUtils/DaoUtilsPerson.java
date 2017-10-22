@@ -16,7 +16,7 @@ public class DaoUtilsPerson implements DaoUtils<Person> {
 	public Long resultSetInsert(ResultSet rs, Person p) throws SQLException {
 		rs.moveToInsertRow();
 		rs.updateString("name", p.getName());
-		rs.updateString("FirstName", p.getFirstname());
+		rs.updateString("firstname", p.getFirstname());
 		rs.updateString("mail", p.getMail());
 		rs.updateString("website", p.getWebsite());
 		rs.updateDate("birthdate", p.getBirthdate());
@@ -45,7 +45,7 @@ public class DaoUtilsPerson implements DaoUtils<Person> {
 	public void resultSetUpdate(ResultSet rs, Person p) throws SQLException {
 		rs.first();
 		rs.updateString("name", p.getName());
-		rs.updateString("FirstName", p.getFirstname());
+		rs.updateString("firstname", p.getFirstname());
 		rs.updateString("mail", p.getMail());
 		rs.updateString("website", p.getWebsite());
 		rs.updateDate("birthdate", p.getBirthdate());

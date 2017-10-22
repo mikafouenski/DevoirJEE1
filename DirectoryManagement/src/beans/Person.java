@@ -79,9 +79,8 @@ public class Person {
 
 	public boolean equals(Person p) {
 		return id.equals(p.getId()) && name.equals(p.getName()) && firstname.equals(p.getFirstname())
-				&& mail.equals(p.getMail()) && website.equals(p.getWebsite())
-				&& password.equals(p.getPassword()) && idGroup.equals(p.getIdGroup())
-				&& birthdate.equals(p.getBirthdate());
+				&& mail.equals(p.getMail()) && website.equals(p.getWebsite()) && password.equals(p.getPassword())
+				&& idGroup.equals(p.getIdGroup()) && birthdate.toString().equals(p.getBirthdate().toString());
 	}
 
 	@Override

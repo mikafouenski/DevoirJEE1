@@ -79,7 +79,6 @@ public class JDBC implements IDatabase {
 			sta.executeUpdate(insertGroups);
 			sta.executeUpdate(insertPerson);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 

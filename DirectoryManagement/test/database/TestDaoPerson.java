@@ -19,10 +19,10 @@ import beans.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")
-public class TestDaoPersonImpl {
+public class TestDaoPerson {
 
 	@Autowired
-	DaoPerson dao;
+	IDaoPerson dao;
 	
 	/*
 	 * INIT DATABASE

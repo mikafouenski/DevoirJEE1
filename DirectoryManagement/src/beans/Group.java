@@ -48,7 +48,6 @@ public class Group {
 	}
 	
 	public boolean equals(Group p) {
-		// TODO Auto-generated method stub
 		return this.getId().equals(p.getId()) && this.getName().equals(p.getName());
 	}
 

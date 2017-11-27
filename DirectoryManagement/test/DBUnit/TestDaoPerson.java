@@ -28,7 +28,7 @@ import database.JDBC;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")
-public class TestJDBCDBunit extends DBTestCase {
+public class TestDaoPerson extends DBTestCase {
 
 	@Autowired
 	IDaoPerson daoPerson;

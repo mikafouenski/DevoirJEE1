@@ -23,7 +23,7 @@ public class DaoPerson implements IDaoPerson {
 
 	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
-		try (Connection c = db.newConnection();
+		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewList(c, template);
 				ResultSet rs = prep.executeQuery();) {
 			array = new ArrayList<T>();
@@ -36,7 +36,7 @@ public class DaoPerson implements IDaoPerson {
 	
 	private <T> T findBean(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
-		try (Connection c = db.newConnection();
+		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewSingleton(c, template);
 				ResultSet rs = prep.executeQuery();) {
 			array = new ArrayList<T>();
@@ -48,7 +48,7 @@ public class DaoPerson implements IDaoPerson {
 	}
 
 	private <T> void updateBean(DaoUtils<T> utils, T template) throws DaoException {
-		try (Connection c = db.newConnection();
+		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewSingleton(c, template);
 				ResultSet result = prep.executeQuery()) {
 			utils.resultSetUpdate(result, template);
@@ -59,7 +59,7 @@ public class DaoPerson implements IDaoPerson {
 
 	private <T> long insertBean(DaoUtils<T> utils, T template) throws DaoException {
 		long id = 0;
-		try (Connection c = db.newConnection();
+		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewList(c, template);
 				ResultSet result = prep.executeQuery();) {
 			id = utils.resultSetInsert(result, template);

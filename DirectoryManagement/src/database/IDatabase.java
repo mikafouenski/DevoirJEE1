@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public interface IDatabase {
 	
-	public Connection newConnection() throws SQLException;
+	public Connection getConnection() throws SQLException;
 	
 	public void quietClose(Connection c);
 

@@ -18,13 +18,13 @@ public class InteractDBU {
 	public static void inject(Connection jdbcConnection, String xmlFile) {
 		try {
 			IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
-			System.out.println("connection etablie.");
 			connection.getConfig().setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
 			FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
 			IDataSet dataSet = builder.build(new File(xmlFile));
 			ReplacementDataSet replacementDataSet = new ReplacementDataSet(dataSet);
 			DatabaseOperation.CLEAN_INSERT.execute(connection, replacementDataSet);
-			System.out.println("database ecrite ecrit.");
+			System.out.println("injected from " + xmlFile);
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -33,11 +33,11 @@ public class InteractDBU {
 	public static void extract(Connection jdbcConnection, String xmlFile) {
 		try {
 			IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
-			System.out.println("connection etablie.");
 			connection.getConfig().setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
 			IDataSet dataSet = connection.createDataSet();
 			FlatXmlDataSet.write(dataSet, new FileOutputStream(xmlFile));
-			System.out.println("fichier ecrit.");
+			System.out.println("extracted to " + xmlFile);
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

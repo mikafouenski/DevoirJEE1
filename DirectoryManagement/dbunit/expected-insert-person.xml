@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <GROUPS idGRP="1" name="Ut Sagittis Lobortis LLP"/>
+  <GROUPS idGRP="2" name="Magna Suspendisse PC"/>
+  <GROUPS idGRP="3" name="Mi Ac Corp."/>
+  <GROUPS idGRP="4" name="Vitae Foundation"/>
+  <GROUPS idGRP="5" name="At Lacus Quisque Institute"/>
+  <PERSON name="Witt" firstname="Candice" mail="sit.amet@libero.edu" website="ligula.Aenean@temporestac.com" birthdate="2017-10-12" password="massa." idGRP="1"/>
+  <PERSON name="Kelley" firstname="Emma" mail="pharetra.Quisque@Curabiturvellectus.co.uk" website="nec.urna@ultricesposuerecubilia.co.uk" birthdate="2017-10-12" password="Morbi" idGRP="1"/>
+  <PERSON name="Newman" firstname="Joy" mail="odio@dignissim.org" website="nulla.Cras.eu@aliquetdiam.edu" birthdate="2017-10-12" password="natoque" idGRP="1"/>
+  <PERSON name="Mcneil" firstname="Karly" mail="consectetuer.adipiscing@egetipsumSuspendisse.org" website="sapien@rutrumnonhendrerit.co.uk" birthdate="2017-10-12" password="vestibulum," idGRP="2"/>
+  <PERSON name="Rollins" firstname="Britanney" mail="risus.quis.diam@neque.co.uk" website="Nullam.suscipit.est@Cumsociis.edu" birthdate="2017-10-12" password="sapien," idGRP="2"/>
+  <PERSON name="Kennedy" firstname="Candice" mail="netus.et.malesuada@ornaresagittis.org" website="mauris.Integer.sem@mi.org" birthdate="2017-10-12" password="euismod" idGRP="2"/>
+  <PERSON name="Hammond" firstname="Keely" mail="id@porttitor.org" website="dis.parturient.montes@Nullam.net" birthdate="2017-10-12" password="luctus," idGRP="3"/>
+  <PERSON name="Aguilar" firstname="Jessica" mail="enim.commodo@Namtempor.edu" website="Vivamus.sit@anteVivamus.com" birthdate="2017-10-12" password="Phasellus" idGRP="3"/>
+  <PERSON name="Stewart" firstname="Xena" mail="nulla@ligulatortor.net" website="euismod@varius.co.uk" birthdate="2017-10-12" password="enim" idGRP="4"/>
+  <PERSON name="Jensen" firstname="Brielle" mail="consequat.lectus@feugiatnecdiam.com" website="tempus.scelerisque@dolorQuisque.ca" birthdate="2017-10-12" password="tempor" idGRP="5"/>
+  <PERSON name="coucou2" firstname="test" mail="a@a.com" website="a.fr" birthdate="2015-03-31" password="test" idGRP="2"/>
+</dataset>

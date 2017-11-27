@@ -31,13 +31,13 @@ public class TestJDBC {
 
 	@Test
 	public void testNewDefaultConnection() throws SQLException {
-		Connection c = jdbc.newConnection();
+		Connection c = jdbc.getConnection();
 		assertNotNull(c);
 	}
 
 	@Test
 	public void testQuietClose() throws SQLException {
-		Connection c = jdbc.newConnection();
+		Connection c = jdbc.getConnection();
 		jdbc.quietClose(c);
 		assertTrue(c.isClosed());
 	}
@@ -46,7 +46,7 @@ public class TestJDBC {
 	public void TestMultiConnection() throws InterruptedException {
 		long debut = System.currentTimeMillis();
 		Runnable work = () -> {
-			try (Connection c = jdbc.newConnection()) {
+			try (Connection c = jdbc.getConnection()) {
 				Thread.sleep(5000);
 			} catch (Exception e) {
 			}

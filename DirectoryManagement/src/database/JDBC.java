@@ -82,7 +82,7 @@ public class JDBC implements IDatabase {
 		}
 	}
 
-	public Connection newConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {
 		return bds.getConnection();
 	}
 

@@ -1,4 +1,4 @@
-package business;
+package buisness;
 
 public class User {
 

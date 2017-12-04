@@ -12,5 +12,7 @@
     
     <!-- pour décrire les classes à instancier -->
     <context:component-scan base-package="database" />
+     <!-- pour décrire les classes à instancier -->
+    <context:component-scan base-package="buisness" />
 
 </beans>

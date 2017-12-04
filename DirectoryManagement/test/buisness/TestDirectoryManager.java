@@ -10,15 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import business.IDirectoryManager;
-import business.User;
+import beans.Person;
+import buisness.IDirectoryManager;
+import buisness.User;
+import database.IDaoPerson;
+import exception.UserNotLoggedException;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Tested;
+import mockit.Verifications;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")
 public class TestDirectoryManager {
 	
 	@Autowired
+	@Tested
 	IDirectoryManager manager;
+	
+	@Injectable
+	IDaoPerson dao;
 	
 	@Test
 	public void testNewUser() {
@@ -27,9 +38,14 @@ public class TestDirectoryManager {
 	}
 	
 	@Test
-	public void test() {
-		User toto = manager.newUser();
-		assertTrue(toto.isAnonymous());
+	public void testFindPerson() throws UserNotLoggedException {
+		new Expectations() {{
+			dao.findPerson(1); result = new Person();
+		}};
+		User login = new User();
+		login.setAnonymous(false);
+		manager.findPerson(login, 1);
+		new Verifications() {{ dao.findPerson(1); times = 1; }};
 	}
 	
 }

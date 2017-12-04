@@ -24,12 +24,6 @@ public class TestJDBC {
 	IDatabase jdbc;
 
 	@Test
-	@Ignore
-	public void TestInitDatabase() {
-		new JDBC(true);
-	}
-
-	@Test
 	public void testNewDefaultConnection() throws SQLException {
 		Connection c = jdbc.getConnection();
 		assertNotNull(c);

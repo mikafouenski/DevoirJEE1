@@ -3,6 +3,7 @@ package business;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import beans.Group;
 import beans.Person;
@@ -10,6 +11,7 @@ import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
 
+@Service
 public class DirectoryManager implements IDirectoryManager {
 
 	@Autowired

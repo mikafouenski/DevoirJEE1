@@ -31,6 +31,13 @@ public class JDBC implements IDatabase {
 
 	private void initBasicDataSource() {
 		bds = new BasicDataSource();
+		try {
+			// TODO
+			// ATTENTION ! Fix douteux venus des internets
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		bds.setUrl(url);
 		bds.setPassword(password);
 		bds.setUsername(id);

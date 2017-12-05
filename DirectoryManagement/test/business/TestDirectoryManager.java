@@ -21,7 +21,7 @@ import mockit.Tested;
 import mockit.Verifications;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "spring/spring.xml")
+@ContextConfiguration(locations = "/spring.xml")
 public class TestDirectoryManager {
     
     @Autowired

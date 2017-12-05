@@ -1,4 +1,4 @@
-package buisness;
+package business;
 
 import java.util.Collection;
 
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import beans.Group;
 import beans.Person;
+import business.exception.PersonNotFoundException;
+import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
-import exception.PersonNotFoundException;
-import exception.UserNotLoggedException;
 
 @Service
 public class DirectoryManager implements IDirectoryManager {

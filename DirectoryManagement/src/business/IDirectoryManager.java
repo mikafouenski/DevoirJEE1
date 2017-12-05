@@ -1,11 +1,11 @@
-package buisness;
+package business;
 
 import java.util.Collection;
 
 import beans.Group;
 import beans.Person;
-import exception.PersonNotFoundException;
-import exception.UserNotLoggedException;
+import business.exception.PersonNotFoundException;
+import business.exception.UserNotLoggedException;
 
 public interface IDirectoryManager {
 

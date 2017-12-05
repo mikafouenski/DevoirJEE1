@@ -1,8 +1,6 @@
-package buisness;
+package business;
 
 import static org.junit.Assert.*;
-
-import java.sql.SQLException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import beans.Person;
-import buisness.IDirectoryManager;
-import buisness.User;
+import business.IDirectoryManager;
+import business.User;
+import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
-import exception.UserNotLoggedException;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;

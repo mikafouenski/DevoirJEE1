@@ -17,6 +17,7 @@ import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 import mockit.Expectations;
 import mockit.Injectable;
+import mockit.Mocked;
 import mockit.Tested;
 import mockit.Verifications;
 
@@ -48,6 +49,7 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
     
+    
     @Test
     public void testFindGroup() throws UserNotLoggedException {
         new Expectations() {{
@@ -59,16 +61,6 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findGroup(1); times = 1; }};
     }
     
-    @Test
-    public void testFindAllGroup() throws UserNotLoggedException {
-        new Expectations() {{
-            dao.findAllPersons(1); result = new Group();
-        }};
-        User login = new User();
-        login.setAnonymous(false);
-        manager.findAllPersons(login,1);
-        new Verifications() {{ dao.findAllPersons(1); times = 1; }};
-    }
     
     @Test
     public void testLoginIsLog() throws PersonNotFoundException {
@@ -137,12 +129,9 @@ public class TestDirectoryManager {
         }};
         User user = new User();
         boolean isCo = manager.login(user, 1, "false");
-        assertFalse(isCo && !user.isAnonymous());
+        assertFalse(isCo || !user.isAnonymous());
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
-    
-    
-    
     
     @Test(expected = PersonNotFoundException.class)
     public void testLoginFailId() throws PersonNotFoundException {

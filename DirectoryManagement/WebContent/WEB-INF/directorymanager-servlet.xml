@@ -12,7 +12,6 @@
 	<context:component-scan base-package="business" />
 	<context:component-scan base-package="database" />
 
-	<bean name="/hello.htm" class="web.HelloController" />
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

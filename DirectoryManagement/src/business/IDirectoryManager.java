@@ -19,7 +19,7 @@ public interface IDirectoryManager {
     Group findGroup(User user, long groupId) throws UserNotLoggedException;
 
     // chercher les personnes d'un groupe
-    Collection<Person> findAllPersons(User user, long groupId) throws UserNotLoggedException;
+    Collection<Person> findPersons(User user, long groupId) throws UserNotLoggedException;
 
     // identifier un utilisateur
     boolean login(User user, long personId, String password) throws PersonNotFoundException;

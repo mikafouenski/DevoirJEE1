@@ -8,12 +8,14 @@ import beans.Person;
 public interface IDaoPerson {
 
 	// récupérer les groupes
-	Collection<Group> findAllGroups() throws DaoException;
+	Collection<Group> findGroups() throws DaoException;
+	Collection<Group> findGroups(int start, int end) throws DaoException;
 	
 	Group findGroup(long id) throws DaoException;
 
 	// récupérer les personnes
-	Collection<Person> findAllPersons(long groupId) throws DaoException;
+	Collection<Person> findPersons(long groupId) throws DaoException;
+	Collection<Person> findPersons(long groupId, int start, int end) throws DaoException;
 
 	// lire une personne
 	Person findPerson(long id) throws DaoException;

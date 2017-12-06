@@ -161,7 +161,7 @@ public class TestDirectoryManager {
     
     @Test(expected = UserNotLoggedException.class)
     public void testFindAllPersonFailled() throws UserNotLoggedException {
-        manager.findAllPersons(new User(),1);
+        manager.findPersons(new User(),1);
     }
     
 }

@@ -104,7 +104,7 @@ public class TestDaoPerson extends DBTestCase {
 	
 	@Test
 	public void testFindAllPerson() {
-		Collection<Person> c = daoPerson.findAllPersons(1);
+		Collection<Person> c = daoPerson.findPersons(1);
 		Assert.assertEquals(3, c.size());
 	}
 	
@@ -116,7 +116,7 @@ public class TestDaoPerson extends DBTestCase {
 	
 	@Test
 	public void testFindAllGroup() {
-		Collection<Group> c = daoPerson.findAllGroups();
+		Collection<Group> c = daoPerson.findGroups();
 		Assert.assertEquals(5, c.size());
 	}
 	

@@ -12,8 +12,12 @@ public interface DaoUtils<T> {
 	T toBean(java.sql.ResultSet rs) throws SQLException;
 	// update the database
 	void resultSetUpdate(ResultSet rs, T template) throws SQLException;
+	// get the size of the table
+	long size(Connection c, T template) throws SQLException;
 	// create full view of the table
 	PreparedStatement createTableViewList(Connection c, T template) throws SQLException;
+	// create record view of the table
+	PreparedStatement createTableViewList(Connection c, T template, int start, int end) throws SQLException;
 	// create a view of the object template
 	PreparedStatement createTableViewSingleton(Connection c, T template) throws SQLException;
 }

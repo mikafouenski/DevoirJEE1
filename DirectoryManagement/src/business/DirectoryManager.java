@@ -41,9 +41,9 @@ public class DirectoryManager implements IDirectoryManager {
 	}
 
 	@Override
-	public Collection<Person> findAllPersons(User user, long groupId) throws UserNotLoggedException {
+	public Collection<Person> findPersons(User user, long groupId) throws UserNotLoggedException {
 		isLogged(user);
-		return dao.findAllPersons(groupId);
+		return dao.findPersons(groupId);
 	}
 
 	@Override

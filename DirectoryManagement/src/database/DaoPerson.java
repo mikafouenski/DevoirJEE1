@@ -21,6 +21,19 @@ public class DaoPerson implements IDaoPerson {
 	@Autowired
 	IDatabase db;
 
+	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, int start, int end) throws SQLException {
+		Collection<T> array = new ArrayList<T>();
+		try (Connection c = db.getConnection();
+				PreparedStatement prep = utils.createTableViewList(c, template, start, end);
+				ResultSet rs = prep.executeQuery();) {
+			array = new ArrayList<T>();
+			while (rs.next()) {
+				array.add(utils.toBean(rs));
+			}
+			return array;
+		}
+	}
+	
 	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
@@ -70,7 +83,7 @@ public class DaoPerson implements IDaoPerson {
 	}
 
 	@Override
-	public Collection<Group> findAllGroups() throws DaoException {
+	public Collection<Group> findGroups() throws DaoException {
 		Collection<Group> groups = null;
 		try {
 			groups = findBeans(new DaoUtilsGroup(), new Group());
@@ -79,14 +92,38 @@ public class DaoPerson implements IDaoPerson {
 		}
 		return groups;
 	}
+	
+	@Override
+	public Collection<Group> findGroups(int start, int end) throws DaoException {
+		Collection<Group> groups = null;
+		try {
+			groups = findBeans(new DaoUtilsGroup(), new Group(), start, end);
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+		return groups;
+	}
 
 	@Override
-	public Collection<Person> findAllPersons(long groupId) throws DaoException {
+	public Collection<Person> findPersons(long groupId) throws DaoException {
 		Collection<Person> persons = null;
 		try {
 			Person p = new Person();
 			p.setIdGroup(groupId);
 			persons = findBeans(new DaoUtilsPerson(), p);
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+		return persons;
+	}
+	
+	@Override
+	public Collection<Person> findPersons(long groupId, int start, int end) throws DaoException {
+		Collection<Person> persons = null;
+		try {
+			Person p = new Person();
+			p.setIdGroup(groupId);
+			persons = findBeans(new DaoUtilsPerson(), p, start, end);
 		} catch (SQLException e) {
 			throw new DaoException();
 		}

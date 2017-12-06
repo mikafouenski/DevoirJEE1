@@ -25,7 +25,7 @@ public class GroupController {
 
 	@ModelAttribute(name = "groups")
 	Collection<Group> groups() {
-		return daoPerson.findAllGroups();
+		return daoPerson.findGroups(0, 2);
 	}
 	
 //	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -36,7 +36,7 @@ public class GroupController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listGroup(@RequestParam(value = "id", defaultValue = "-1") long id) {
 		if (id == -1) return new ModelAndView("listGroups");
-		Collection<Person> persons = daoPerson.findAllPersons(id);
+		Collection<Person> persons = daoPerson.findPersons(id, 0, 2);
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", id);
 		map.put("persons", persons);

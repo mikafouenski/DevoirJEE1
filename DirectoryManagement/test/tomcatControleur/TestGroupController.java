@@ -5,8 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
-
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,6 +33,7 @@ public class TestGroupController {
     IDirectoryManager manager;
 
     @Test
+    @Ignore
     public void testlistGroup() throws UserNotLoggedException {
     	User user = new User();
     	user.setAnonymous(false);
@@ -47,7 +47,5 @@ public class TestGroupController {
         assertEquals( result.getView().toString(),"listPersons");
         new Verifications() {{ manager.findPersons(user,1); times = 1; }};
     }
-    
-    
-    
+  
 }

@@ -6,14 +6,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.Connection;
 import business.IDirectoryManager;
 import business.User;
+import validor.ValidatorConnection;
 
 
 @Controller()
@@ -21,11 +24,14 @@ import business.User;
 public class ConnectionController {
 	
 	@Autowired
-	IDirectoryManager manager;
+	IDirectoryManager manager; 
 	
-	@ModelAttribute(name = "userInformation")
+	ValidatorConnection validator = new ValidatorConnection();
+	
+	@ModelAttribute
 	Connection connect() {
-		return new Connection();
+		Connection connect = new Connection();
+		return connect;
 	}
 	
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -41,20 +47,23 @@ public class ConnectionController {
 	}
 	
 	@RequestMapping(value = "/display", method = RequestMethod.POST)
-	public ModelAndView saveProduct(@ModelAttribute Connection co, HttpServletRequest request) {
+	public String saveProduct(@ModelAttribute Connection co,BindingResult result,HttpServletRequest request) {
 		User user = new User();
 		boolean connection = false;
+		validator.validate(co, result);
+		if(result.hasErrors()) {
+			return "connection";
+		}
 		try {
-			System.out.println(co.getId());
-			System.out.println(co.getPassword());
 			connection = manager.login(user, co.getId(), co.getPassword());
-			System.out.println(co.getPassword());
 		} catch (Exception e) {
-			return new ModelAndView("connection");
+			result.rejectValue("id","connect.id", "Identifiant ou Mot de passe incorect");
+			result.rejectValue("password","connect.password", "Identifiant ou Mot de passe incorect");
+			return "connection";
 		}
 		if(connection) {
 			request.getSession().setAttribute("user", user);
 		}
-		return new ModelAndView("redirect:/actions/groups/list");
+		return "redirect:/actions/groups/list";
 	}
 }

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.Connection;
 import business.IDirectoryManager;
 import business.User;
-import business.exception.PersonNotFoundException;
 
 
 @Controller()
@@ -46,8 +45,11 @@ public class ConnectionController {
 		User user = new User();
 		boolean connection = false;
 		try {
+			System.out.println(co.getId());
+			System.out.println(co.getPassword());
 			connection = manager.login(user, co.getId(), co.getPassword());
-		} catch (PersonNotFoundException e) {
+			System.out.println(co.getPassword());
+		} catch (Exception e) {
 			return new ModelAndView("connection");
 		}
 		if(connection) {

@@ -12,19 +12,19 @@
 </h1>
 	 <form:form method="POST" commandName="userInformation">
 
-            <form:errors path="*" cssClass="alert alert-danger" element="div" />
+          <%--   <form:errors path="*" cssClass="alert alert-danger" element="div" /> --%>
 
             <div class="form-group">
                 <label for="price">Identifiant :</label>
                 <form:input path="id" class="form-control" />
-                <form:errors path="id" cssClass="alert alert-warning"
-                    element="div" />
+                <%-- <form:errors path="id" cssClass="alert alert-warning"
+                    element="div" /> --%>
             </div>
             <div class="form-group">
                 <label for="price">Mot de passe</label>
                 <form:input path="password" class="form-control" />
-                <form:errors path="password" cssClass="alert alert-warning"
-                    element="div" />
+                <%-- <form:errors path="password" cssClass="alert alert-warning"
+                    element="div" /> --%>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-info">Valider</button>

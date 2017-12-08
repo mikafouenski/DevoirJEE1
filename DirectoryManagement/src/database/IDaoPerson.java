@@ -12,7 +12,9 @@ public interface IDaoPerson {
 	Collection<Group> findGroups(int start, int end) throws DaoException;
 	
 	Group findGroup(long id) throws DaoException;
-
+	Collection<Group> findGroups(String name) throws DaoException;
+	
+	
 	// récupérer les personnes
 	Collection<Person> findPersons(long groupId) throws DaoException;
 	Collection<Person> findPersons(long groupId, int start, int end) throws DaoException;

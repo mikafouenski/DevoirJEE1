@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import beans.Group;
 
 public class DaoUtilsGroup implements DaoUtils<Group> {
@@ -14,6 +12,7 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 	private final String COUNT_GROUPS = "SELECT COUNT(idGRP) as nb FROM GROUPS";
 	private final String LIST_GROUPS_FULL = "SELECT idGRP,name FROM GROUPS";
 	private final String LIST_GROUPS_RECORD = "SELECT idGRP,name FROM GROUPS LIMIT ? , ?";
+	private final String LIST_GROUPS_SEARCH = "SELECT idGRP,name FROM GROUPS WHERE DIFERENCE(name,?) > 5";
 
 	@Override
 	public Long resultSetInsert(ResultSet rs, Group g) throws SQLException {
@@ -51,6 +50,13 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 	@Override
 	public PreparedStatement createTableViewList(Connection c, Group g) throws SQLException {
 		return c.prepareStatement(LIST_GROUPS_FULL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	}
+	
+	@Override
+	public PreparedStatement createSearch(Connection c, Group g, String param1, String param2) throws SQLException {
+		PreparedStatement prep = c.prepareStatement(LIST_GROUPS_SEARCH, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		prep.setString(1,param1);
+		return prep;
 	}
 
 	@Override

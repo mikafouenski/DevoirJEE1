@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import beans.Group;
 import beans.Person;
 
 public class DaoUtilsPerson implements DaoUtils<Person> {
@@ -90,6 +91,12 @@ public class DaoUtilsPerson implements DaoUtils<Person> {
 				ResultSet.CONCUR_UPDATABLE);
 		prep.setLong(1, p.getId());
 		return prep;
+	}
+
+	@Override
+	public PreparedStatement createSearch(Connection c, Person p, String param1,String param2) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -191,6 +191,7 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 
+	@Override
 	public void saveGroup(Group g) throws DaoException {
 		if (g.getId() == null) {
 			long newId = insertBean(new DaoUtilsGroup(), g);

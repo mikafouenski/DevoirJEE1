@@ -17,7 +17,6 @@ import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 import mockit.Expectations;
 import mockit.Injectable;
-import mockit.Mocked;
 import mockit.Tested;
 import mockit.Verifications;
 

@@ -5,7 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import beans.Connection;
+import web.Connection;
 
 @Service
 public class ValidatorConnection implements Validator{
@@ -18,7 +18,7 @@ public class ValidatorConnection implements Validator{
 
 	@Override
 	public void validate(Object arg0, Errors errors) {
-		Connection connect = (Connection) arg0;
+//		Connection connect = (Connection) arg0;
 		
 		connect.getId();
 		

@@ -1,4 +1,4 @@
-package beans;
+package web;
 
 public class Connection {
 	int id;

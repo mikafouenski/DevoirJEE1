@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import beans.Group;
-
 public interface DaoUtils<T> {
 	// return the resultSet which insert into database
 	Long resultSetInsert(ResultSet rs, T template) throws SQLException;

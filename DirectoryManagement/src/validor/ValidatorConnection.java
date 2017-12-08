@@ -20,8 +20,6 @@ public class ValidatorConnection implements Validator{
 	public void validate(Object arg0, Errors errors) {
 //		Connection connect = (Connection) arg0;
 		
-		connect.getId();
-		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors,"id","connect.id", "Identifiant ne doit pas être vide");
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password","connect.password", "Mot de passe ne doit pas être vide");

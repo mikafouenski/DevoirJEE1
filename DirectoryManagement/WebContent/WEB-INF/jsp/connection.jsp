@@ -10,6 +10,7 @@
 <body>
 	<h1>Authentification</h1>
 	<form:form method="POST" commandName="connection">
+		<form:errors path="*" cssClass="alert alert-danger" element="div" />
 		<div class="form-group">
 			<label for="price">Identifiant :</label>
 			<form:input path="id" class="form-control" />
@@ -17,7 +18,7 @@
 		</div>
 		<div class="form-group">
 			<label for="price">Mot de passe</label>
-			<form:input path="password" class="form-control" />
+			<form:password path="password" class="form-control" />
 			<form:errors path="password" cssClass="alert alert-warning"
 				element="div" />
 		</div>

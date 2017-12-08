@@ -1,6 +1,5 @@
 package web;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,58 +9,61 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import business.IDirectoryManager;
 import business.User;
 import validor.ValidatorConnection;
 
-
 @Controller()
-@RequestMapping(value = "/connection")
+@RequestMapping(value = "/")
 public class ConnectionController {
-	
+
 	@Autowired
-	IDirectoryManager manager; 
-	
+	IDirectoryManager manager;
+
 	ValidatorConnection validator = new ValidatorConnection();
-	
+
 	@ModelAttribute
 	Connection connect() {
 		Connection connect = new Connection();
 		return connect;
 	}
-	
-	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView editProduct(@ModelAttribute Connection co,HttpServletRequest request, HttpServletResponse response) {
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPrompt(@ModelAttribute Connection co, HttpServletRequest request, HttpServletResponse response) {
 		Object userSession = request.getSession().getAttribute("user");
 		User test = new User();
-		if(userSession instanceof User)
+		if (userSession instanceof User)
 			test = (User) userSession;
-		if(test.isAnonymous())
-			return new ModelAndView("connection");
-		return new ModelAndView("redirect:/actions/groups/list");
-		
+		if (test.isAnonymous())
+			return "connection";
+		return "redirect:/groups/list";
 	}
-	
-	@RequestMapping(value = "/display", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute Connection co,BindingResult result,HttpServletRequest request) {
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@ModelAttribute Connection co, BindingResult result, HttpServletRequest request) {
 		User user = new User();
 		boolean connection = false;
 		validator.validate(co, result);
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "connection";
 		}
 		try {
 			connection = manager.login(user, co.getId(), co.getPassword());
 		} catch (Exception e) {
-			result.rejectValue("id","connect.id", "Identifiant ou Mot de passe incorect");
-			result.rejectValue("password","connect.password", "Identifiant ou Mot de passe incorect");
+			result.rejectValue("id", "connect.id", "Identifiant ou Mot de passe incorect");
+			result.rejectValue("password", "connect.password", "Identifiant ou Mot de passe incorect");
 			return "connection";
 		}
-		if(connection) {
+		if (connection) {
 			request.getSession().setAttribute("user", user);
 		}
-		return "redirect:/actions/groups/list";
+		return "redirect:/groups/list";
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout(@ModelAttribute Connection co, BindingResult result, HttpServletRequest request) {
+		request.getSession().invalidate();
+		return "redirect:/login";
 	}
 }

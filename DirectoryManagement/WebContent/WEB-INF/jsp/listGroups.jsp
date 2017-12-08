@@ -16,5 +16,6 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<%@ include file="/WEB-INF/jsp/logout.jsp"%>
 </body>
 </html>

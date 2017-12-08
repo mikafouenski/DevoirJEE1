@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import beans.Group;
+
 public interface DaoUtils<T> {
 	// return the resultSet which insert into database
 	Long resultSetInsert(ResultSet rs, T template) throws SQLException;
@@ -20,4 +22,6 @@ public interface DaoUtils<T> {
 	PreparedStatement createTableViewList(Connection c, T template, int start, int end) throws SQLException;
 	// create a view of the object template
 	PreparedStatement createTableViewSingleton(Connection c, T template) throws SQLException;
+	//create a view for a search
+	PreparedStatement createSearch(Connection c, T template, String param1,String param2) throws SQLException;
 }

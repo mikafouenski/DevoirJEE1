@@ -34,6 +34,18 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 	
+	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, String param1, String param2) throws SQLException {
+		Collection<T> array = new ArrayList<T>();
+		try (Connection c = db.getConnection();
+				PreparedStatement prep = utils.createSearch(c,template,param1,param2) ;
+				ResultSet rs = prep.executeQuery();) {
+			array = new ArrayList<T>();
+			while (rs.next()) {
+				array.add(utils.toBean(rs));
+			}
+			return array;
+		}
+	}
 	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
@@ -94,6 +106,17 @@ public class DaoPerson implements IDaoPerson {
 	}
 	
 	@Override
+	public Collection<Group> findGroups(String name) throws DaoException {
+		Collection<Group> groups = null;
+		try {
+			groups = findBeans(new DaoUtilsGroup(), new Group(), name, new String());
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+		return groups;
+	}
+	
+	@Override
 	public Collection<Group> findGroups(int start, int end) throws DaoException {
 		Collection<Group> groups = null;
 		try {
@@ -129,7 +152,7 @@ public class DaoPerson implements IDaoPerson {
 		}
 		return persons;
 	}
-
+	
 	@Override
 	public Person findPerson(long id) throws DaoException {
 		Person person = null;
@@ -155,6 +178,8 @@ public class DaoPerson implements IDaoPerson {
 		}
 		return group;
 	}
+	
+	
 
 	@Override
 	public void savePerson(Person p) throws DaoException {
@@ -175,5 +200,8 @@ public class DaoPerson implements IDaoPerson {
 			updateBean(new DaoUtilsGroup(), g);
 		}
 	}
+	
+	
+	
 
 }

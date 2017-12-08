@@ -5,7 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import beans.Connection;
+import web.Connection;
 
 @Service
 public class ValidatorConnection implements Validator{

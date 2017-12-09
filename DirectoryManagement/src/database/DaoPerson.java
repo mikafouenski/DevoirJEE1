@@ -200,8 +200,27 @@ public class DaoPerson implements IDaoPerson {
 			updateBean(new DaoUtilsGroup(), g);
 		}
 	}
-	
-	
-	
+
+	@Override
+	public long getNbGroups() throws DaoException {
+		DaoUtilsGroup utilsGroup = new DaoUtilsGroup();
+		try (Connection c = db.getConnection()) {
+			return utilsGroup.size(c, new Group());
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+	}
+
+	@Override
+	public long getNbPersons(long id) throws DaoException {
+		DaoUtilsPerson utilsPerson = new DaoUtilsPerson();
+		try (Connection c = db.getConnection()) {
+			Person p = new Person();
+			p.setIdGroup(id);
+			return utilsPerson.size(c, p);
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+	}
 
 }

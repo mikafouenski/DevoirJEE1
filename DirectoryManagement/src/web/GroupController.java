@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import beans.Group;
 import beans.Person;
+import business.IDirectoryManager;
+import business.User;
+import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
 
 @Controller()
@@ -21,12 +27,7 @@ import database.IDaoPerson;
 public class GroupController {
 
 	@Autowired
-	IDaoPerson daoPerson;
-
-	@ModelAttribute(name = "groups")
-	Collection<Group> groups() {
-		return daoPerson.findGroups(0, 2);
-	}
+	IDirectoryManager directoryManager;
 	
 	@ModelAttribute(name = "searchGroup")
 	Group groupSearch() {
@@ -38,14 +39,39 @@ public class GroupController {
 		return new Person();
 	}
 	
+	private User getUser(HttpServletRequest r) {
+		Object userSession = r.getSession().getAttribute("user");
+		if (userSession instanceof User) return (User) userSession;
+		return new User();
+	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listGroup(@RequestParam(value = "id", defaultValue = "-1") long id) {
-		if (id == -1) return new ModelAndView("listGroups");
-		Collection<Person> persons = daoPerson.findPersons(id, 0, 2);
+	public ModelAndView listGroup(@RequestParam(value = "id", defaultValue = "-1") long id, @RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "range", defaultValue = "5") int range, HttpServletRequest request, HttpServletResponse response) {
+		User user = getUser(request);
+		if (id == -1) {
+			Map<String, Object> map = new HashMap<>();
+			try {
+				int size = (int) directoryManager.nbGroups(user);
+				int nbPages = size / range - 1;
+				map.put("nbPage", nbPages);
+				map.put("page", page);
+				map.put("groups", directoryManager.findGroups(user, page * range, page * range + range));
+			} catch (UserNotLoggedException e) {
+				return new ModelAndView("redirect:/login");
+			}
+			return new ModelAndView("listGroups", map);
+		}
 		Map<String, Object> map = new HashMap<>();
-		map.put("id", id);
-		map.put("persons", persons);
+		try {
+			int size = (int) directoryManager.nbPersons(user, id);
+			int nbPages = size / range - 1;
+			map.put("nbPage", nbPages);
+			map.put("id", id);
+			map.put("page", page);
+			map.put("persons", directoryManager.findPersons(user, id, page * range, page * range + range));
+		} catch (UserNotLoggedException e) {
+			return new ModelAndView("redirect:/login");
+		}
 		return new ModelAndView("listPersons", map);
 	}
 	

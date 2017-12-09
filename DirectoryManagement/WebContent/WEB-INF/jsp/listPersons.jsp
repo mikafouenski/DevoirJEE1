@@ -18,8 +18,6 @@
 			<td>mail</td>
 			<td>website</td>
 			<td>birthdate</td>
-			<td>password</td>
-			<td>idGroup</td>
 		</tr>
 		<c:forEach items="${persons}" var="p">
 			<tr>
@@ -29,12 +27,15 @@
 				<td><c:out value="${p.mail}"></c:out></td>
 				<td><c:out value="${p.website}"></c:out></td>
 				<td><c:out value="${p.birthdate}"></c:out></td>
-				<td><c:out value="${p.password}"></c:out></td>
-				<td><c:out value="${p.idGroup}"></c:out></td>
-				<td><a href="${edit}?id=${group.id}">Editer</a></td>
 			</tr>
 		</c:forEach>
 	</table>
-
+	<p>
+		<c:forEach begin="0" end="${nbPage }" varStatus="loop">
+			<a href="${list}?id=${id}&page=${loop.index}">${loop.index}</a>
+			<c:out value="   "></c:out>
+		</c:forEach>
+	</p>
+	<%@ include file="/WEB-INF/jsp/logout.jsp"%>
 </body>
 </html>

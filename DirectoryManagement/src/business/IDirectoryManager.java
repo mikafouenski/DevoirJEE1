@@ -14,12 +14,14 @@ public interface IDirectoryManager {
 
     // chercher une personne
     Person findPerson(User user, long personId) throws UserNotLoggedException;
-
+    Collection<Person> findPersons(User user, long groupId, int start, int end) throws UserNotLoggedException;
+    long nbPersons(User user, long groupId) throws UserNotLoggedException;
+    
     // chercher un groupe
     Group findGroup(User user, long groupId) throws UserNotLoggedException;
+    Collection<Group> findGroups(User user, int start, int end) throws UserNotLoggedException;
+    long nbGroups(User user) throws UserNotLoggedException;
 
-    // chercher les personnes d'un groupe
-    Collection<Person> findPersons(User user, long groupId) throws UserNotLoggedException;
 
     // identifier un utilisateur
     boolean login(User user, long personId, String password) throws PersonNotFoundException;

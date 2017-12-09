@@ -59,8 +59,8 @@ public class DaoUtilsPerson implements DaoUtils<Person> {
 	@Override
 	public long size(Connection c, Person p) throws SQLException {
 		try (PreparedStatement prep = c.prepareStatement(COUNT_PERSONS_BY_GROUP_ID, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);) {
-			ResultSet rs = prep.executeQuery();
 			prep.setLong(1, p.getIdGroup());
+			ResultSet rs = prep.executeQuery();
 			rs.last();
 			return rs.getLong("nb");
 		}

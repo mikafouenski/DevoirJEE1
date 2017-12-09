@@ -39,11 +39,29 @@ public class DirectoryManager implements IDirectoryManager {
 		isLogged(user);
 		return dao.findGroup(groupId);
 	}
+	
+	@Override
+	public Collection<Group> findGroups(User user, int start, int end) throws UserNotLoggedException {
+		isLogged(user);
+		return dao.findGroups(start, end);
+	}
+	@Override
+	public long nbGroups(User user) throws UserNotLoggedException {
+		isLogged(user);
+		return dao.getNbGroups();
+	}
+	
 
 	@Override
-	public Collection<Person> findPersons(User user, long groupId) throws UserNotLoggedException {
+	public long nbPersons(User user, long groupId) throws UserNotLoggedException {
 		isLogged(user);
-		return dao.findPersons(groupId);
+		return dao.getNbPersons(groupId);
+	}
+
+	@Override
+	public Collection<Person> findPersons(User user, long groupId, int start, int end) throws UserNotLoggedException {
+		isLogged(user);
+		return dao.findPersons(groupId, start, end);
 	}
 
 	@Override

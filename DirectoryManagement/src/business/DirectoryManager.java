@@ -108,4 +108,10 @@ public class DirectoryManager implements IDirectoryManager {
 		dao.savePerson(p);
 	}
 
+	@Override
+	public void saveGroup(User user, Group g) throws UserNotLoggedException {
+		isLogged(user);
+		dao.saveGroup(g);
+	}
+
 }

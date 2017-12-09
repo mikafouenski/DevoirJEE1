@@ -1,4 +1,4 @@
-package web;
+package web.connection;
 
 import javax.servlet.http.HttpServletRequest;
 

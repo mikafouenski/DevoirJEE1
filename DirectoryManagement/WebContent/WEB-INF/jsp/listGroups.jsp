@@ -14,6 +14,7 @@
 				<td><c:out value="${group.id}"></c:out></td>
 				<td><c:out value="${group.name}"></c:out></td>
 				<td><a href="${pageContext.request.contextPath}/persons/list?id=${group.id}">Lister</a></td>
+				<td><a href="${pageContext.request.contextPath}/groups/edit?id=${group.id}">Editer</a></td>
 			</tr>
 		</c:forEach>
 	</table>

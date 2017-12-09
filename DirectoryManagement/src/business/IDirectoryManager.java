@@ -34,6 +34,9 @@ public interface IDirectoryManager {
 
     // enregistrer une personne
     void savePerson(User user, Person p) throws UserNotLoggedException;
+    
+ // enregistrer un group
+    void saveGroup(User user, Group g) throws UserNotLoggedException;
 
 	Collection<Person> findPersons(User user, String name, String firstname) throws UserNotLoggedException;
 

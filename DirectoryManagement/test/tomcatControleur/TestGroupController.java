@@ -18,14 +18,14 @@ import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
 import mockit.Verifications;
-import web.GroupController;
+import web.group.GroupListController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")
 public class TestGroupController {
 	
     @Tested
-    GroupController groupController;
+    GroupListController groupController;
     
     @Injectable
     IDirectoryManager manager;

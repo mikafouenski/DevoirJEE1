@@ -1,4 +1,4 @@
-package web;
+package web.person;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
+import web.ControllerHelpers;
 
 @Controller()
 @RequestMapping(value = "/persons")

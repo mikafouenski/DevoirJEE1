@@ -1,4 +1,4 @@
-package web;
+package web.connection;
 
 public class Connection {
 	int id;

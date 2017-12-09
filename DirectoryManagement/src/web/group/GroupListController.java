@@ -1,4 +1,4 @@
-package web;
+package web.group;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +17,11 @@ import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
+import web.ControllerHelpers;
 
 @Controller()
 @RequestMapping(value = "/groups")
-public class GroupController {
+public class GroupListController {
 
 	@Autowired
 	IDirectoryManager directoryManager;

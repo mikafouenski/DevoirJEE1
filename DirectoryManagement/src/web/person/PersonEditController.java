@@ -1,4 +1,4 @@
-package web;
+package web.person;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +19,7 @@ import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
 import validor.ValidatorPersonEdit;
+import web.ControllerHelpers;
 
 @Controller()
 @RequestMapping(value = "/persons")
@@ -26,7 +27,7 @@ public class PersonEditController {
 
 	@Autowired
 	IDirectoryManager directoryManager;
-
+	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id,
 			HttpServletRequest request) {

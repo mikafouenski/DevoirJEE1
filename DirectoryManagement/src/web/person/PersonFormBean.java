@@ -1,4 +1,4 @@
-package web;
+package web.person;
 
 public class PersonFormBean {
 	private String id;

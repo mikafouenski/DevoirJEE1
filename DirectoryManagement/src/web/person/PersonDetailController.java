@@ -1,4 +1,4 @@
-package web;
+package web.person;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +14,7 @@ import beans.Person;
 import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
+import web.ControllerHelpers;
 
 @Controller()
 @RequestMapping(value = "/persons")

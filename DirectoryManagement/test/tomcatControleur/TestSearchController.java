@@ -24,8 +24,8 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
 import validor.ValidatorConnection;
-import web.ConnectionController;
 import web.ControleurSearch;
+import web.connection.ConnectionController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")

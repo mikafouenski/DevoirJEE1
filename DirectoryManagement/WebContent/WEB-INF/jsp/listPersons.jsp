@@ -15,18 +15,16 @@
 			<td>id</td>
 			<td>name</td>
 			<td>firstname</td>
-			<td>mail</td>
-			<td>website</td>
-			<td>birthdate</td>
 		</tr>
 		<c:forEach items="${persons}" var="p">
 			<tr>
 				<td><c:out value="${p.id}"></c:out></td>
 				<td><c:out value="${p.name}"></c:out></td>
 				<td><c:out value="${p.firstname}"></c:out></td>
-				<td><c:out value="${p.mail}"></c:out></td>
-				<td><c:out value="${p.website}"></c:out></td>
-				<td><c:out value="${p.birthdate}"></c:out></td>
+				<td><a href="${pageContext.request.contextPath}/persons/detail?id=${p.id}">Details</a>
+                </td>
+				<td><a href="${pageContext.request.contextPath}/persons/edit?id=${p.id}">Edit</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

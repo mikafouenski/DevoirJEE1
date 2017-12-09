@@ -24,14 +24,13 @@
 			<tr>
 				<td><c:out value="${group.id}"></c:out></td>
 				<td><c:out value="${group.name}"></c:out></td>
-				<td><a href="${edit}?id=${group.id}">Editer</a></td>
-				<td><a href="${list}?id=${group.id}">Lister</a></td>
+				<td><a href="${pageContext.request.contextPath}/persons/list?id=${group.id}">Lister</a></td>
 			</tr>
 		</c:forEach>
 	</table>
 	<p>
 		<c:forEach begin="0" end="${nbPage }" varStatus="loop">
-			<a href="${list}?page=${loop.index}">${loop.index}</a>
+			<a href="?page=${loop.index}">${loop.index}</a>
 			<c:out value="   "></c:out>
 		</c:forEach>
 	</p>

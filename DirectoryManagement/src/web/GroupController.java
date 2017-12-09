@@ -32,88 +32,75 @@ public class GroupController {
 
 	@Autowired
 	IDirectoryManager directoryManager;
-	
+
 	@Autowired
 	IDaoPerson daoPerson;
-	
+
 	@ModelAttribute(name = "searchGroup")
 	Group groupSearch() {
 		return new Group();
 	}
-	
+
 	@ModelAttribute(name = "searchPerson")
 	Person personSearch() {
 		return new Person();
 	}
-	
+
 	private User getUser(HttpServletRequest r) {
 		Object userSession = r.getSession().getAttribute("user");
-		if (userSession instanceof User) return (User) userSession;
+		if (userSession instanceof User)
+			return (User) userSession;
 		return new User();
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listGroup(@RequestParam(value = "id", defaultValue = "-1") long id, @RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView listGroup(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request,
+			HttpServletResponse response) {
 		User user = getUser(request);
-		if (id == -1) {
-			Map<String, Object> map = new HashMap<>();
-			try {
-				int size = (int) directoryManager.nbGroups(user);
-				int  nbPages = ((int) Math.ceil( ((double) size) / (double) range)) -1;
-				map.put("nbPage", nbPages);
-				map.put("page", page);
-				map.put("groups", directoryManager.findGroups(user, page * range, page * range + range));
-			} catch (UserNotLoggedException e) {
-				return new ModelAndView("redirect:/login");
-			}
-			return new ModelAndView("listGroups", map);
-		}
 		Map<String, Object> map = new HashMap<>();
 		try {
-			int size = (int) directoryManager.nbPersons(user, id);
-			int  nbPages = ((int) Math.ceil( ((double) size) / (double) range)) -1;
+			int size = (int) directoryManager.nbGroups(user);
+			int nbPages = ((int) Math.ceil(((double) size) / (double) range)) - 1;
 			map.put("nbPage", nbPages);
-			map.put("id", id);
 			map.put("page", page);
-			map.put("persons", directoryManager.findPersons(user, id, page * range, page * range + range));
+			map.put("groups", directoryManager.findGroups(user, page * range, page * range + range));
 		} catch (UserNotLoggedException e) {
 			return new ModelAndView("redirect:/login");
 		}
-		return new ModelAndView("listPersons", map);
+		return new ModelAndView("listGroups", map);
 	}
-	
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute Group g,@ModelAttribute Person p) {
-		if(p.getName() == null) {
+	public String saveProduct(@ModelAttribute Group g, @ModelAttribute Person p) {
+		if (p.getName() == null) {
 			System.out.println("oui");
 		}
 		return null;
 	}
-	
-	
-//	@RequestMapping(value = "/test", method = RequestMethod.GET)
-//	public void initDatabase() {
-//		new JDBC(true);
-//		ArrayList<Group> groups = new ArrayList<>();
-//		for (int i = 0; i < 200; i++) {
-//			int j = (i % 10);
-//			if (groups.size() <= j) {
-//				Group g = new Group();
-//				g.setName("group " + (j + 1));
-//				daoPerson.saveGroup(g);
-//				groups.add(g);
-//			}
-//			Person p = new Person();
-//			p.setFirstname("f" + (i + 1));
-//			p.setName("l" + (i + 1));
-//			p.setBirthdate(Date.valueOf("2017-12-11"));
-//			p.setMail("m" + (i + 1) + "@test.com");
-//			p.setPassword(HachageSha3.digest("pass" + (i + 1)));
-//			p.setWebsite("perdu.com");
-//			p.setIdGroup(groups.get(j).getId());
-//			daoPerson.savePerson(p);
-//		}
-//	}
-//    
+
+	// @RequestMapping(value = "/test", method = RequestMethod.GET)
+	// public void initDatabase() {
+	// new JDBC(true);
+	// ArrayList<Group> groups = new ArrayList<>();
+	// for (int i = 0; i < 200; i++) {
+	// int j = (i % 10);
+	// if (groups.size() <= j) {
+	// Group g = new Group();
+	// g.setName("group " + (j + 1));
+	// daoPerson.saveGroup(g);
+	// groups.add(g);
+	// }
+	// Person p = new Person();
+	// p.setFirstname("f" + (i + 1));
+	// p.setName("l" + (i + 1));
+	// p.setBirthdate(Date.valueOf("2017-12-11"));
+	// p.setMail("m" + (i + 1) + "@test.com");
+	// p.setPassword(HachageSha3.digest("pass" + (i + 1)));
+	// p.setWebsite("perdu.com");
+	// p.setIdGroup(groups.get(j).getId());
+	// daoPerson.savePerson(p);
+	// }
+	// }
+	//
 }

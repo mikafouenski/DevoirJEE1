@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form method="POST" commandName="person">
+	<form:form method="POST" commandName="personFormBean">
 		<form:errors path="*" cssClass="alert alert-danger" element="div" />
 		<div class="form-group">
 			<label for="name">Name:</label>
@@ -31,16 +31,6 @@
 			<form:errors path="website" cssClass="alert alert-warning"
 				element="div" />
 		</div>
-		<div class="form-group">
-            <fmt:formatDate var="fmtDate" value="${form.bean.dateProperty}" pattern="yyyy-MM-dd"/>
-            <form:hidden class="form-control" path="birthdate" value="${fmtDate}"/>
-        </div>
-		<div class="form-group">
-			<form:hidden class="form-control" path="idGroup" />
-		</div>
-		<div class="form-group">
-            <form:hidden class="form-control" path="password"/>
-        </div>
 		<button type="submit" class="btn btn-info">Valider</button>
 	</form:form>
 	<%@ include file="/WEB-INF/jsp/logout.jsp"%>

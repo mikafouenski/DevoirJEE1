@@ -24,7 +24,7 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
 import mockit.Verifications;
-import validor.ValidatorConnection;
+import validator.ValidatorConnection;
 import web.connection.Connection;
 import web.connection.ConnectionController;
 

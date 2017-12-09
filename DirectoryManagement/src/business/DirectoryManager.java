@@ -172,13 +172,30 @@ public class DirectoryManager implements IDirectoryManager {
 	public void logout(User user) {
 		user.setAnonymous(true);
 	}
-
+	
+	
+	/**
+	 * Enregistre une Person dans la base de donné
+	 * @param user utilisateur de l'applicationa authentifié
+	 * @param p La Person à sauvegarder 
+	 * @param password le mot de passe correspondant à l'id.
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié		
+	 */
 	@Override
 	public void savePerson(User user, Person p) throws UserNotLoggedException {
 		isLogged(user);
 		dao.savePerson(p);
 	}
-
+	
+	/**
+	 * Enregistre un Group dans la base de donné
+	 * @param user utilisateur de l'applicationa authentifié
+	 * @param g Le Group à sauvegarder 
+	 * @param password le mot de passe correspondant à l'id.
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié		
+	 */
 	@Override
 	public void saveGroup(User user, Group g) throws UserNotLoggedException {
 		isLogged(user);

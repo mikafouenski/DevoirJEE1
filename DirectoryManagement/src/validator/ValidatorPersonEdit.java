@@ -1,4 +1,4 @@
-package validor;
+package validator;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import web.connection.Connection;
 
-public class ValidatorGroupEdit implements Validator {
+public class ValidatorPersonEdit implements Validator {
 
 	@Override
 	public boolean supports(Class<?> arg0) {
@@ -16,5 +16,8 @@ public class ValidatorGroupEdit implements Validator {
 	@Override
 	public void validate(Object arg0, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "person.name", "Le nom ne doit pas être vide");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "person.firstname",
+				"Le prenom ne doit pas être vide");
 	}
+
 }

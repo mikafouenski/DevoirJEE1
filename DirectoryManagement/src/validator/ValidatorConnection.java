@@ -1,4 +1,4 @@
-package validor;
+package validator;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;

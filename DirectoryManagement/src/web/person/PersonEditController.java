@@ -47,7 +47,7 @@ public class PersonEditController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("personFormBean", pf);
 		map.put("id", id);
-		return new ModelAndView("personEdit", map);
+		return new ModelAndView("person/personEdit", map);
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -58,7 +58,7 @@ public class PersonEditController {
 		try {
 			p = directoryManager.findPerson(user, Integer.parseInt(pf.getId()));
 		} catch (UserNotLoggedException e1) {
-			return new ModelAndView("personEdit");
+			return new ModelAndView("person/personEdit");
 		}
 		p.setName(pf.getName());
 		p.setFirstname(pf.getFirstname());
@@ -67,14 +67,14 @@ public class PersonEditController {
 		ValidatorPersonEdit validator = new ValidatorPersonEdit();
 		validator.validate(p, result);
 		if (result.hasErrors()) {
-			return new ModelAndView("personEdit");
+			return new ModelAndView("person/personEdit");
 		}
 		try {
 			directoryManager.savePerson(user, p);
 		} catch (UserNotLoggedException e) {
 			result.rejectValue("id", "person.id", "Erreur...");
-			return new ModelAndView("personEdit");
+			return new ModelAndView("person/personEdit");
 		}
-		return new ModelAndView("personDetail", "person", p);
+		return new ModelAndView("person/personDetail", "person", p);
 	}
 }

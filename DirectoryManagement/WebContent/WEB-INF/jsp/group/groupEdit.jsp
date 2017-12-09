@@ -1,10 +1,11 @@
-<%@ include file="/WEB-INF/jsp/include.jsp"%>
+<%@ include file="/WEB-INF/jsp/inc/include.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Edition Groups</title>
+<%@ include file="/WEB-INF/jsp/inc/head-bootstrap.jsp"%>
 </head>
 <body>
 	<form:form method="POST" modelAttribute="group">
@@ -16,6 +17,6 @@
 		</div>
 		<button type="submit" class="btn btn-info">Valider</button>
 	</form:form>
-	<%@ include file="/WEB-INF/jsp/logout.jsp"%>
+	<%@ include file="/WEB-INF/jsp/inc/logout.jsp"%>
 </body>
 </html>

@@ -1,9 +1,10 @@
-<%@ include file="/WEB-INF/jsp/include.jsp"%>
+<%@ include file="/WEB-INF/jsp/inc/include.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Detail Person</title>
+<%@ include file="/WEB-INF/jsp/inc/head-bootstrap.jsp"%>
 </head>
 <body>
 	<h1>
@@ -20,6 +21,6 @@
 	<p>
 		<a href="${pageContext.request.contextPath}/persons/edit?id=${person.id}">Edit</a>
 	</p>
-	<%@ include file="/WEB-INF/jsp/logout.jsp"%>
+	<%@ include file="/WEB-INF/jsp/inc/logout.jsp"%>
 </body>
 </html>

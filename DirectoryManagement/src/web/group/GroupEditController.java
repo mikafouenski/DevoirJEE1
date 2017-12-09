@@ -35,7 +35,7 @@ public class GroupEditController {
 		} catch (UserNotLoggedException e1) {
 			return new ModelAndView("redirect:/login");
 		}
-		return new ModelAndView("groupEdit", "group", g);
+		return new ModelAndView("group/groupEdit", "group", g);
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -45,13 +45,13 @@ public class GroupEditController {
 		ValidatorGroupEdit validator = new ValidatorGroupEdit();
 		validator.validate(g, result);
 		if (result.hasErrors()) {
-			return new ModelAndView("groupEdit");
+			return new ModelAndView("group/groupEdit");
 		}
 		try {
 			directoryManager.saveGroup(user, g);
 		} catch (UserNotLoggedException e) {
 			result.rejectValue("name", "group.name", "Erreur...");
-			return new ModelAndView("groupEdit");
+			return new ModelAndView("group/groupEdit");
 		}
 		return new ModelAndView("redirect:/groups/list?id=" + g.getId());
 	}

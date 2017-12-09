@@ -1,10 +1,11 @@
-<%@ include file="/WEB-INF/jsp/include.jsp"%>
+<%@ include file="/WEB-INF/jsp/inc/include.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Recherche Groupe</title>
+<title>Liste Groups</title>
+<%@ include file="/WEB-INF/jsp/inc/head-bootstrap.jsp"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/search.jsp"%>	
@@ -24,6 +25,6 @@
 			<c:out value="   "></c:out>
 		</c:forEach>
 	</p>
-	<%@ include file="/WEB-INF/jsp/logout.jsp"%>
+	<%@ include file="/WEB-INF/jsp/inc/logout.jsp"%>
 </body>
 </html>

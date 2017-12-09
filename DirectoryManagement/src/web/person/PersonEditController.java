@@ -18,7 +18,7 @@ import beans.Person;
 import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
-import validor.ValidatorPersonEdit;
+import validator.ValidatorPersonEdit;
 import web.ControllerHelpers;
 
 @Controller()

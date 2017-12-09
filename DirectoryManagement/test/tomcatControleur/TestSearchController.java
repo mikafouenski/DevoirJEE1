@@ -23,7 +23,7 @@ import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
-import validor.ValidatorConnection;
+import validator.ValidatorConnection;
 import web.ControleurSearch;
 import web.connection.ConnectionController;
 

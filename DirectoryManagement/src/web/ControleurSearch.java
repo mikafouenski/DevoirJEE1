@@ -20,7 +20,7 @@ import beans.Person;
 import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
-import validor.ValidatorConnection;
+import validator.ValidatorConnection;
 
 
 @Controller()

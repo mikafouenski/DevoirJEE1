@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import business.IDirectoryManager;
 import business.User;
-import validor.ValidatorConnection;
+import validator.ValidatorConnection;
 
 @Controller()
 @RequestMapping(value = "/")

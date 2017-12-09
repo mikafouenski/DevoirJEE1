@@ -11,7 +11,7 @@
 	<context:component-scan base-package="web" />
 	<context:component-scan base-package="business" />
 	<context:component-scan base-package="database" />
-	<context:component-scan base-package="validor" />
+	<context:component-scan base-package="validator" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

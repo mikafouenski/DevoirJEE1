@@ -61,7 +61,6 @@ public class GroupController {
 		return new ModelAndView("listGroups", map);
 	}
 
-
 	// @RequestMapping(value = "/test", method = RequestMethod.GET)
 	// public void initDatabase() {
 	// new JDBC(true);

@@ -28,6 +28,14 @@ public class DirectoryManager implements IDirectoryManager {
 			throw new UserNotLoggedException();
 	}
 
+	/**
+	 * Recherche une instance de Person en base de données
+	 * @param user utilisateur de l'application 
+	 * @param personId l'id de la classe Person à trouver 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une instance de Person ou null si non trouvé
+	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié	
+	 */
 	@Override
 	public Person findPerson(User user, long personId) throws UserNotLoggedException {
 		isLogged(user);

@@ -30,7 +30,8 @@ public class ControleurSearch {
 	@Autowired
 	IDirectoryManager manager; 
 	
-	ValidatorConnection validator = new ValidatorConnection();
+	@Autowired
+	ValidatorConnection validator;
 	
 	@RequestMapping(value = "/searchGroup", method = RequestMethod.POST)
 	public ModelAndView searchGroup(HttpServletRequest request) {

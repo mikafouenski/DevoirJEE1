@@ -24,7 +24,6 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
 import mockit.Verifications;
-import validor.IValidatorConnection;
 import validor.ValidatorConnection;
 import web.Connection;
 import web.ConnectionController;
@@ -40,7 +39,7 @@ public class TestConnectionController {
 	IDirectoryManager manager;
 	
 	@Injectable
-	IValidatorConnection validator;
+	ValidatorConnection validator;
 	
 	@Mocked
 	HttpServletRequest request;

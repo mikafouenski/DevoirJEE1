@@ -1,7 +1,6 @@
 package web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import business.IDirectoryManager;
 import business.User;
-import validor.IValidatorConnection;
+import validor.ValidatorConnection;
 
 @Controller()
 @RequestMapping(value = "/")
@@ -22,7 +21,7 @@ public class ConnectionController {
 	IDirectoryManager manager;
 	
 	@Autowired
-	IValidatorConnection validator;
+	ValidatorConnection validator;
 
 	@ModelAttribute
 	Connection connect() {

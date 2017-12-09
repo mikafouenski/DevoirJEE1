@@ -78,7 +78,7 @@ public class DaoPerson implements IDaoPerson {
 				ResultSet result = prep.executeQuery()) {
 			utils.resultSetUpdate(result, template);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class DaoPerson implements IDaoPerson {
 				ResultSet result = prep.executeQuery();) {
 			id = utils.resultSetInsert(result, template);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return id;
 	}
@@ -100,7 +100,7 @@ public class DaoPerson implements IDaoPerson {
 		try {
 			groups = findBeans(new DaoUtilsGroup(), new Group());
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return groups;
 	}
@@ -111,7 +111,7 @@ public class DaoPerson implements IDaoPerson {
 		try {
 			groups = findBeans(new DaoUtilsGroup(), new Group(), name, new String());
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return groups;
 	}
@@ -122,7 +122,7 @@ public class DaoPerson implements IDaoPerson {
 		try {
 			groups = findBeans(new DaoUtilsGroup(), new Group(), start, end);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return groups;
 	}
@@ -135,7 +135,7 @@ public class DaoPerson implements IDaoPerson {
 			p.setIdGroup(groupId);
 			persons = findBeans(new DaoUtilsPerson(), p);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return persons;
 	}
@@ -148,7 +148,7 @@ public class DaoPerson implements IDaoPerson {
 			p.setIdGroup(groupId);
 			persons = findBeans(new DaoUtilsPerson(), p, start, end);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return persons;
 	}
@@ -161,7 +161,7 @@ public class DaoPerson implements IDaoPerson {
 			p.setId(id);
 			person = findBean(new DaoUtilsPerson(), p);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return person;
 	}
@@ -174,7 +174,7 @@ public class DaoPerson implements IDaoPerson {
 			g.setId(id);
 			group = findBean(new DaoUtilsGroup(), g);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return group;
 	}
@@ -207,7 +207,7 @@ public class DaoPerson implements IDaoPerson {
 		try (Connection c = db.getConnection()) {
 			return utilsGroup.size(c, new Group());
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 	}
 
@@ -219,7 +219,7 @@ public class DaoPerson implements IDaoPerson {
 			p.setIdGroup(id);
 			return utilsPerson.size(c, p);
 		} catch (SQLException e) {
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 	}
 

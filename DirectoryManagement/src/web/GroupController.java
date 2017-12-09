@@ -1,5 +1,7 @@
 package web;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,8 @@ import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
+import database.JDBC;
+import hachage.HachageSha3;
 
 @Controller()
 @RequestMapping(value = "/groups")
@@ -28,6 +32,9 @@ public class GroupController {
 
 	@Autowired
 	IDirectoryManager directoryManager;
+	
+	@Autowired
+	IDaoPerson daoPerson;
 	
 	@ModelAttribute(name = "searchGroup")
 	Group groupSearch() {
@@ -46,13 +53,13 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listGroup(@RequestParam(value = "id", defaultValue = "-1") long id, @RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "range", defaultValue = "5") int range, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView listGroup(@RequestParam(value = "id", defaultValue = "-1") long id, @RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request, HttpServletResponse response) {
 		User user = getUser(request);
 		if (id == -1) {
 			Map<String, Object> map = new HashMap<>();
 			try {
 				int size = (int) directoryManager.nbGroups(user);
-				int nbPages = size / range - 1;
+				int  nbPages = ((int) Math.ceil( ((double) size) / (double) range)) -1;
 				map.put("nbPage", nbPages);
 				map.put("page", page);
 				map.put("groups", directoryManager.findGroups(user, page * range, page * range + range));
@@ -64,7 +71,7 @@ public class GroupController {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			int size = (int) directoryManager.nbPersons(user, id);
-			int nbPages = size / range - 1;
+			int  nbPages = ((int) Math.ceil( ((double) size) / (double) range)) -1;
 			map.put("nbPage", nbPages);
 			map.put("id", id);
 			map.put("page", page);
@@ -87,6 +94,7 @@ public class GroupController {
 	
 //	@RequestMapping(value = "/test", method = RequestMethod.GET)
 //	public void initDatabase() {
+//		new JDBC(true);
 //		ArrayList<Group> groups = new ArrayList<>();
 //		for (int i = 0; i < 200; i++) {
 //			int j = (i % 10);

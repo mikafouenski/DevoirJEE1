@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import beans.Person;
 import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
+import validor.ValidatorPersonEdit;
 
 @Controller()
 @RequestMapping(value = "/persons")
@@ -66,23 +68,10 @@ public class PersonController {
 		return new ModelAndView("personDetail", "person", p);
 	}
 	
-//	@ModelAttribute("person")
-//	public Person newPerson(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,
-//			HttpServletResponse response) {
-//		User user = getUser(request);
-//		if (id != null) {
-//	        try {
-//				return directoryManager.findPerson(user, id);
-//			} catch (UserNotLoggedException e) {
-//				System.out.println("user not logged");
-//			}
-//	    }
-//	    return new Person();
-//	}
+
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editPerson(@RequestParam(value = "id", required = true) long id, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id, HttpServletRequest request) {
 		User user = getUser(request);
 		Person p;
 		try {
@@ -91,5 +80,22 @@ public class PersonController {
 			return new ModelAndView("redirect:/login");
 		}
 		return new ModelAndView("personEdit", "person", p);
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ModelAndView editPersonForm(@ModelAttribute("person") Person p, BindingResult result, HttpServletRequest request) {
+		User user = getUser(request);
+		ValidatorPersonEdit validator = new ValidatorPersonEdit();
+		validator.validate(p, result);
+		if (result.hasErrors()) {
+			return new ModelAndView("personEdit");
+		}
+		try {
+			directoryManager.savePerson(user, p);
+		} catch (UserNotLoggedException e) {
+			result.rejectValue("id", "person.id", "Erreur...");
+			return new ModelAndView("personEdit");
+		}
+		return new ModelAndView("personDetail", "person", p);
 	}
 }

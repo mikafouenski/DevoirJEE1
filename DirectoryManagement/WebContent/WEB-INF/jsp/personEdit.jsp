@@ -31,6 +31,15 @@
 			<form:errors path="website" cssClass="alert alert-warning"
 				element="div" />
 		</div>
+		<div class="form-group">
+            <form:hidden class="form-control" path="birthdate" />
+        </div>
+		<div class="form-group">
+			<form:hidden class="form-control" path="idGroup" />
+		</div>
+		<div class="form-group">
+            <form:hidden class="form-control" path="password"/>
+        </div>
 		<button type="submit" class="btn btn-info">Valider</button>
 	</form:form>
 	<%@ include file="/WEB-INF/jsp/logout.jsp"%>

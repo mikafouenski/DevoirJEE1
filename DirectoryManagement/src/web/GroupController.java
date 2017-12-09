@@ -61,15 +61,6 @@ public class GroupController {
 		return new ModelAndView("listGroups", map);
 	}
 
-
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute Group g, @ModelAttribute Person p) {
-		if (p.getName() == null) {
-			System.out.println("oui");
-		}
-		return null;
-	}
-
 	// @RequestMapping(value = "/test", method = RequestMethod.GET)
 	// public void initDatabase() {
 	// new JDBC(true);

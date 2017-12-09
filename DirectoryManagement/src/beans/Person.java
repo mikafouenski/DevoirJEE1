@@ -1,6 +1,8 @@
 package beans;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Person {
 
@@ -57,10 +59,22 @@ public class Person {
 		return birthdate;
 	}
 
+	public void setBirthdate(String birthdate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date;
+		try {
+			date = dateFormat.parse(birthdate);
+			this.birthdate = new Date(date.getTime());
+		} catch (ParseException e) {
+			System.out.println("Error convertDate");
+			e.printStackTrace();
+		}
+	}
+
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
-
+	
 	public String getPassword() {
 		return password;
 	}

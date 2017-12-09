@@ -1,5 +1,7 @@
 package web;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,8 +72,6 @@ public class PersonController {
 		}
 		return new ModelAndView("personDetail", "person", p);
 	}
-	
-
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id, HttpServletRequest request) {

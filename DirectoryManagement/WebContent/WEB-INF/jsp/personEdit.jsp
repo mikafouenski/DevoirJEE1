@@ -32,7 +32,8 @@
 				element="div" />
 		</div>
 		<div class="form-group">
-            <form:hidden class="form-control" path="birthdate" />
+            <fmt:formatDate var="fmtDate" value="${form.bean.dateProperty}" pattern="yyyy-MM-dd"/>
+            <form:hidden class="form-control" path="birthdate" value="${fmtDate}"/>
         </div>
 		<div class="form-group">
 			<form:hidden class="form-control" path="idGroup" />

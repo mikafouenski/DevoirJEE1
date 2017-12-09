@@ -35,17 +35,7 @@ public class GroupController {
 	
 	@Autowired
 	IDaoPerson daoPerson;
-	
-	@ModelAttribute(name = "searchGroup")
-	Group groupSearch() {
-		return new Group();
-	}
-	
-	@ModelAttribute(name = "searchPerson")
-	Person personSearch() {
-		return new Person();
-	}
-	
+		
 	private User getUser(HttpServletRequest r) {
 		Object userSession = r.getSession().getAttribute("user");
 		if (userSession instanceof User) return (User) userSession;
@@ -83,14 +73,6 @@ public class GroupController {
 	}
 	
 
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute Group g,@ModelAttribute Person p) {
-		if(p.getName() == null) {
-			System.out.println("oui");
-		}
-		return null;
-	}
-	
 	
 //	@RequestMapping(value = "/test", method = RequestMethod.GET)
 //	public void initDatabase() {

@@ -20,6 +20,9 @@ public interface IDirectoryManager {
     // chercher un groupe
     Group findGroup(User user, long groupId) throws UserNotLoggedException;
     Collection<Group> findGroups(User user, int start, int end) throws UserNotLoggedException;
+    
+    Collection<Group> findGroups(User user, String name) throws UserNotLoggedException;
+    
     long nbGroups(User user) throws UserNotLoggedException;
 
 
@@ -31,5 +34,7 @@ public interface IDirectoryManager {
 
     // enregistrer une personne
     void savePerson(User user, Person p) throws UserNotLoggedException;
+
+	Collection<Person> findPersons(User user, String name, String firstname) throws UserNotLoggedException;
 
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import beans.Group;
 import beans.Person;
 
 public class DaoUtilsPerson implements DaoUtils<Person> {
@@ -13,7 +14,8 @@ public class DaoUtilsPerson implements DaoUtils<Person> {
 	private final String LIST_PERSONS_BY_GROUP_ID_FULL = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idGRP = ?";
 	private final String LIST_PERSONS_BY_GROUP_ID_RECORD = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idGRP = ? LIMIT ? , ?";
 	private final String COUNT_PERSONS_BY_GROUP_ID = "SELECT COUNT(idPER) as nb FROM PERSON WHERE idGRP = ?";
-
+	private final String LIST_PERSONS_SEARCH = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE name LIKE ?\"%\" and firstname LIKE ?\"%\"";
+	
 	@Override
 	public Long resultSetInsert(ResultSet rs, Person p) throws SQLException {
 		rs.moveToInsertRow();
@@ -94,8 +96,11 @@ public class DaoUtilsPerson implements DaoUtils<Person> {
 
 	@Override
 	public PreparedStatement createSearch(Connection c, Person p, String param1,String param2) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement prep = c.prepareStatement(LIST_PERSONS_SEARCH, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		prep.setString(1,param1);
+		prep.setString(2,param2);
+		return prep;
 	}
+	
 
 }

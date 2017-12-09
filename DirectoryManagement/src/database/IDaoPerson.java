@@ -20,6 +20,7 @@ public interface IDaoPerson {
 	// récupérer les personnes
 	Collection<Person> findPersons(long groupId) throws DaoException;
 	Collection<Person> findPersons(long groupId, int start, int end) throws DaoException;
+	Collection<Person> findPersons(String name, String firstname) throws DaoException;
 	Person findPerson(long id) throws DaoException;
 
 	// modification ou ajout d'une nouvelle personne
@@ -27,5 +28,7 @@ public interface IDaoPerson {
 
 	// modification ou ajout d'un nouveau groupe
 	void saveGroup(Group g) throws DaoException;
+	
+	
 
 }

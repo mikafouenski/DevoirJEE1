@@ -109,6 +109,12 @@ public class TestDaoPerson extends DBTestCase {
 	}
 	
 	@Test
+	public void testFindAllPersonNameFirstname() {
+		Collection<Person> c = daoPerson.findPersons("Wi","Can");
+		Assert.assertEquals(1, c.size());
+	}
+	
+	@Test 
 	public void testFindPerson() {
 		Person c = daoPerson.findPerson(1);
 		Assert.assertNotNull(c);
@@ -118,6 +124,12 @@ public class TestDaoPerson extends DBTestCase {
 	public void testFindAllGroup() {
 		Collection<Group> c = daoPerson.findGroups();
 		Assert.assertEquals(5, c.size());
+	}
+	
+	@Test
+	public void testFindAllGroupName() { 
+		Collection<Group> c = daoPerson.findGroups("Magna") ;
+		Assert.assertEquals( 1, c.size());
 	}
 	
 	@Test

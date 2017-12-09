@@ -12,7 +12,7 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 	private final String COUNT_GROUPS = "SELECT COUNT(idGRP) as nb FROM GROUPS";
 	private final String LIST_GROUPS_FULL = "SELECT idGRP,name FROM GROUPS";
 	private final String LIST_GROUPS_RECORD = "SELECT idGRP,name FROM GROUPS LIMIT ? , ?";
-	private final String LIST_GROUPS_SEARCH = "SELECT idGRP,name FROM GROUPS WHERE DIFERENCE(name,?) > 5";
+	private final String LIST_GROUPS_SEARCH = "SELECT idGRP,name FROM GROUPS WHERE name LIKE ?\"%\"";
 
 	@Override
 	public Long resultSetInsert(ResultSet rs, Group g) throws SQLException {

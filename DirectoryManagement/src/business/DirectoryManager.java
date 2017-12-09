@@ -45,6 +45,12 @@ public class DirectoryManager implements IDirectoryManager {
 		isLogged(user);
 		return dao.findGroups(start, end);
 	}
+	
+	public Collection<Group> findGroups(User user, String name) throws UserNotLoggedException {
+		isLogged(user);
+		return dao.findGroups(name);
+	}
+	
 	@Override
 	public long nbGroups(User user) throws UserNotLoggedException {
 		isLogged(user);
@@ -62,6 +68,12 @@ public class DirectoryManager implements IDirectoryManager {
 	public Collection<Person> findPersons(User user, long groupId, int start, int end) throws UserNotLoggedException {
 		isLogged(user);
 		return dao.findPersons(groupId, start, end);
+	}
+	
+	@Override
+	public Collection<Person> findPersons(User user, String name, String firstname) throws UserNotLoggedException {
+		isLogged(user);
+		return dao.findPersons(name,firstname);
 	}
 
 	@Override

@@ -154,6 +154,17 @@ public class DaoPerson implements IDaoPerson {
 	}
 	
 	@Override
+	public Collection<Person> findPersons(String name,String firstname ) throws DaoException {
+		Collection<Person> persons = null;
+		try {
+			persons = findBeans(new DaoUtilsPerson(), new Person(), name, firstname);
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		}
+		return persons;
+	}
+	
+	@Override
 	public Person findPerson(long id) throws DaoException {
 		Person person = null;
 		try {

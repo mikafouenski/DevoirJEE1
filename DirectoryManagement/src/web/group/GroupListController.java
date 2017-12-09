@@ -29,6 +29,15 @@ public class GroupListController {
 	@Autowired
 	IDaoPerson daoPerson;
 
+	/**
+	 * Servelet listant les groupes
+	 * @param page Le numéro de page demandé
+	 * @param range Le nombre de résultats demandé
+	 * @param request La HttpServletRequest de la requete
+	 * @param response La HttpServletResponse de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de liste des groupes
+	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listGroup(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request,

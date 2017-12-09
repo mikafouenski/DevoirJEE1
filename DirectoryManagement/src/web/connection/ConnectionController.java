@@ -29,6 +29,13 @@ public class ConnectionController {
 		return connect;
 	}
 
+	/**
+	 * Servelet de login (GET)
+	 * @param co La Connection de la requete
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers le jsp de connection ou la liste de group si deja authentifié
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPrompt(@ModelAttribute Connection co, HttpServletRequest request) {
 		Object userSession = request.getSession().getAttribute("user");
@@ -40,6 +47,14 @@ public class ConnectionController {
 		return "redirect:/groups/list";
 	}
 
+	/**
+	 * Servelet de login (POST)
+	 * @param co La Connection de la requete
+	 * @param result Le BindingResult de la requete
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la liste de groups en cas succes
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute Connection co, BindingResult result, HttpServletRequest request) {
 		User user = new User();
@@ -62,6 +77,14 @@ public class ConnectionController {
 			return "connection/connection";
 	}
 
+	/**
+	 * Servelet de logout (POST uniquement) detruit la session
+	 * @param co La Connection de la requete
+	 * @param result Le BindingResult de la requete
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login
+	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logout(@ModelAttribute Connection co, BindingResult result, HttpServletRequest request) {
 		request.getSession().invalidate();

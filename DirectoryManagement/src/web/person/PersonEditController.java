@@ -28,6 +28,13 @@ public class PersonEditController {
 	@Autowired
 	IDirectoryManager directoryManager;
 	
+	/**
+	 * Servelet d'édition d'une personne (GET)
+	 * @param id L'identifiant du group a modifier
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page d'edition
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id,
 			HttpServletRequest request) {
@@ -50,6 +57,14 @@ public class PersonEditController {
 		return new ModelAndView("person/personEdit", map);
 	}
 
+	/**
+	 * Servelet d'édition d'une personne (POST)
+	 * @param pf La PersonFormBean modifié par le formulaire
+	 * @param result Le BindingResult de la requete
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de detail d'une personne
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView editPersonForm(@ModelAttribute("personFormBean") PersonFormBean pf, BindingResult result,
 			HttpServletRequest request) {

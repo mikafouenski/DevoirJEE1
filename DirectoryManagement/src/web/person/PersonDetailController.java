@@ -23,6 +23,14 @@ public class PersonDetailController {
 	@Autowired
 	IDirectoryManager directoryManager;
 
+	/**
+	 * Servelet detaillant une personne
+	 * @param id Le numéro de la personne a affichée
+	 * @param request La HttpServletRequest de la requete
+	 * @param response La HttpServletResponse de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de detail d'une personne
+	 */
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public ModelAndView detailPerson(@RequestParam(value = "id", required = true) long id, HttpServletRequest request,
 			HttpServletResponse response) {

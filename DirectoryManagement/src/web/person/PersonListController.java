@@ -25,6 +25,16 @@ public class PersonListController {
 	@Autowired
 	IDirectoryManager directoryManager;
 	
+	/**
+	 * Servelet listant les personnes
+	 * @param id Le numéro du groupe dont font partie les personnes
+	 * @param page Le numéro de page demandé
+	 * @param range Le nombre de résultats demandé
+	 * @param request La HttpServletRequest de la requete
+	 * @param response La HttpServletResponse de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de liste des personnes
+	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listPersons(@RequestParam(value = "id", required = true) long id,
 			@RequestParam(value = "page", defaultValue = "0") int page,

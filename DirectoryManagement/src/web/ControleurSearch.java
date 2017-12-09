@@ -33,6 +33,12 @@ public class ControleurSearch {
 	@Autowired
 	ValidatorConnection validator;
 	
+	/**
+	 * Servelet de recherche de groupes (POST uniquement)
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de liste des groupes trouvés
+	 */
 	@RequestMapping(value = "/searchGroup", method = RequestMethod.POST)
 	public ModelAndView searchGroup(HttpServletRequest request) {
 		Object userSession = request.getSession().getAttribute("user");
@@ -52,6 +58,12 @@ public class ControleurSearch {
 		return new ModelAndView("listGroupSearch", map);
 	}
 	
+	/**
+	 * Servelet de recherche de personnes (POST uniquement)
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de liste des personnes trouvées
+	 */
 	@RequestMapping(value = "/searchPerson", method = RequestMethod.POST)
 	public ModelAndView searchPerson(HttpServletRequest request) {
 		Object userSession = request.getSession().getAttribute("user");

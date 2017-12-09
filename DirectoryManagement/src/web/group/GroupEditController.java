@@ -25,6 +25,13 @@ public class GroupEditController {
 	@Autowired
 	IDirectoryManager directoryManager;
 	
+	/**
+	 * Servelet d'édition d'un groupe (GET)
+	 * @param id L'identifiant du group a modifier
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page d'edition
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id,
 			HttpServletRequest request) {
@@ -38,6 +45,14 @@ public class GroupEditController {
 		return new ModelAndView("group/groupEdit", "group", g);
 	}
 
+	/**
+	 * Servelet d'édition d'un groupe (POST)
+	 * @param g La Group modifié par le formulaire
+	 * @param result Le BindingResult de la requete
+	 * @param request La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Redirige vers la page de login si non authentifié ou la page de detail d'un groupe
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView editPersonForm(@ModelAttribute("group") Group g, BindingResult result,
 			HttpServletRequest request) {
@@ -50,8 +65,7 @@ public class GroupEditController {
 		try {
 			directoryManager.saveGroup(user, g);
 		} catch (UserNotLoggedException e) {
-			result.rejectValue("name", "group.name", "Erreur...");
-			return new ModelAndView("group/groupEdit");
+			return new ModelAndView("redirect:/login");
 		}
 		return new ModelAndView("redirect:/groups/list?id=" + g.getId());
 	}

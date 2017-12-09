@@ -14,7 +14,7 @@ public class JDBC implements IDatabase {
 	
 	private static final int MAX_CONNEXION = 5;
 
-	private String url = "mysql-mickaestnul.alwaysdata.net/mickaestnul_b13";//"jdbc:mysql://127.0.0.1:9999/b13002175";
+	private String url = "jdbc:mysql://mysql-mickaestnul.alwaysdata.net/mickaestnul_b13";//"jdbc:mysql://127.0.0.1:9999/b13002175";
 	private String id = "148878"; //b13002175";
 	private String password = "root";//"gRAYUM!.";
 	private BasicDataSource bds;

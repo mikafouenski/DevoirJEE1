@@ -3,12 +3,11 @@ package validor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
 import web.Connection;
 
 @Service
-public class ValidatorConnection implements Validator{
+public class ValidatorConnection implements IValidatorConnection{
 
 	@Override
 	public boolean supports(Class<?> clazz) {

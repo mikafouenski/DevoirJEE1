@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import business.IDirectoryManager;
 import business.User;
-import validor.ValidatorConnection;
+import validor.IValidatorConnection;
 
 @Controller()
 @RequestMapping(value = "/")
@@ -20,8 +20,9 @@ public class ConnectionController {
 
 	@Autowired
 	IDirectoryManager manager;
-
-	ValidatorConnection validator = new ValidatorConnection();
+	
+	@Autowired
+	IValidatorConnection validator;
 
 	@ModelAttribute
 	Connection connect() {
@@ -30,7 +31,7 @@ public class ConnectionController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPrompt(@ModelAttribute Connection co, HttpServletRequest request, HttpServletResponse response) {
+	public String loginPrompt(@ModelAttribute Connection co, HttpServletRequest request) {
 		Object userSession = request.getSession().getAttribute("user");
 		User test = new User();
 		if (userSession instanceof User)
@@ -57,8 +58,9 @@ public class ConnectionController {
 		}
 		if (connection) {
 			request.getSession().setAttribute("user", user);
-		}
-		return "redirect:/groups/list";
+			return "redirect:/groups/list";
+		} else 
+			return "connection";
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)

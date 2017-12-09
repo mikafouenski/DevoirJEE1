@@ -14,5 +14,9 @@
     <context:component-scan base-package="database" />
      <!-- pour décrire les classes à instancier -->
     <context:component-scan base-package="business" />
+      <!-- pour décrire les classes à instancier -->
+    <context:component-scan base-package="validor" />
+     <!-- pour décrire les classes à instancier -->
+    <context:component-scan base-package="web" />
 	
 </beans>

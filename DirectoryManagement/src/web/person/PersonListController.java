@@ -42,6 +42,6 @@ public class PersonListController {
 		} catch (UserNotLoggedException e) {
 			return new ModelAndView("redirect:/login");
 		}
-		return new ModelAndView("listPersons", map);
+		return new ModelAndView("person/listPersons", map);
 	}
 }

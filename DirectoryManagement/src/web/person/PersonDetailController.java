@@ -33,6 +33,6 @@ public class PersonDetailController {
 		} catch (UserNotLoggedException e) {
 			return new ModelAndView("redirect:/login");
 		}
-		return new ModelAndView("personDetail", "person", p);
+		return new ModelAndView("person/personDetail", "person", p);
 	}
 }

@@ -44,7 +44,7 @@ public class GroupListController {
 		} catch (UserNotLoggedException e) {
 			return new ModelAndView("redirect:/login");
 		}
-		return new ModelAndView("listGroups", map);
+		return new ModelAndView("group/listGroups", map);
 	}
 
 	// @RequestMapping(value = "/test", method = RequestMethod.GET)

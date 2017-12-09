@@ -1,11 +1,11 @@
-<%@ include file="/WEB-INF/jsp/include.jsp"%>
+<%@ include file="/WEB-INF/jsp/inc/include.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Connection</title>
-<%@ include file="/WEB-INF/jsp/head-bootstrap.jsp"%>
+<%@ include file="/WEB-INF/jsp/inc/head-bootstrap.jsp"%>
 </head>
 <body>
 	<h1>Authentification</h1>

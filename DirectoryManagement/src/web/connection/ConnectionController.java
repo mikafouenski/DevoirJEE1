@@ -36,7 +36,7 @@ public class ConnectionController {
 		if (userSession instanceof User)
 			test = (User) userSession;
 		if (test.isAnonymous())
-			return "connection";
+			return "connection/connection";
 		return "redirect:/groups/list";
 	}
 
@@ -46,20 +46,20 @@ public class ConnectionController {
 		boolean connection = false;
 		validator.validate(co, result);
 		if (result.hasErrors()) {
-			return "connection";
+			return "connection/connection";
 		}
 		try {
 			connection = manager.login(user, co.getId(), co.getPassword());
 		} catch (Exception e) {
 			result.rejectValue("id", "connect.id", "Identifiant ou Mot de passe incorect");
 			result.rejectValue("password", "connect.password", "Identifiant ou Mot de passe incorect");
-			return "connection";
+			return "connection/connection";
 		}
 		if (connection) {
 			request.getSession().setAttribute("user", user);
 			return "redirect:/groups/list";
 		} else 
-			return "connection";
+			return "connection/connection";
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)

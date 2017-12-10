@@ -1,6 +1,6 @@
 package tomcatControleur;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,11 +39,7 @@ public class TestGroupListController {
     
     @Mocked
 	HttpServletRequest request;
-	
-	@Mocked
-	HttpServletResponse response;
-	
-	
+		
 	@Test
     public void testListGroup() throws UserNotLoggedException {
 		Collection<Group> groupsExpected = new ArrayList<Group>();
@@ -62,7 +58,7 @@ public class TestGroupListController {
 			manager.nbGroups(user); result = 3;
 			manager.findGroups(user,anyInt, anyInt); result = groupsExpected; 
     	}};
-    	ModelAndView actual = groupController.listGroup(0,7,request,response);
+    	ModelAndView actual = groupController.listGroup(0,7,request);
     	assertEquals("group/listGroups", actual.getViewName());
     }
     
@@ -84,7 +80,7 @@ public class TestGroupListController {
 			manager.nbGroups(user); result = 3;
 			manager.findGroups(user,anyInt, anyInt); result = groupsExpected; 
     	}};
-    	ModelAndView actual = groupController.listGroup(0,7,request,response);
+    	ModelAndView actual = groupController.listGroup(0,7,request);
     	assertEquals(actual.getModelMap().get("groups"), groupsExpected);
     }
     
@@ -94,13 +90,40 @@ public class TestGroupListController {
 		    request.getSession().getAttribute("user"); result = null;
 		    manager.nbGroups((User)any); result = new UserNotLoggedException();
     	}};
-    	ModelAndView actual = groupController.listGroup(0,7,request,response);
+    	ModelAndView actual = groupController.listGroup(0,7,request);
     	assertEquals(actual.getViewName(), "redirect:/login");
     }
    
+	@Test
+	public void testListGroupPaginationNotMultiple() throws UserNotLoggedException {
+		Collection<Group> groupsExpected = new ArrayList<Group>();
+		for (long i = 0; i < 100; i++)
+			groupsExpected.add(new Group());
+		User user = new User();
+		user.setAnonymous(false);
+		new Expectations() {{
+			request.getSession().getAttribute("user"); result = user;
+			manager.nbGroups(user); result = 100;
+			manager.findGroups(user, anyInt, anyInt); result = groupsExpected; 
+    	}};
+    	ModelAndView actual = groupController.listGroup(0, 7, request);
+    	assertEquals(actual.getModelMap().get("nbPage"), 15);
+	}
 	
+	@Test
+	public void testListGroupPaginationMultiple() throws UserNotLoggedException {
+		Collection<Group> groupsExpected = new ArrayList<Group>();
+		for (long i = 0; i < 100; i++)
+			groupsExpected.add(new Group());
+		User user = new User();
+		user.setAnonymous(false);
+		new Expectations() {{
+			request.getSession().getAttribute("user"); result = user;
+			manager.nbGroups(user); result = 100;
+			manager.findGroups(user, anyInt, anyInt); result = groupsExpected; 
+    	}};
+    	ModelAndView actual = groupController.listGroup(0, 10, request);
+    	assertEquals(actual.getModelMap().get("nbPage"), 10);
+	}
 
-    
-    	
-    
 }

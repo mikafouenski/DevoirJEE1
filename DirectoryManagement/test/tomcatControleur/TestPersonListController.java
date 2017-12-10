@@ -41,9 +41,6 @@ public class TestPersonListController {
 	HttpServletRequest request;
 	
 	@Mocked
-	HttpServletResponse response;
-	
-	@Mocked
 	BindingResult bindingresult;
 	
 	@Test
@@ -63,7 +60,7 @@ public class TestPersonListController {
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findPersons(user, 1,anyInt,anyInt); result = personsExpected;
     	}};
-    	ModelAndView actual = personListController.listPersons(1,0,7,request,response);
+    	ModelAndView actual = personListController.listPersons(1,0,7,request);
     	assertEquals(actual.getViewName(), "person/listPersons");
 	}
 	
@@ -84,7 +81,7 @@ public class TestPersonListController {
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findPersons(user, 1,anyInt,anyInt); result = personsExpected;
     	}};
-    	ModelAndView actual = personListController.listPersons(1,0,7,request,response);
+    	ModelAndView actual = personListController.listPersons(1,0,7,request);
     	assertEquals(actual.getModelMap().get("persons"),personsExpected);
 	}
 	
@@ -96,8 +93,40 @@ public class TestPersonListController {
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findPersons(user, 1,anyInt,anyInt); result = new UserNotLoggedException();
     	}};
-    	ModelAndView actual = personListController.listPersons(1,0,7,request,response);
+    	ModelAndView actual = personListController.listPersons(1,0,7,request);
     	assertEquals(actual.getViewName(), "redirect:/login");
+	}
+	
+	@Test
+	public void testListPersonPaginationNotMultiple() throws UserNotLoggedException {
+		User user = new User();
+		user.setAnonymous(false);
+		Collection<Person> personsExpected = new ArrayList<Person>();
+		for (long i = 0; i < 100; i++)
+			personsExpected.add(new Person());
+		new Expectations() {{
+			request.getSession().getAttribute("user"); result = user;
+			manager.nbPersons(user, 1); result = 100;
+			manager.findPersons(user, 1, anyInt, anyInt); result = personsExpected;
+    	}};
+    	ModelAndView actual = personListController.listPersons(1, 0, 7, request);
+    	assertEquals(actual.getModelMap().get("nbPage"), 15);
+	}
+	
+	@Test
+	public void testListGroupPaginationMultiple() throws UserNotLoggedException {
+		User user = new User();
+		user.setAnonymous(false);
+		Collection<Person> personsExpected = new ArrayList<Person>();
+		for (long i = 0; i < 100; i++)
+			personsExpected.add(new Person());
+		new Expectations() {{
+			request.getSession().getAttribute("user"); result = user;
+			manager.nbPersons(user, 1); result = 100;
+			manager.findPersons(user, 1, anyInt, anyInt); result = personsExpected;
+    	}};
+    	ModelAndView actual = personListController.listPersons(1, 0, 10, request);
+    	assertEquals(actual.getModelMap().get("nbPage"), 10);
 	}
 	
 }

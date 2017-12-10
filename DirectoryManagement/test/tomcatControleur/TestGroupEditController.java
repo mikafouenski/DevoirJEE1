@@ -52,7 +52,7 @@ public class TestGroupEditController {
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findGroup(user, 1); result = g;
     	}};
-    	ModelAndView actual = groupEditController.editPersonDetail(1,request);
+    	ModelAndView actual = groupEditController.editGroupDetail(1,request);
     	assertEquals("group/groupEdit", actual.getViewName());
 	}
 	
@@ -66,7 +66,7 @@ public class TestGroupEditController {
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findGroup(user, 1); result = g;
     	}};
-    	ModelAndView actual = groupEditController.editPersonDetail(1,request);
+    	ModelAndView actual = groupEditController.editGroupDetail(1,request);
     	assertEquals(g, actual.getModelMap().get("group"));
 	}
 	
@@ -78,7 +78,7 @@ public class TestGroupEditController {
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findGroup(user, 1); result = new UserNotLoggedException();
     	}};
-    	ModelAndView actual = groupEditController.editPersonDetail(1,request);
+    	ModelAndView actual = groupEditController.editGroupDetail(1,request);
     	assertEquals("redirect:/login", actual.getViewName());
 	}
 	
@@ -93,7 +93,7 @@ public class TestGroupEditController {
 			request.getSession().getAttribute("user"); result = user;
 			manager.saveGroup(user, g);
     	}};
-    	ModelAndView actual = groupEditController.editPersonForm(g,bindingresult,request);
+    	ModelAndView actual = groupEditController.editGroupForm(g,bindingresult,request);
     	assertEquals(actual.getViewName(),"redirect:/groups/list?id=1");
 	}
 	
@@ -108,7 +108,7 @@ public class TestGroupEditController {
 			request.getSession().getAttribute("user"); result = user;
 			bindingresult.hasErrors(); result = true;
     	}};
-    	ModelAndView actual = groupEditController.editPersonForm(g,bindingresult,request);
+    	ModelAndView actual = groupEditController.editGroupForm(g,bindingresult,request);
     	assertEquals(actual.getViewName(),"group/groupEdit");
 	}
 	
@@ -124,7 +124,7 @@ public class TestGroupEditController {
 			bindingresult.hasErrors(); result = false;
 			manager.saveGroup(user, g); result = new UserNotLoggedException();
     	}};
-    	ModelAndView actual = groupEditController.editPersonForm(g,bindingresult,request);
+    	ModelAndView actual = groupEditController.editGroupForm(g,bindingresult,request);
     	assertEquals(actual.getViewName(),"redirect:/login");
 	}
 	

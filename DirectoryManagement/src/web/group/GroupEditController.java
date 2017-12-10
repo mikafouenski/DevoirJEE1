@@ -33,7 +33,7 @@ public class GroupEditController {
 	 * @return Redirige vers la page de login si non authentifié ou la page d'edition
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id,
+	public ModelAndView editGroupDetail(@RequestParam(value = "id", required = true) long id,
 			HttpServletRequest request) {
 		User user = ControllerHelpers.getUser(request);
 		Group g;
@@ -54,7 +54,7 @@ public class GroupEditController {
 	 * @return Redirige vers la page de login si non authentifié ou la page de detail d'un groupe
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView editPersonForm(@ModelAttribute("group") Group g, BindingResult result,
+	public ModelAndView editGroupForm(@ModelAttribute("group") Group g, BindingResult result,
 			HttpServletRequest request) {
 		User user = ControllerHelpers.getUser(request);
 		ValidatorGroupEdit validator = new ValidatorGroupEdit();

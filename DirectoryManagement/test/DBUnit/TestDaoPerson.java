@@ -109,6 +109,12 @@ public class TestDaoPerson extends DBTestCase {
 	}
 	
 	@Test
+	public void testFindPersonsPaginated() throws Exception {
+		Collection<Person> c = daoPerson.findPersons(1, 0, 2);
+		Assert.assertEquals(2, c.size());
+	}
+	
+	@Test
 	public void testFindAllPersonNameFirstname() {
 		Collection<Person> c = daoPerson.findPersons("Wi","Can");
 		Assert.assertEquals(1, c.size());
@@ -120,10 +126,22 @@ public class TestDaoPerson extends DBTestCase {
 		Assert.assertNotNull(c);
 	}
 	
+	@Test 
+	public void testFindGroup() {
+		Group c = daoPerson.findGroup(1);
+		Assert.assertNotNull(c);
+	}
+	
 	@Test
 	public void testFindAllGroup() {
 		Collection<Group> c = daoPerson.findGroups();
 		Assert.assertEquals(5, c.size());
+	}
+	
+	@Test
+	public void testFindGroupsPaginated() throws Exception {
+		Collection<Group> c = daoPerson.findGroups(0, 2);
+		Assert.assertEquals(2, c.size());
 	}
 	
 	@Test
@@ -155,6 +173,18 @@ public class TestDaoPerson extends DBTestCase {
 
 		// DBUNIT
 		testDbunitAssert("GROUPS", str);
+	}
+	
+	@Test
+	public void testNbPersons() throws Exception {
+		long i = daoPerson.getNbPersons(1);
+		Assert.assertEquals(3, i);
+	}
+	
+	@Test
+	public void testNbGroups() throws Exception {
+		long i = daoPerson.getNbGroups();
+		Assert.assertEquals(5, i);
 	}
 
 	private IDataSet getDataSet(String str) throws Exception {

@@ -2,6 +2,9 @@ package business;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +121,18 @@ public class TestDirectoryManager {
     	new Verifications() {{  dao.savePerson(p); times = 1; }};
     }
     
+    @Test
+  	public void testSaveGroup() throws UserNotLoggedException {
+    	Group g = new Group();
+    	new Expectations() {{
+            dao.saveGroup(g); 
+        }};
+    	User user = new User();
+    	user.setAnonymous(false);
+    	manager.saveGroup(user, g);
+    	new Verifications() {{  dao.saveGroup(g); times = 1; }};
+    }
+    
     
     @Test
     public void testLoginFail() throws PersonNotFoundException {
@@ -145,7 +160,7 @@ public class TestDirectoryManager {
     
     @Test(expected = UserNotLoggedException.class)
     public void testsavePersonailled() throws UserNotLoggedException {
-        manager. savePerson(new User(),new Person());
+        manager.savePerson(new User(),new Person());
     }
    
     
@@ -159,9 +174,80 @@ public class TestDirectoryManager {
         manager.findPerson(new User(),1);
     }
     
-//    @Test(expected = UserNotLoggedException.class)
-//    public void testFindAllPersonFailled() throws UserNotLoggedException {
-//        manager.findPersons(new User(),1);
-//    }
-//    
+    @Test
+	public void testFindGroupsPaginated() throws Exception {
+    	User user = new User();
+		user.setAnonymous(false);
+		Collection<Group> groupsExpected = new ArrayList<Group>();
+		for (long i = 0; i < 10; i++)
+			groupsExpected.add(new Group());
+		 new Expectations() {{;
+	         dao.findGroups(0, 10); result = groupsExpected;
+	     }};
+	     Collection<Group> groups = manager.findGroups(user, 0, 10);
+	     assertEquals(10, groups.size());
+	}
+    
+    @Test
+	public void testFindPersonsPaginated() throws Exception {
+    	User user = new User();
+		user.setAnonymous(false);
+		Collection<Person> personsExpected = new ArrayList<Person>();
+		for (long i = 0; i < 10; i++)
+			personsExpected.add(new Person());
+		 new Expectations() {{;
+	         dao.findPersons(1, 0, 10); result = personsExpected;
+	     }};
+	     Collection<Person> persons = manager.findPersons(user, 1, 0, 10);
+	     assertEquals(10, persons.size());
+	}
+    
+    @Test
+   	public void testFindPersonsSearch() throws Exception {
+       	User user = new User();
+   		user.setAnonymous(false);
+   		Collection<Person> personsExpected = new ArrayList<Person>();
+   		for (long i = 0; i < 10; i++)
+   			personsExpected.add(new Person());
+   		 new Expectations() {{;
+   	         dao.findPersons("test", "test"); result = personsExpected;
+   	     }};
+   	     Collection<Person> persons = manager.findPersons(user, "test", "test");
+   	     assertEquals(10, persons.size());
+   	}
+    
+    @Test
+	public void testFindGroupsSearch() throws Exception {
+    	User user = new User();
+		user.setAnonymous(false);
+		Collection<Group> groupsExpected = new ArrayList<Group>();
+		for (long i = 0; i < 10; i++)
+			groupsExpected.add(new Group());
+		 new Expectations() {{;
+	         dao.findGroups("test"); result = groupsExpected;
+	     }};
+	     Collection<Group> groups = manager.findGroups(user, "test");
+	     assertEquals(10, groups.size());
+	}
+    
+    @Test
+	public void testNbGroup() throws Exception {
+    	User user = new User();
+		user.setAnonymous(false);
+		 new Expectations() {{;
+		 	dao.getNbGroups(); result = 10;
+	     }};
+	     assertEquals(10, manager.nbGroups(user));
+	}
+    
+    @Test
+	public void testNbPerson() throws Exception {
+    	User user = new User();
+		user.setAnonymous(false);
+		 new Expectations() {{;
+		 	dao.getNbPersons(1); result = 10;
+	     }};
+	     assertEquals(10, manager.nbPersons(user, 1));
+	}
+    
 }

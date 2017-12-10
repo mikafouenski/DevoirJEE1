@@ -337,7 +337,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @return le nombre de groupes en base de données 
 	 * @exception DaoException si la requete n'a pas fonctionée
 	 */
-	@Override
+	@Override 
 	public long getNbGroups() throws DaoException {
 		DaoUtilsGroup utilsGroup = new DaoUtilsGroup();
 		try (Connection c = db.getConnection()) {

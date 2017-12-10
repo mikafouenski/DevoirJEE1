@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,14 +28,12 @@ public class GroupListController {
 	 * @param page Le numéro de page demandé
 	 * @param range Le nombre de résultats demandé
 	 * @param request La HttpServletRequest de la requete
-	 * @param response La HttpServletResponse de la requete
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Redirige vers la page de login si non authentifié ou la page de liste des groupes
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listGroup(@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request,
-			HttpServletResponse response) {
+			@RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request) {
 		User user = ControllerHelpers.getUser(request);
 		Map<String, Object> map = new HashMap<>();
 		try {

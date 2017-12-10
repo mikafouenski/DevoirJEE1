@@ -1,7 +1,6 @@
 package tomcatControleur;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -108,6 +107,42 @@ public class TestPersonEditController {
     	}};
     	ModelAndView actual = personEditController.editPersonForm(person,bindingresult,request);
     	assertEquals(actual.getViewName(),"person/personEdit");
+	}
+	
+	@Test
+	public void testPersonDetail() throws UserNotLoggedException {
+		User user = new User();
+		user.setAnonymous(false);
+		Person p = new Person();
+		p.setId(1L);
+		p.setName("testa");
+		p.setFirstname("test");
+		p.setWebsite("site");
+		p.setMail("mail");
+		new Expectations() {{
+			request.getSession().getAttribute("user"); result = user; 
+			manager.findPerson((User) any, 1); result = p;
+    	}};
+		ModelAndView actual = personEditController.editPersonDetail(1, request);
+    	assertEquals(actual.getViewName(), "person/personEdit");
+	}
+	
+	@Test
+	public void testPersonDetailNotLogged() throws UserNotLoggedException {
+		User user = new User();
+		user.setAnonymous(true);
+		Person p = new Person();
+		p.setId(1L);
+		p.setName("testa");
+		p.setFirstname("test");
+		p.setWebsite("site");
+		p.setMail("mail");
+		new Expectations() {{
+			request.getSession().getAttribute("user"); result = user; 
+			manager.findPerson((User) any, 1); result = new UserNotLoggedException();
+    	}};
+		ModelAndView actual = personEditController.editPersonDetail(1, request);
+    	assertEquals(actual.getViewName(), "redirect:/login");
 	}
 	
 }

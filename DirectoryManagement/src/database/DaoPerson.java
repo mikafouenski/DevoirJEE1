@@ -21,6 +21,16 @@ public class DaoPerson implements IDaoPerson {
 	@Autowired
 	IDatabase db;
 
+	/**
+	 * Recherche Toute les instances du Bean T entre la borne start et end en base de données, couche d'abstraction
+	 * @param utils L'utilitaire du Bean T
+	 * @param template De type T (le bean)
+	 * @param start indice de la première colonne selectionné de recherche 
+	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les T trouvées 
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, int start, int end) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
@@ -34,6 +44,16 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 	
+	/**
+	 * Recherche Toute les instances du Bean T avec des paramètres en base de données, couche d'abstraction
+	 * @param utils L'utilitaire du Bean T
+	 * @param template De type T (le bean)
+	 * @param param1 Paramètre de recherche 
+	 * @param param2 Paramètre de recherche 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les T trouvées 
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, String param1, String param2) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
@@ -46,6 +66,15 @@ public class DaoPerson implements IDaoPerson {
 			return array;
 		}
 	}
+	
+	/**
+	 * Recherche Toute les instances du Bean T en base de données, couche d'abstraction
+	 * @param utils L'utilitaire du Bean T
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les T trouvées
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
@@ -59,6 +88,14 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 	
+	/**
+	 * Recherche Le Bean T en base de données, couche d'abstraction
+	 * @param utils L'utilitaire du Bean T
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les T trouvées
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	private <T> T findBean(DaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
@@ -72,6 +109,13 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 
+	/**
+	 * Met a jour Le Bean T en base de données, couche d'abstraction
+	 * @param utils L'utilitaire du Bean T
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	private <T> void updateBean(DaoUtils<T> utils, T template) throws DaoException {
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewSingleton(c, template);
@@ -82,6 +126,13 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 
+	/**
+	 * Insere Le Bean T en base de données, couche d'abstraction
+	 * @param utils L'utilitaire du Bean T
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	private <T> long insertBean(DaoUtils<T> utils, T template) throws DaoException {
 		long id = 0;
 		try (Connection c = db.getConnection();
@@ -94,6 +145,12 @@ public class DaoPerson implements IDaoPerson {
 		return id;
 	}
 
+	/**
+	 * Recherche Toute les instances de Groupe en base de données 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les groupes trouvés 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Collection<Group> findGroups() throws DaoException {
 		Collection<Group> groups = null;
@@ -105,6 +162,13 @@ public class DaoPerson implements IDaoPerson {
 		return groups;
 	}
 	
+	/**
+	 * Recherche les Groupe dont le nom commence par "..." en base de données 
+	 * @param name Nom pouur la recherche
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les groupes trouvés 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Collection<Group> findGroups(String name) throws DaoException {
 		Collection<Group> groups = null;
@@ -116,6 +180,14 @@ public class DaoPerson implements IDaoPerson {
 		return groups;
 	}
 	
+	/**
+	 * Recherche Toute les instances de Groupe entre la borne start et end en base de données 
+	 * @param start indice de la première colonne selectionné de recherche 
+	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les groupes trouvés 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Collection<Group> findGroups(int start, int end) throws DaoException {
 		Collection<Group> groups = null;
@@ -127,6 +199,13 @@ public class DaoPerson implements IDaoPerson {
 		return groups;
 	}
 
+	/**
+	 * Recherche Toute les instances de personnes du groupe "..." en base de données 
+	 * @param id L'identifiant du groupe
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les personnes trouvées 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Collection<Person> findPersons(long groupId) throws DaoException {
 		Collection<Person> persons = null;
@@ -140,6 +219,14 @@ public class DaoPerson implements IDaoPerson {
 		return persons;
 	}
 	
+	/**
+	 * Recherche Toute les instances de personnes entre la borne start et end en base de données 
+	 * @param start indice de la première colonne selectionné de recherche 
+	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les personnes trouvées 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Collection<Person> findPersons(long groupId, int start, int end) throws DaoException {
 		Collection<Person> persons = null;
@@ -153,6 +240,14 @@ public class DaoPerson implements IDaoPerson {
 		return persons;
 	}
 	
+	/**
+	 * Recherche les personnes dont le nom ou prenom commence par "..." en base de données 
+	 * @param name Nom pouur la recherche
+	 * @param firstname Pernom pouur la recherche
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Une Collection contenant les personnes trouvées 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Collection<Person> findPersons(String name,String firstname ) throws DaoException {
 		Collection<Person> persons = null;
@@ -164,6 +259,13 @@ public class DaoPerson implements IDaoPerson {
 		return persons;
 	}
 	
+	/**
+	 * Recherche une personne en base de données 
+	 * @param id L'identifiant de la personne
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Le groupe trouvé 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Person findPerson(long id) throws DaoException {
 		Person person = null;
@@ -177,6 +279,13 @@ public class DaoPerson implements IDaoPerson {
 		return person;
 	}
 	
+	/**
+	 * Recherche un Groupe en base de données 
+	 * @param id L'identifiant du groupe
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Le groupe trouvé 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Group findGroup(long id) throws DaoException {
 		Group group = null;
@@ -190,8 +299,12 @@ public class DaoPerson implements IDaoPerson {
 		return group;
 	}
 	
-	
-
+	/**
+	 * Sauvegarde une personne en base de données 
+	 * @param p La personne
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public void savePerson(Person p) throws DaoException {
 		if (p.getId() == null) {
@@ -202,6 +315,12 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 
+	/**
+	 * Sauvegarde un groupe en base de données 
+	 * @param g Le groupe
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public void saveGroup(Group g) throws DaoException {
 		if (g.getId() == null) {
@@ -212,6 +331,12 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 
+	/**
+	 * calcule le nombre de groupes en base de données 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return le nombre de groupes en base de données 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public long getNbGroups() throws DaoException {
 		DaoUtilsGroup utilsGroup = new DaoUtilsGroup();
@@ -222,6 +347,13 @@ public class DaoPerson implements IDaoPerson {
 		}
 	}
 
+	/**
+	 * calcule le nombre de personnes dans le groupe 
+	 * @param id L'identifiant du groupe
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return le nombre de personnes dans le groupe
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public long getNbPersons(long id) throws DaoException {
 		DaoUtilsPerson utilsPerson = new DaoUtilsPerson();

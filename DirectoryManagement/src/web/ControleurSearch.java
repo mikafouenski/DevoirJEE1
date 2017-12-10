@@ -39,14 +39,11 @@ public class ControleurSearch {
 	 */
 	@RequestMapping(value = "/searchGroup", method = RequestMethod.POST)
 	public ModelAndView searchGroup(HttpServletRequest request) {
-		Object userSession = request.getSession().getAttribute("user");
-		User test = new User();
-		if (userSession instanceof User)
-			test = (User) userSession;
+		User user = ControllerHelpers.getUser(request);
 		String name = request.getParameter("name");
 		Collection<Group> groups;
 		try {
-			groups = manager.findGroups(test,name);
+			groups = manager.findGroups(user,name);
 		} catch (UserNotLoggedException e) 	{
 			return new ModelAndView("redirect:/login");
 		}
@@ -64,15 +61,12 @@ public class ControleurSearch {
 	 */
 	@RequestMapping(value = "/searchPerson", method = RequestMethod.POST)
 	public ModelAndView searchPerson(HttpServletRequest request) {
-		Object userSession = request.getSession().getAttribute("user");
-		User test = new User();
-		if (userSession instanceof User)
-			test = (User) userSession;
+		User user = ControllerHelpers.getUser(request);
 		String name = request.getParameter("name");
 		String firstname = request.getParameter("firstname");
 		Collection<Person> persons;
 		try {
-			persons = manager.findPersons(test,name,firstname);
+			persons = manager.findPersons(user,name,firstname);
 		} catch (UserNotLoggedException e) 	{
 			return new ModelAndView("redirect:/login");
 		}

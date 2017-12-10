@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import business.IDirectoryManager;
 import business.User;
 import validator.ValidatorConnection;
+import web.ControllerHelpers;
 
 @Controller()
 @RequestMapping(value = "/")
@@ -38,11 +39,8 @@ public class ConnectionController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPrompt(@ModelAttribute Connection co, HttpServletRequest request) {
-		Object userSession = request.getSession().getAttribute("user");
-		User test = new User();
-		if (userSession instanceof User)
-			test = (User) userSession;
-		if (test.isAnonymous())
+		User user = ControllerHelpers.getUser(request);
+		if (user.isAnonymous())
 			return "connection/connection";
 		return "redirect:/groups/list";
 	}

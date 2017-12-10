@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import business.IDirectoryManager;
 import business.User;
 import business.exception.UserNotLoggedException;
-import database.IDaoPerson;
 import web.ControllerHelpers;
 
 @Controller()
@@ -25,9 +24,6 @@ public class GroupListController {
 
 	@Autowired
 	IDirectoryManager directoryManager;
-
-	@Autowired
-	IDaoPerson daoPerson;
 
 	/**
 	 * Servelet listant les groupes

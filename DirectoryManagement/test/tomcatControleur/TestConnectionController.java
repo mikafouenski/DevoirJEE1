@@ -1,4 +1,4 @@
-package tomcatControleur;
+ package tomcatControleur;
 
 import static org.junit.Assert.assertEquals;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +44,11 @@ public class TestConnectionController {
 	@Mocked
 	BindingResult bindingresult;
 	
+	/**
+	 *  Teste si la page retourner est bien connection/connection 
+	 *  si l'utilisateur n'est pas identifie
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void TestloginPrompt() {
 		Connection co = new Connection();
@@ -56,6 +61,11 @@ public class TestConnectionController {
     	assertEquals("connection/connection", result);
 	}
 	
+	/**
+	 *  Teste si la page retourner est bien redirect:/groups/list 
+	 *  si l'utilisateur est  identifie
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void TestloginPromptUserCO() {
 		Connection co = new Connection();
@@ -69,6 +79,12 @@ public class TestConnectionController {
     	assertEquals("redirect:/groups/list", result);
 	}
 	
+	/**
+	 *  Teste du login d'un utilisateur avec un bon mot de passe et un bon id
+	 *  Regarde si la page retourné est bien redirect:/groups/list
+	 *  Regarde aussi si l'utilisateur est bien enregistrer en session   
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test	
 	public void Testlogin() throws PersonNotFoundException {
 		Connection co = new Connection();
@@ -86,6 +102,11 @@ public class TestConnectionController {
 		}};
 	}
 	
+	/**
+	 *  Teste du login d'un utilisateur avec un id inconue
+	 *  Regarde si la page retourné est bien connection/connection
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test	
 	public void TestloginFail() throws PersonNotFoundException {
 		Connection co = new Connection();
@@ -101,6 +122,11 @@ public class TestConnectionController {
 		
 	}
 	
+	/**
+	 *  Teste du login d'un utilisateur avec un mot de passe incorect
+	 *  Regarde si la page retourné est bien connection/connection
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test	
 	public void TestloginFalse() throws PersonNotFoundException {
 		Connection co = new Connection();
@@ -115,21 +141,29 @@ public class TestConnectionController {
 		assertEquals(retour, "connection/connection");
 		
 	}
-	
+	/**
+	 *  Teste du login d'un utilisateur avec un echec au niveau de la vérification 
+	 *  Regarde si la page retourné est bien connection/connection
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test	
 	public void TestloginFailVerification() throws PersonNotFoundException {
 		Connection co = new Connection();
 		co.setId(1);
-		co.setPassword("juste");
+		co.setPassword("");
 		new Expectations() {{
 			validator.validate(co, (Errors) any);
 			bindingresult.hasErrors(); result = true;
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
 		assertEquals(retour, "connection/connection");
-		
 	}
 	
+	/**
+	 *  Teste du logout d'un utilisateur
+	 *  Regarde si il y a bien eu un appel à invalidate sur la session
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void TestLogout() {
 		String retour = connectionController.logout(new Connection(),bindingresult, request);

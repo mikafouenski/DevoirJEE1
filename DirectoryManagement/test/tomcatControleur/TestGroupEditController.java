@@ -42,12 +42,16 @@ public class TestGroupEditController {
 	@Mocked
 	BindingResult bindingresult;
 	
+	/**
+	 * Teste l'édition d'un retourner est bien connection/connection 
+	 *  si l'utilisateur n'est pas identifie
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
-	public void testEditPersonDetail() throws UserNotLoggedException {
+	public void testEditGroupDetail() throws UserNotLoggedException {
 		User user = new User();
 		user.setAnonymous(false);
 		Group g = new Group();
-		
 		new Expectations() {{
 			request.getSession().getAttribute("user"); result = user; 
 			manager.findGroup(user, 1); result = g;

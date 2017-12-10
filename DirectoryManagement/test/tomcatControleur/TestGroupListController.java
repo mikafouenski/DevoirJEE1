@@ -39,8 +39,13 @@ public class TestGroupListController {
     
     @Mocked
 	HttpServletRequest request;
-		
-	@Test
+    
+    /**
+	 * Teste si l'utilateur authentifié veut regarder la liste des groupes
+	 * Vérifie que la page renvoyée vaut group/listGroups
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
+    @Test
     public void testListGroup() throws UserNotLoggedException {
 		Collection<Group> groupsExpected = new ArrayList<Group>();
 		Group g = new Group();
@@ -61,7 +66,11 @@ public class TestGroupListController {
     	ModelAndView actual = groupController.listGroup(0,7,request);
     	assertEquals("group/listGroups", actual.getViewName());
     }
-    
+    /**
+	 * Teste si l'utilateur authentifié veut regarder la liste des groupes
+	 * Vérifie que les groupes renvoyés correspondent aux groupes renvoyés par la base de données
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
     public void testListGroupReturnGroup() throws UserNotLoggedException {
 		Collection<Group> groupsExpected = new ArrayList<Group>();
@@ -84,6 +93,11 @@ public class TestGroupListController {
     	assertEquals(actual.getModelMap().get("groups"), groupsExpected);
     }
     
+	/**
+	 * Teste si l'utilateur non authentifié veut regarder la liste des groupes
+	 * Vérifie que la page renvoyé vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
     public void testListGroupUserBad() throws UserNotLoggedException {
 		new Expectations() {{
@@ -94,6 +108,7 @@ public class TestGroupListController {
     	assertEquals(actual.getViewName(), "redirect:/login");
     }
    
+	
 	@Test
 	public void testListGroupPaginationNotMultiple() throws UserNotLoggedException {
 		Collection<Group> groupsExpected = new ArrayList<Group>();

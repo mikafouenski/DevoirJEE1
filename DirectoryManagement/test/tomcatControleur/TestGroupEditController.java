@@ -43,8 +43,8 @@ public class TestGroupEditController {
 	BindingResult bindingresult;
 	
 	/**
-	 * Teste l'édition d'un retourner est bien connection/connection 
-	 *  si l'utilisateur n'est pas identifie
+	 * Teste si l'utilateur authentifié veut édider un group
+	 * Vérifie que la page renvoyée vaut group/groupEdit
 	 *  @author Bernardini Mickael De Barros Sylvain
 	 */
 	@Test
@@ -60,8 +60,13 @@ public class TestGroupEditController {
     	assertEquals("group/groupEdit", actual.getViewName());
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié veut édider un group
+	 * Vérifie que le groupe renvoyé dans la page est celui renvoyé par la base de donnée
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
-	public void testEditPersonDetailReturnGroup() throws UserNotLoggedException {
+	public void testEditGroupDetailReturnGroup() throws UserNotLoggedException {
 		User user = new User();
 		user.setAnonymous(false);
 		Group g = new Group();
@@ -74,8 +79,13 @@ public class TestGroupEditController {
     	assertEquals(g, actual.getModelMap().get("group"));
 	}
 	
+	/**
+	 * Teste si l'utilateur non authentifié veut édité un groupe
+	 * Vérifie que la page renvoyée est bien redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
-	public void testEditPersonDetailUserNotLog() throws UserNotLoggedException {
+	public void testEditGroupDetailUserNotLog() throws UserNotLoggedException {
 		User user = new User();
 		user.setAnonymous(true);		
 		new Expectations() {{
@@ -86,8 +96,13 @@ public class TestGroupEditController {
     	assertEquals("redirect:/login", actual.getViewName());
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié renvoie un formulaire d'édition de groupe correct
+	 * Vérifie que la page renvoyée est bien redirect:/groups/list?id=1
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
-	public void testEditPersonForm( ) throws UserNotLoggedException {
+	public void testEditGroupForm( ) throws UserNotLoggedException {
 		Group g = new Group();
 		g.setId(1L);
 		g.setName("nom");
@@ -101,8 +116,13 @@ public class TestGroupEditController {
     	assertEquals(actual.getViewName(),"redirect:/groups/list?id=1");
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié renvoie un formulaire d'édition faux
+	 * Vérifie que la page renvoyée est bien group/groupEdit
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
-	public void testEditPersonFormError( ) throws UserNotLoggedException {
+	public void testEditGroupFormError( ) throws UserNotLoggedException {
 		Group g = new Group();
 		g.setId(1L);
 		g.setName("");
@@ -116,8 +136,13 @@ public class TestGroupEditController {
     	assertEquals(actual.getViewName(),"group/groupEdit");
 	}
 	
+	/**
+	 * Teste si l'utilateur non authentifié renvoie un formulaire d'édition
+	 * Vérifie que la page renvoyée est bien redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
-	public void testEditPersonFormUser( ) throws UserNotLoggedException {
+	public void testEditGroupFormUser( ) throws UserNotLoggedException {
 		Group g = new Group();
 		g.setId(1L);
 		g.setName("");

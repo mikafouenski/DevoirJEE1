@@ -42,6 +42,11 @@ public class TestSearchController {
 	@Mocked
 	HttpServletRequest request;
 	
+	/**
+	 * Teste si l'utilateur authentifié vient consulter la page de recherche 
+	 * Vérifie que la page renvoyée est listGroupSearch
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testSearchGroupView() throws UserNotLoggedException {
 		Group g = new Group();
@@ -59,6 +64,11 @@ public class TestSearchController {
     	assertEquals(resultat.getViewName(), "listGroupSearch");
 	 }
 	
+	/**
+	 * Teste si l'utilateur authentifié vient consulter la page de recherche 
+	 * Vérifie que la liste de groupe renvoyée correspond a celle renvoyée par la base de donnée
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testSearchGroupModel() throws UserNotLoggedException {
 		Collection<Group> groupsExpected = new ArrayList<Group>();
@@ -76,7 +86,11 @@ public class TestSearchController {
     	ModelAndView resultat = searchController.searchGroup(request);
     	assertEquals(resultat.getModelMap().get("groups"), groupsExpected);
 	 }
-	
+	/**
+	 * Teste si l'utilateur non authentifié vient consulter la page de recherche 
+	 * Vérifie que la page renvoyée vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testSearchGroupUserFail() throws UserNotLoggedException {
 		new Expectations() {{
@@ -88,6 +102,11 @@ public class TestSearchController {
     	assertEquals(resultat.getViewName(),"redirect:/login");
 	 }
 	
+	/**
+	 * Teste si l'utilateur authentifié vient consulter la page de recherche 
+	 * Vérifie que la page renvoyée est listPersonSearch
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testSearchPersonView() throws UserNotLoggedException {
 		Collection<Person> personsExpected = new ArrayList<Person>();
@@ -112,7 +131,12 @@ public class TestSearchController {
     	
     	assertEquals(resultat.getViewName(), "listPersonSearch");
 	 }
-		
+	
+	/**
+	 * Teste si l'utilateur authentifié vient consulter la page de recherche 
+	 * Vérifie que la liste de personne renvoyée correspond a celle renvoyée par la base de donnée
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testSearchPersonModel() throws UserNotLoggedException {
 		Collection<Person> personsExpected = new ArrayList<Person>();
@@ -137,6 +161,11 @@ public class TestSearchController {
     	assertEquals(resultat.getModelMap().get("persons"), personsExpected);
 	 }
 	
+	/**
+	 * Teste si l'utilateur non authentifié vient consulter la page de recherche 
+	 * Vérifie que la page renvoyée vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testSearchPersonUserFail() throws UserNotLoggedException {
 		new Expectations() {{

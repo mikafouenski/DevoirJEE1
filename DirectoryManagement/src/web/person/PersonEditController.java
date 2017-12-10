@@ -88,13 +88,13 @@ public class PersonEditController {
 			ValidatorPersonEdit validator = new ValidatorPersonEdit();
 			validator.validate(p, result);
 			if (result.hasErrors()) {
+				result.rejectValue("id", "person.id", "Erreur...");
 				return new ModelAndView("person/personEdit");
 			}
 
 			directoryManager.savePerson(user, p);
 		} catch (UserNotLoggedException e) {
-			result.rejectValue("id", "person.id", "Erreur...");
-			return new ModelAndView("person/personEdit");
+			return new ModelAndView("redirect:/login");
 		}
 		return new ModelAndView("person/personDetail", "person", p);
 	}

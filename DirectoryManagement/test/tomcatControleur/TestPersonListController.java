@@ -43,6 +43,11 @@ public class TestPersonListController {
 	@Mocked
 	BindingResult bindingresult;
 	
+	/**
+	 * Teste si l'utilateur authentifié vient consulter la liste des personnes
+	 * Vérifie que la page renvoyée vaut person/listPersons
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testlistPersons() throws UserNotLoggedException {
 		User user = new User();
@@ -64,6 +69,11 @@ public class TestPersonListController {
     	assertEquals(actual.getViewName(), "person/listPersons");
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié vient consulter la liste des personnes
+	 * Vérifie que la liste de personne renvoyéé correspond a la liste renvoyée par la base de donnée
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testlistPersonsReturn() throws UserNotLoggedException {
 		User user = new User();
@@ -85,6 +95,11 @@ public class TestPersonListController {
     	assertEquals(actual.getModelMap().get("persons"),personsExpected);
 	}
 	
+	/**
+	 * Teste si l'utilateur non authentifié vient consulter la liste des personnes
+	 * Vérifie que la page renvoyée vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testlistPersonsNotAuthentified() throws UserNotLoggedException {
 		User user = new User();
@@ -128,5 +143,4 @@ public class TestPersonListController {
     	ModelAndView actual = personListController.listPersons(1, 0, 10, request);
     	assertEquals(actual.getModelMap().get("nbPage"), 10);
 	}
-	
 }

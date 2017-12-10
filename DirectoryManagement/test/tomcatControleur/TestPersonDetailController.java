@@ -38,6 +38,11 @@ public class TestPersonDetailController {
 	@Mocked
 	HttpServletResponse response;
 	
+	/**
+	 * Teste si l'utilateur authentifié veut regarder le détail d'une personne
+	 * Vérifie que la page renvoyé vaut person/personDetail
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testDetailPerson() throws UserNotLoggedException {
 		User user = new User();
@@ -52,6 +57,11 @@ public class TestPersonDetailController {
     	assertEquals("person/personDetail", actual.getViewName());
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié veut regarder le détail d'une personne
+	 * Vérifie que la personne voulu correspond à la personne renvoyée par la base de donnée
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testDetailPersonResult() throws UserNotLoggedException {
 		User user = new User();
@@ -66,6 +76,11 @@ public class TestPersonDetailController {
     	assertEquals(person, actual.getModelMap().get("person"));
 	}
 	
+	/**
+	 * Teste si l'utilateur non authentifié veut regarder le détail d'une personne
+	 * Vérifie que la page renvoyée vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testDetailPersonNotLogged() throws UserNotLoggedException {
 		User user = new User();

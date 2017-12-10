@@ -42,6 +42,11 @@ public class TestPersonEditController {
 	@Mocked
 	BindingResult bindingresult;
 	
+	/**
+	 * Teste si l'utilateur authentifié vient d'éditer une personne
+	 * Vérifie que la page renvoyée vaut person/personDetail
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testEditPersonForm() throws UserNotLoggedException {
 		User user = new User();
@@ -70,6 +75,11 @@ public class TestPersonEditController {
 			&& p.getWebsite().equals(pf.getWebsite());
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié vient d' éditer une personne
+	 * Vérifie que la personne renvoyée correspond a bien eu les modifications
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testEditPersonFormReturn() throws UserNotLoggedException {
 		User user = new User();
@@ -91,6 +101,11 @@ public class TestPersonEditController {
 		assertTrue(PersonequalsPersonForm((Person)actual.getModelMap().get("person"),person));
 	}
 	
+	/**
+	 * Teste si l'utilateur non authentifié veut éditer une personne
+	 * Vérifie que la page renvoyée vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testEditPersonFormUserNotLog() throws UserNotLoggedException {
 		User user = new User();
@@ -106,9 +121,14 @@ public class TestPersonEditController {
 			manager.findPerson(user, 1); result = new UserNotLoggedException();
     	}};
     	ModelAndView actual = personEditController.editPersonForm(person,bindingresult,request);
-    	assertEquals(actual.getViewName(),"person/personEdit");
+    	assertEquals(actual.getViewName(),"redirect:/login");
 	}
 	
+	/**
+	 * Teste si l'utilateur authentifié veut éditer une personne
+	 * Vérifie que la page renvoyée vaut person/personDetail
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testPersonDetail() throws UserNotLoggedException {
 		User user = new User();
@@ -127,6 +147,11 @@ public class TestPersonEditController {
     	assertEquals(actual.getViewName(), "person/personEdit");
 	}
 	
+	/**
+	 * Teste si l'utilateur non authentifié veut éditer une personne
+	 * Vérifie que la page renvoyée vaut redirect:/login
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testPersonDetailNotLogged() throws UserNotLoggedException {
 		User user = new User();

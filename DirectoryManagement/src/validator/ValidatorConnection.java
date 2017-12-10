@@ -12,7 +12,6 @@ public class ValidatorConnection implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		return Connection.class.isAssignableFrom(clazz);
 	}
 

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import beans.Group;
 import beans.Person;
 
 public class DaoUtilsPerson implements DaoUtils<Person> {

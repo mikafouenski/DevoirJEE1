@@ -3,7 +3,6 @@ package web;
 import javax.servlet.http.HttpServletRequest;
 
 import business.User;
-import business.exception.UserNotLoggedException;
 
 public class ControllerHelpers {
 	

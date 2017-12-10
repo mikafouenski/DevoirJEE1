@@ -21,20 +21,22 @@ public class TestJDBC {
 
 	@Autowired
 	IDatabase jdbc;
-
+	
+	/**
+	 * Teste si la recupération de connection ne renvoie pas un object null
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void testNewDefaultConnection() throws SQLException {
 		Connection c = jdbc.getConnection();
 		assertNotNull(c);
 	}
 
-	@Test
-	public void testQuietClose() throws SQLException {
-		Connection c = jdbc.getConnection();
-		jdbc.quietClose(c);
-		assertTrue(c.isClosed());
-	}
-
+	/**
+	 * Teste la possibilité de multiple connection 
+	 * pour vérifier que le serveur gère le multithreading
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
 	@Test
 	public void TestMultiConnection() throws InterruptedException {
 		long debut = System.currentTimeMillis();

@@ -2,8 +2,8 @@
     <wb-module deploy-name="DirectoryManagement">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/spring"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tests"/>
         <property name="context-root" value="DirectoryManagement"/>
         <property name="java-output-path" value="/DirectoryManagement/target/classes"/>
     </wb-module>

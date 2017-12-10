@@ -37,18 +37,18 @@ public class PersonListController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listPersons(@RequestParam(value = "id", required = true) long id,
-			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request,
 			HttpServletResponse response) {
 		User user = ControllerHelpers.getUser(request);
 		Map<String, Object> map = new HashMap<>();
 		try {
 			int size = (int) directoryManager.nbPersons(user, id);
-			int nbPages = ((int) Math.ceil(((double) size) / (double) range)) - 1;
+			int nbPages = (size / range) + ((size % range != 0) ? 1 : 0);
 			map.put("nbPage", nbPages);
 			map.put("id", id);
 			map.put("page", page);
-			map.put("persons", directoryManager.findPersons(user, id, page * range, page * range + range));
+			map.put("persons", directoryManager.findPersons(user, id, (page - 1) * range, range));
 		} catch (UserNotLoggedException e) {
 			return new ModelAndView("redirect:/login");
 		}

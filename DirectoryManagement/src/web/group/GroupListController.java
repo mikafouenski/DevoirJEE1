@@ -35,17 +35,17 @@ public class GroupListController {
 	 * @return Redirige vers la page de login si non authentifié ou la page de liste des groupes
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listGroup(@RequestParam(value = "page", defaultValue = "0") int page,
+	public ModelAndView listGroup(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "range", defaultValue = "7") int range, HttpServletRequest request,
 			HttpServletResponse response) {
 		User user = ControllerHelpers.getUser(request);
 		Map<String, Object> map = new HashMap<>();
 		try {
 			int size = (int) directoryManager.nbGroups(user);
-			int nbPages = ((int) Math.ceil(((double) size) / (double) range)) - 1;
+			int nbPages = (size / range) + ((size % range != 0) ? 1 : 0);
 			map.put("nbPage", nbPages);
 			map.put("page", page);
-			map.put("groups", directoryManager.findGroups(user, page * range, page * range + range));
+			map.put("groups", directoryManager.findGroups(user,  (page - 1) * range, range));
 		} catch (UserNotLoggedException e) {
 			return new ModelAndView("redirect:/login");
 		}

@@ -60,15 +60,15 @@ public class DirectoryManager implements IDirectoryManager {
 	 * Recherche Toute les instances de Group entre la borne start et end en base de données 
 	 * @param user utilisateur de l'application 
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les groupes trouvé 
 	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié	
 	 */
 	@Override
-	public Collection<Group> findGroups(User user, int start, int end) throws UserNotLoggedException {
+	public Collection<Group> findGroups(User user, int start, int range) throws UserNotLoggedException {
 		isLogged(user);
-		return dao.findGroups(start, end);
+		return dao.findGroups(start, range);
 	}
 	
 	/**
@@ -114,15 +114,15 @@ public class DirectoryManager implements IDirectoryManager {
 	 * Recherche Toute les instances de Person entre la borne start et end en base de données 
 	 * @param user utilisateur de l'application 
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les Peron trouvé 
 	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié	
 	 */
 	@Override
-	public Collection<Person> findPersons(User user, long groupId, int start, int end) throws UserNotLoggedException {
+	public Collection<Person> findPersons(User user, long groupId, int start, int range) throws UserNotLoggedException {
 		isLogged(user);
-		return dao.findPersons(groupId, start, end);
+		return dao.findPersons(groupId, start, range);
 	}
 	
 	/**

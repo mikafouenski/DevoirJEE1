@@ -111,18 +111,18 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 	 * @param c La connection en base
 	 * @param template De type T (le bean)
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return une vue des beans T
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
 	@Override
-	public PreparedStatement createTableViewList(Connection c, Group g, int start, int end)
+	public PreparedStatement createTableViewList(Connection c, Group g, int start, int range)
 			throws SQLException {
 		PreparedStatement prep = c.prepareStatement(LIST_GROUPS_RECORD, ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_UPDATABLE);
 		prep.setInt(1, start);
-		prep.setInt(2, end);
+		prep.setInt(2, range);
 		return prep;
 	}
 

@@ -20,7 +20,7 @@
 		</c:forEach>
 	</table>
 	<p>
-		<c:forEach begin="0" end="${nbPage }" varStatus="loop">
+		<c:forEach begin="1" end="${nbPage}" varStatus="loop">
 			<a href="?page=${loop.index}">${loop.index}</a>
 			<c:out value="   "></c:out>
 		</c:forEach>

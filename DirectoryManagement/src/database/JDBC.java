@@ -23,12 +23,21 @@ public class JDBC implements IDatabase {
 		initBasicDataSource();
 	}
 	
+	/**
+	 * Constructeur pouvant initialiser la BDD
+	 * @param init True booleen de changement de signature 
+	 * @author Bernardini Mickael De Barros Sylvain
+	 */
 	public JDBC(boolean init) {
 		initBasicDataSource();
 		if (init)
 			initDatabase();
 	}
 
+	/**
+	 * Initialise la datasource avec les credentials
+	 * @author Bernardini Mickael De Barros Sylvain
+	 */
 	private void initBasicDataSource() {
 		bds = new BasicDataSource();
 		try {
@@ -45,6 +54,10 @@ public class JDBC implements IDatabase {
 		bds.setMaxTotal(MAX_CONNEXION);
 	}
 
+	/**
+	 * Creation de la structure de la base de données
+	 * @author Bernardini Mickael De Barros Sylvain
+	 */
 	private void initDatabase() {
 		String createGroups = "CREATE TABLE IF NOT EXISTS `GROUPS` (" + 
 			"  `idGRP` int(11) NOT NULL AUTO_INCREMENT," + 
@@ -70,10 +83,20 @@ public class JDBC implements IDatabase {
 		}
 	}
 
+	/**
+	 * Fournie une connection à la base de donnée
+	 * @author Bernardini Mickael De Barros Sylvain
+	 * @return une Connection à la BDD
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	public Connection getConnection() throws SQLException {
 		return bds.getConnection();
 	}
 
+	/**
+	 * Echape toute erreur éventuelle de fermeture
+	 * @author Bernardini Mickael De Barros Sylvain
+	 */
 	public void quietClose(Connection c) {
 		try {
 			c.close();

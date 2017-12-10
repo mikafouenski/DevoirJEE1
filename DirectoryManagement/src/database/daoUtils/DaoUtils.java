@@ -6,20 +6,86 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface DaoUtils<T> {
-	// return the resultSet which insert into database
+	
+	/**
+	 * Insere en base de données
+	 * @param rs Le ResultSet contenant la requete
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return L'identifiant BD du bean T inséré
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	Long resultSetInsert(ResultSet rs, T template) throws SQLException;
-	// convert a resultSet into an object
-	T toBean(java.sql.ResultSet rs) throws SQLException;
-	// update the database
+	
+	/**
+	 * Converti un ResultSet en bean T
+	 * @param rs Le ResultSet contenant la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return le bean du ResultSet
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
+	T toBean(ResultSet rs) throws SQLException;
+	
+	/**
+	 * Met a jour en base de données
+	 * @param rs Le ResultSet contenant la requete
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	void resultSetUpdate(ResultSet rs, T template) throws SQLException;
-	// get the size of the table
+	
+	/**
+	 * Calcule le nombre de beans T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return le nombre de beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	long size(Connection c, T template) throws SQLException;
-	// create full view of the table
+	
+	/**
+	 * Prépare une vue des beans T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une vue des beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	PreparedStatement createTableViewList(Connection c, T template) throws SQLException;
-	// create record view of the table
+	
+	/**
+	 * Prépare une vue des bean T entre la borne start et end en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @param start indice de la première colonne selectionné de recherche 
+	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une vue des beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	PreparedStatement createTableViewList(Connection c, T template, int start, int end) throws SQLException;
-	// create a view of the object template
+	
+	/**
+	 * Prépare une vue du bean T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une vue du bean T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	PreparedStatement createTableViewSingleton(Connection c, T template) throws SQLException;
-	//create a view for a search
+
+	/**
+	 * Prépare une requete de recherche des beans T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @param param1 Un parramètre de recherche
+	 * @param param2 Un parramètre de recherche
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une requete de recherche des beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	PreparedStatement createSearch(Connection c, T template, String param1,String param2) throws SQLException;
 }

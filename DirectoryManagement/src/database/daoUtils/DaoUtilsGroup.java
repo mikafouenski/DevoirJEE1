@@ -14,6 +14,14 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 	private final String LIST_GROUPS_RECORD = "SELECT idGRP,name FROM GROUPS LIMIT ? , ?";
 	private final String LIST_GROUPS_SEARCH = "SELECT idGRP,name FROM GROUPS WHERE name LIKE ?\"%\"";
 
+	/**
+	 * Insere en base de données
+	 * @param rs Le ResultSet contenant la requete
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return L'identifiant BD du bean T inséré
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Long resultSetInsert(ResultSet rs, Group g) throws SQLException {
 		rs.moveToInsertRow();
@@ -23,6 +31,13 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 		return rs.getLong("idGRP");
 	}
 
+	/**
+	 * Converti un ResultSet en bean T
+	 * @param rs Le ResultSet contenant la requete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return le bean du ResultSet
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public Group toBean(ResultSet rs) throws SQLException {
 		Group gr = new Group();
@@ -31,6 +46,13 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 		return gr;
 	}
 
+	/**
+	 * Met a jour en base de données
+	 * @param rs Le ResultSet contenant la requete
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public void resultSetUpdate(ResultSet rs, Group g) throws SQLException {
 		rs.first();
@@ -38,6 +60,14 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 		rs.updateRow();
 	}
 	
+	/**
+	 * Calcule le nombre de beans T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return le nombre de beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public long size(Connection c, Group g) throws SQLException {
 		try (PreparedStatement prep = c.prepareStatement(COUNT_GROUPS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -46,12 +76,29 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 			return rs.getLong("nb");
 		}
 	}
-	
+	/**
+	 * Prépare une vue des beans T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une vue des beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public PreparedStatement createTableViewList(Connection c, Group g) throws SQLException {
 		return c.prepareStatement(LIST_GROUPS_FULL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	}
 	
+	/**
+	 * Prépare une requete de recherche des beans T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @param param1 Un parramètre de recherche
+	 * @param param2 Un parramètre de recherche
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une requete de recherche des beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public PreparedStatement createSearch(Connection c, Group g, String param1, String param2) throws SQLException {
 		PreparedStatement prep = c.prepareStatement(LIST_GROUPS_SEARCH, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -59,6 +106,16 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 		return prep;
 	}
 
+	/**
+	 * Prépare une vue des bean T entre la borne start et end en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @param start indice de la première colonne selectionné de recherche 
+	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une vue des beans T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public PreparedStatement createTableViewList(Connection c, Group g, int start, int end)
 			throws SQLException {
@@ -69,6 +126,14 @@ public class DaoUtilsGroup implements DaoUtils<Group> {
 		return prep;
 	}
 
+	/**
+	 * Prépare une vue du bean T en base de données
+	 * @param c La connection en base
+	 * @param template De type T (le bean)
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return une vue du bean T
+	 * @exception SQLException si la requete n'a pas fonctionée
+	 */
 	@Override
 	public PreparedStatement createTableViewSingleton(Connection c, Group g) throws SQLException {
 		PreparedStatement prep = c.prepareStatement(FIND_GROUP_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,

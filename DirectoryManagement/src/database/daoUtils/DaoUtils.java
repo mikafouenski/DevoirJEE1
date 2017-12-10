@@ -60,12 +60,12 @@ public interface DaoUtils<T> {
 	 * @param c La connection en base
 	 * @param template De type T (le bean)
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return une vue des beans T
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	PreparedStatement createTableViewList(Connection c, T template, int start, int end) throws SQLException;
+	PreparedStatement createTableViewList(Connection c, T template, int start, int range) throws SQLException;
 	
 	/**
 	 * Prépare une vue du bean T en base de données

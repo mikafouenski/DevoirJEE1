@@ -26,15 +26,15 @@ public class DaoPerson implements IDaoPerson {
 	 * @param utils L'utilitaire du Bean T
 	 * @param template De type T (le bean)
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les T trouvées 
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, int start, int end) throws SQLException {
+	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, int start, int range) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
-				PreparedStatement prep = utils.createTableViewList(c, template, start, end);
+				PreparedStatement prep = utils.createTableViewList(c, template, start, range);
 				ResultSet rs = prep.executeQuery();) {
 			array = new ArrayList<T>();
 			while (rs.next()) {
@@ -183,16 +183,16 @@ public class DaoPerson implements IDaoPerson {
 	/**
 	 * Recherche Toute les instances de Groupe entre la borne start et end en base de données 
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les groupes trouvés 
 	 * @exception DaoException si la requete n'a pas fonctionée
 	 */
 	@Override
-	public Collection<Group> findGroups(int start, int end) throws DaoException {
+	public Collection<Group> findGroups(int start, int range) throws DaoException {
 		Collection<Group> groups = null;
 		try {
-			groups = findBeans(new DaoUtilsGroup(), new Group(), start, end);
+			groups = findBeans(new DaoUtilsGroup(), new Group(), start, range);
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		}
@@ -222,18 +222,18 @@ public class DaoPerson implements IDaoPerson {
 	/**
 	 * Recherche Toute les instances de personnes entre la borne start et end en base de données 
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les personnes trouvées 
 	 * @exception DaoException si la requete n'a pas fonctionée
 	 */
 	@Override
-	public Collection<Person> findPersons(long groupId, int start, int end) throws DaoException {
+	public Collection<Person> findPersons(long groupId, int start, int range) throws DaoException {
 		Collection<Person> persons = null;
 		try {
 			Person p = new Person();
 			p.setIdGroup(groupId);
-			persons = findBeans(new DaoUtilsPerson(), p, start, end);
+			persons = findBeans(new DaoUtilsPerson(), p, start, range);
 		} catch (SQLException e) {
 			throw new DaoException(e);
 		}

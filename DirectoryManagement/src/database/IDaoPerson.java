@@ -18,12 +18,12 @@ public interface IDaoPerson {
 	/**
 	 * Recherche Toute les instances de Groupe entre la borne start et end en base de données 
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les groupes trouvés 
 	 * @exception DaoException si la requete n'a pas fonctionée
 	 */
-	Collection<Group> findGroups(int start, int end) throws DaoException;
+	Collection<Group> findGroups(int start, int range) throws DaoException;
 	
 	/**
 	 * Recherche un Groupe en base de données 
@@ -72,12 +72,12 @@ public interface IDaoPerson {
 	/**
 	 * Recherche Toute les instances de personnes entre la borne start et end en base de données 
 	 * @param start indice de la première colonne selectionné de recherche 
-	 * @param end indice de la dernière colonne selectionné de recherche 
+	 * @param range la taille du record
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return Une Collection contenant les personnes trouvées 
 	 * @exception DaoException si la requete n'a pas fonctionée
 	 */
-	Collection<Person> findPersons(long groupId, int start, int end) throws DaoException;
+	Collection<Person> findPersons(long groupId, int start, int range) throws DaoException;
 	
 	/**
 	 * Recherche les personnes dont le nom ou prenom commence par "..." en base de données 

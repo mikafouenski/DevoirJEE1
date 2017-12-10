@@ -2,6 +2,7 @@ package DBUnit;
 
 import java.io.File;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Collection;
 
 import org.dbunit.Assertion;
@@ -22,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import beans.Group;
 import beans.Person;
+import database.DaoException;
 import database.IDaoPerson;
 import database.IDatabase;
 import database.JDBC;
@@ -114,6 +116,11 @@ public class TestDaoPerson extends DBTestCase {
 		Assert.assertEquals(2, c.size());
 	}
 	
+	@Test(expected = DaoException.class)
+	public void testFindPersonsPaginatedFailConnection() throws SQLException {
+		daoPerson.findPersons(-1, -1, 1);
+	}
+	
 	@Test
 	public void testFindAllPersonNameFirstname() {
 		Collection<Person> c = daoPerson.findPersons("Wi","Can");
@@ -195,4 +202,5 @@ public class TestDaoPerson extends DBTestCase {
 	protected IDataSet getDataSet() throws Exception {
 		return null;
 	}
+	
 }

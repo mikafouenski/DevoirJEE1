@@ -14,7 +14,13 @@ public class ValidatorConnection implements Validator {
 	public boolean supports(Class<?> clazz) {
 		return Connection.class.isAssignableFrom(clazz);
 	}
-
+	
+	/**
+	 * Génère des erreurs si le password ou l'identifiant est vide  
+	 * @param arg0 un object de type Connection a tester
+	 * @param errors L'endroid ou les erreurs seront stocké
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 */
 	@Override
 	public void validate(Object arg0, Errors errors) {
 

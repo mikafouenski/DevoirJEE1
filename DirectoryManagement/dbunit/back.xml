@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <GROUPS idGRP="6" name="group 1"/>
+  <GROUPS idGRP="6" name="group coucou"/>
   <GROUPS idGRP="7" name="group 2"/>
   <GROUPS idGRP="8" name="group 3"/>
   <GROUPS idGRP="9" name="group 4"/>
@@ -22,7 +22,7 @@
   <PERSON idPER="20" name="l10" firstname="f10" mail="m10@test.com" website="perdu.com" birthdate="2017-12-11" password="e0739bc0aea331780ed5e6174cf41c2bee8267a303d61cdb2d8aec6618736ea23ba2175a46163b6a33552937eb1c7d5e8172a8bb02ed9c50a234f23852d6b30c" idGRP="15"/>
   <PERSON idPER="21" name="l11" firstname="f11" mail="m11@test.com" website="perdu.com" birthdate="2017-12-11" password="c0eac4c93b3a150a8fd084c9cfd3669daf30020b4221c5ef4588d1e69d27578ce45e5d27c64305b9ba0e5efe2e9f4abb9bc0c18cf4a5643c055cb4d3db27c461" idGRP="6"/>
   <PERSON idPER="22" name="l12" firstname="f12" mail="m12@test.com" website="perdu.com" birthdate="2017-12-11" password="261414986a029452d58ab575a63ec76b0e04cf2095131479b52d39cb6369962d5885d53d4726adebfa30017eb9a4d37ddae915a3147a797680e13c8e49c3cb95" idGRP="7"/>
-  <PERSON idPER="23" name="l13" firstname="f13" mail="m13@test.com" website="perdu.com" birthdate="2017-12-11" password="32722b30c4c6f9a862438b80dfe656c75e27a5cd6cb9cc778188ffce9409fe6a4f3a5bb017f972647d9906b3fbbd42a74c7bc0f26de3ee9ca86f27dc343f8d24" idGRP="8"/>
+  <PERSON idPER="23" name="l13" firstname="f13" mail="m13@test.com2" website="perdu.com" birthdate="2017-12-11" password="32722b30c4c6f9a862438b80dfe656c75e27a5cd6cb9cc778188ffce9409fe6a4f3a5bb017f972647d9906b3fbbd42a74c7bc0f26de3ee9ca86f27dc343f8d24" idGRP="8"/>
   <PERSON idPER="24" name="l14" firstname="f14" mail="m14@test.com" website="perdu.com" birthdate="2017-12-11" password="2c339ecde450296c954193bfc93832070394509d92dcef2d40e96bf212607dca8b8afe099d113677ae195b10ff09f81f68bd8c1bb6cc5ab87f4c6795f382c5b0" idGRP="9"/>
   <PERSON idPER="25" name="l15" firstname="f15" mail="m15@test.com" website="perdu.com" birthdate="2017-12-11" password="1a6934574ddcd31421e4b43f346d113adbaed09c379e1151644a0bb0c5f77eda919ef92c422953bd19dee8e7326950403324035e2a2d3d3aa093b922f5752d1a" idGRP="10"/>
   <PERSON idPER="26" name="l16" firstname="f16" mail="m16@test.com" website="perdu.com" birthdate="2017-12-11" password="c37ae4ba966d6ab822139898b98ac27e96d66ec6c0b1a0ccd3a62f2b4ab4a3f0ec689f4e54accde23a2494cdaa63080ec39c0bab534057bbd59c2ceac7d87a12" idGRP="11"/>
@@ -42,7 +42,7 @@
   <PERSON idPER="40" name="l30" firstname="f30" mail="m30@test.com" website="perdu.com" birthdate="2017-12-11" password="df63e1edea89acd8a5a3819f144a4002cd4a07e7026772f0ecb759c676745d621861bca62eb2a40d89a51c554c1593e0a34b3952635209613db8a6aa193fe0d6" idGRP="15"/>
   <PERSON idPER="41" name="l31" firstname="f31" mail="m31@test.com" website="perdu.com" birthdate="2017-12-11" password="fea1c294aac339bcd7a7661ad8984885645bd7bc89331fd787549e09b0c87f5e040092dd6c6bb718a9ad2458a7ef4f6bf3b82519fbd2d510b144c1a563e0670c" idGRP="6"/>
   <PERSON idPER="42" name="l32" firstname="f32" mail="m32@test.com" website="perdu.com" birthdate="2017-12-11" password="533dcd7fbe745e3e4a4f8cbb97a240f08bb9fe2d6ade31495c56336546548792a2d91ab9d2aa8c2f7576377251a8a35e39a4a7cf7b0c9eb53c9a57dce00f455b" idGRP="7"/>
-  <PERSON idPER="43" name="l33" firstname="f33" mail="m33@test.com" website="perdu.com" birthdate="2017-12-11" password="f2fc3141d566d0373af43928880727a9cc729c2cd755333700aa004917fef81c3715907c8a287a0a42cf7366266dde1f60596dbe4242c3c85addee4daccc9618" idGRP="8"/>
+  <PERSON idPER="43" name="l33" firstname="f33" mail="m33@test.sylvain" website="perdu.com" birthdate="2017-12-11" password="f2fc3141d566d0373af43928880727a9cc729c2cd755333700aa004917fef81c3715907c8a287a0a42cf7366266dde1f60596dbe4242c3c85addee4daccc9618" idGRP="8"/>
   <PERSON idPER="44" name="l34" firstname="f34" mail="m34@test.com" website="perdu.com" birthdate="2017-12-11" password="e4c37f4340b65639c1009dc8d2ea7b542cd9eb1ff03a642c9e4f52363482bf5b6768ab8e8a1db783f774eb3fc3d8e6e8087fa11b5e3031d70f4c88da5d4b1080" idGRP="9"/>
   <PERSON idPER="45" name="l35" firstname="f35" mail="m35@test.com" website="perdu.com" birthdate="2017-12-11" password="dfb5d9c93cfe02687b8149b1f5859cade3870870bf44bf46cd4acc8ddccd4545b246fd10a05cf24983ec3e13c5fad8b70bb6564fe017b205a8147ee1c0430133" idGRP="10"/>
   <PERSON idPER="46" name="l36" firstname="f36" mail="m36@test.com" website="perdu.com" birthdate="2017-12-11" password="060557398ea2482bcbc5aa7211245a29f2591fbbb6734144479c4824cd1ff658a50d12ec3dc3fe75026092f9f6cb478a842af73350e034712ee389e42577a786" idGRP="11"/>

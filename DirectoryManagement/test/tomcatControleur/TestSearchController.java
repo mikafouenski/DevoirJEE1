@@ -23,7 +23,7 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
 import validator.ValidatorConnection;
-import web.ControleurSearch;
+import web.SearchControleur;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")
@@ -31,7 +31,7 @@ public class TestSearchController {
 
 	
 	@Tested
-	ControleurSearch searchController;
+	SearchControleur searchController;
 	
 	@Injectable
 	IDirectoryManager manager;

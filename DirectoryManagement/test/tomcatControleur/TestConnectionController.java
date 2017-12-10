@@ -53,7 +53,7 @@ public class TestConnectionController {
 		String result = connectionController.loginPrompt(co, 
 				request);
 		
-    	assertEquals("connection", result);
+    	assertEquals("connection/connection", result);
 	}
 	
 	@Test
@@ -97,7 +97,7 @@ public class TestConnectionController {
 			manager.login((User)any,1,"juste"); result = new PersonNotFoundException();
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
-		assertEquals(retour, "connection");
+		assertEquals(retour, "connection/connection");
 		
 	}
 	
@@ -112,7 +112,7 @@ public class TestConnectionController {
 			manager.login((User)any,1,"juste"); result = false;
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
-		assertEquals(retour, "connection");
+		assertEquals(retour, "connection/connection");
 		
 	}
 	
@@ -126,7 +126,7 @@ public class TestConnectionController {
 			bindingresult.hasErrors(); result = true;
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
-		assertEquals(retour, "connection");
+		assertEquals(retour, "connection/connection");
 		
 	}
 	

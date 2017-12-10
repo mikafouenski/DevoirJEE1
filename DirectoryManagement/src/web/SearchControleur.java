@@ -23,7 +23,7 @@ import validator.ValidatorConnection;
 
 @Controller()
 @RequestMapping(value = "/")
-public class ControleurSearch {
+public class SearchControleur {
 	
 	@Autowired
 	IDirectoryManager manager; 

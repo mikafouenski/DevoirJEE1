@@ -27,13 +27,17 @@ public class PersonEditController {
 
 	@Autowired
 	IDirectoryManager directoryManager;
-	
+
 	/**
 	 * Servelet d'édition d'une personne (GET)
-	 * @param id L'identifiant du group a modifier
-	 * @param request La HttpServletRequest de la requete
-	 * @author Bernardini Mickael De Barros Sylvain 
-	 * @return Redirige vers la page de login si non authentifié ou la page d'edition
+	 * 
+	 * @param id
+	 *            L'identifiant du group a modifier
+	 * @param request
+	 *            La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain
+	 * @return Redirige vers la page de login si non authentifié ou la page
+	 *         d'edition
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editPersonDetail(@RequestParam(value = "id", required = true) long id,
@@ -59,11 +63,16 @@ public class PersonEditController {
 
 	/**
 	 * Servelet d'édition d'une personne (POST)
-	 * @param pf La PersonFormBean modifié par le formulaire
-	 * @param result Le BindingResult de la requete
-	 * @param request La HttpServletRequest de la requete
-	 * @author Bernardini Mickael De Barros Sylvain 
-	 * @return Redirige vers la page de login si non authentifié ou la page de detail d'une personne
+	 * 
+	 * @param pf
+	 *            La PersonFormBean modifié par le formulaire
+	 * @param result
+	 *            Le BindingResult de la requete
+	 * @param request
+	 *            La HttpServletRequest de la requete
+	 * @author Bernardini Mickael De Barros Sylvain
+	 * @return Redirige vers la page de login si non authentifié ou la page de
+	 *         detail d'une personne
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView editPersonForm(@ModelAttribute("personFormBean") PersonFormBean pf, BindingResult result,
@@ -72,19 +81,16 @@ public class PersonEditController {
 		Person p;
 		try {
 			p = directoryManager.findPerson(user, Integer.parseInt(pf.getId()));
-		} catch (UserNotLoggedException e1) {
-			return new ModelAndView("person/personEdit");
-		}
-		p.setName(pf.getName());
-		p.setFirstname(pf.getFirstname());
-		p.setMail(pf.getMail());
-		p.setWebsite(pf.getWebsite());
-		ValidatorPersonEdit validator = new ValidatorPersonEdit();
-		validator.validate(p, result);
-		if (result.hasErrors()) {
-			return new ModelAndView("person/personEdit");
-		}
-		try {
+			p.setName(pf.getName());
+			p.setFirstname(pf.getFirstname());
+			p.setMail(pf.getMail());
+			p.setWebsite(pf.getWebsite());
+			ValidatorPersonEdit validator = new ValidatorPersonEdit();
+			validator.validate(p, result);
+			if (result.hasErrors()) {
+				return new ModelAndView("person/personEdit");
+			}
+
 			directoryManager.savePerson(user, p);
 		} catch (UserNotLoggedException e) {
 			result.rejectValue("id", "person.id", "Erreur...");

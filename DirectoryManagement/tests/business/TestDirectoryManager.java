@@ -27,8 +27,8 @@ import mockit.Verifications;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring.xml")
 public class TestDirectoryManager {
-    
-	@Autowired
+	
+    @Autowired
     @Tested
     IDirectoryManager manager;
     
@@ -85,6 +85,7 @@ public class TestDirectoryManager {
     public void testLoginIsLog() throws PersonNotFoundException {
         new Expectations() {{
         	Person p = new Person();
+        	p.setId(1L);
         	p.setPassword(HashageSha3.digest("juste"));
         	p.setIdGroup(12L);
             dao.findPerson("email"); result = p;
@@ -92,7 +93,7 @@ public class TestDirectoryManager {
         User user = new User();
         manager.login(user,"email", "juste");
         assertFalse(user.isAnonymous());
-        new Verifications() {{ dao.findPerson(1); times = 1; }};
+        new Verifications() {{ dao.findPerson("email"); times = 1; }};
     }
     
     /**
@@ -104,6 +105,7 @@ public class TestDirectoryManager {
     public void testLoginGroup() throws PersonNotFoundException {
         new Expectations() {{
         	Person p = new Person();
+        	p.setId(1L);
         	p.setPassword(HashageSha3.digest("juste"));
         	p.setIdGroup(12L);
             dao.findPerson("email"); result = p;

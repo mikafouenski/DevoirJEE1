@@ -1,9 +1,9 @@
-package hachage;
+package hashage;
 
 import org.bouncycastle.jcajce.provider.digest.SHA3;
 import org.bouncycastle.util.encoders.Hex;
 
-public class HachageSha3 {
+public class HashageSha3 {
 
 	/**
 	 * Hachage d'une chaine de carractère en utilisant Sha3 

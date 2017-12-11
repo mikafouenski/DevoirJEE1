@@ -48,29 +48,4 @@ public class GroupListController {
 		return new ModelAndView("group/listGroups", map);
 	}
 
-	// @RequestMapping(value = "/test", method = RequestMethod.GET)
-	// public void initDatabase() {
-	// new JDBC(true);
-	// ArrayList<Group> groups = new ArrayList<>();
-	// for (int i = 0; i < 200; i++) {
-	// int j = (i % 10);
-	// if (groups.size() <= j) {
-	// Group g = new Group();
-	// g.setName("group " + (j + 1));
-	// daoPerson.saveGroup(g);
-	// groups.add(g);
-	// }
-	// Person p = new Person();
-	// p.setFirstname("f" + (i + 1));
-	// p.setName("l" + (i + 1));
-	// p.setBirthdate(Date.valueOf("2017-12-11"));
-	// p.setMail("m" + (i + 1) + "@test.com");
-	// p.setPassword(HashageSha3.digest("pass" + (i + 1)));
-	// p.setWebsite("perdu.com");
-	// p.setIdGroup(groups.get(j).getId());
-	// daoPerson.savePerson(p);
-	// }
-	// }
-	//
-
 }

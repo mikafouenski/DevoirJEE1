@@ -13,10 +13,4 @@ public interface IDatabase {
 	 */
 	public Connection getConnection() throws SQLException;
 	
-	/**
-	 * Echape toute erreur éventuelle de fermeture
-	 * @author Bernardini Mickael De Barros Sylvain
-	 */
-	public void quietClose(Connection c);
-
 }

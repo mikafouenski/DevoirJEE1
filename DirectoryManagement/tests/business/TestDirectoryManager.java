@@ -28,19 +28,27 @@ import mockit.Verifications;
 @ContextConfiguration(locations = "/spring.xml")
 public class TestDirectoryManager {
     
-    @Autowired
     @Tested
     IDirectoryManager manager;
     
     @Injectable
     IDaoPerson dao;
     
+    /**
+	 *  Teste si la méthode new User renvoie un utilisateur 
+	 *  non authentifié 
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
     @Test
     public void testNewUser() {
         User toto = manager.newUser();
         assertTrue(toto.isAnonymous());
     }
     
+    /**
+   	 *  Vérifie que la méthode findPerson appelle la méthode findPerson de la dao 
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
     public void testFindPerson() throws UserNotLoggedException {
         new Expectations() {{
@@ -52,7 +60,10 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
     
-    
+    /**
+   	 *  Vérifie que la méthode findGroup appelle la méthode findGroup de la dao 
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
     public void testFindGroup() throws UserNotLoggedException {
         new Expectations() {{
@@ -64,7 +75,11 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findGroup(1); times = 1; }};
     }
     
-    
+    /**
+   	 *  Test si la méthode login authentifie bien l'user
+   	 *  si le mot de passe et l'id sont juste 
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
     public void testLoginIsLog() throws PersonNotFoundException {
         new Expectations() {{
@@ -79,6 +94,11 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
     
+    /**
+   	 *  Test si la méthode login met le bon idGroup dans user
+   	 *  si le mot de passe et l'id sont juste 
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
     public void testLoginGroup() throws PersonNotFoundException {
         new Expectations() {{
@@ -93,6 +113,10 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
     
+    /**
+   	 *  Vérifie que la méthode logout rend l'user anonyme
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
 	public void testLogout() {
     	User test = new User();
@@ -101,6 +125,10 @@ public class TestDirectoryManager {
     	assertTrue(test.isAnonymous());
 	}
     
+    /**
+   	 *  Vérifie que la méthode laisse l'user anonyme
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
   	public void testLogoutOnAnonymous() {
       	User test = new User();
@@ -109,6 +137,11 @@ public class TestDirectoryManager {
       	assertTrue(test.isAnonymous());
   	}
     
+    /**
+   	 *  Vérifie que la méthode SavePerson apelle la méthode savePerson de la dao
+   	 *  avec la meme person
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
   	public void testSavePerson() throws UserNotLoggedException {
     	Person p = new Person();
@@ -121,6 +154,11 @@ public class TestDirectoryManager {
     	new Verifications() {{  dao.savePerson(p); times = 1; }};
     }
     
+    /**
+   	 *  Vérifie que la méthode SaveGroup apelle la méthode saveGroup de la dao
+   	 *  avec le meme groupe
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
   	public void testSaveGroup() throws UserNotLoggedException {
     	Group g = new Group();
@@ -133,7 +171,11 @@ public class TestDirectoryManager {
     	new Verifications() {{  dao.saveGroup(g); times = 1; }};
     }
     
-    
+    /**
+   	 *  Vérifie que la méthode login ne connecte pas l'utilsateur
+   	 *  si sont mot de passse est éroné et renvoie bien false
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
     public void testLoginFail() throws PersonNotFoundException {
         new Expectations() {{
@@ -147,7 +189,10 @@ public class TestDirectoryManager {
         assertFalse(isCo || !user.isAnonymous());
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
-    
+    /**
+   	 *  Vérifie que la méthode login renvoie une execption si l'id est inconnue
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test(expected = PersonNotFoundException.class)
     public void testLoginFailId() throws PersonNotFoundException {
         new Expectations() {{;
@@ -158,22 +203,39 @@ public class TestDirectoryManager {
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
     
+    
+    /**
+   	 *  Vérifie que la méthode renvoie une exeption si un User non connecté l'appelle
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test(expected = UserNotLoggedException.class)
-    public void testsavePersonailled() throws UserNotLoggedException {
+    public void testsavePersonFailled() throws UserNotLoggedException {
         manager.savePerson(new User(),new Person());
     }
    
-    
+    /**
+   	 *  Vérifie que la méthode renvoie une exeption si un User non connecté l'appelle
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test(expected = UserNotLoggedException.class)
     public void testFindGroupFailled() throws UserNotLoggedException {
         manager.findGroup(new User(),1);
     }
     
+    /**
+   	 *  Vérifie que la méthode renvoie une exeption si un User non connecté l'appelle
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test(expected = UserNotLoggedException.class)
     public void testFindPersonFailled() throws UserNotLoggedException {
         manager.findPerson(new User(),1);
     }
     
+    /**
+   	 *  Vérifie que la méthode findGroups(0, 10) renvoie une collection de meme taille
+   	 *  que celle renvoyé par la métode dao findGroups(0, 10)
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
 	public void testFindGroupsPaginated() throws Exception {
     	User user = new User();
@@ -188,6 +250,11 @@ public class TestDirectoryManager {
 	     assertEquals(10, groups.size());
 	}
     
+    /**
+   	 *  Vérifie que la méthode findPerson(0, 10) renvoie une collection de meme taille
+   	 *  que celle renvoyé par la métode dao findPerson(0, 10)
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
 	public void testFindPersonsPaginated() throws Exception {
     	User user = new User();
@@ -202,6 +269,11 @@ public class TestDirectoryManager {
 	     assertEquals(10, persons.size());
 	}
     
+    /**
+   	 *  Vérifie que la méthode findPersons(user, "test", "test") renvoie une collection de meme taille
+   	 *  que celle renvoyé par la métode dao findPersons(user, "test", "test")
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
    	public void testFindPersonsSearch() throws Exception {
        	User user = new User();
@@ -216,6 +288,11 @@ public class TestDirectoryManager {
    	     assertEquals(10, persons.size());
    	}
     
+    /**
+   	 *  Vérifie que la méthode findGroups("test") renvoie une collection de meme taille
+   	 *  que celle renvoyé par la métode dao findGroups("test")
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
 	public void testFindGroupsSearch() throws Exception {
     	User user = new User();
@@ -230,6 +307,11 @@ public class TestDirectoryManager {
 	     assertEquals(10, groups.size());
 	}
     
+    /**
+   	 *  Vérifie que la méthode nbGroups() renvoie le meme nombre
+   	 *  que celle renvoyé par la métode dao getNbGroups() 
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
 	public void testNbGroup() throws Exception {
     	User user = new User();
@@ -240,6 +322,11 @@ public class TestDirectoryManager {
 	     assertEquals(10, manager.nbGroups(user));
 	}
     
+    /**
+   	 *  Vérifie que la méthode nbPersons(user,1) renvoie le meme nombre
+   	 *  que celle renvoyé par la métode dao getNbPersons(1) 
+   	 *  @author Bernardini Mickael De Barros Sylvain
+   	 */
     @Test
 	public void testNbPerson() throws Exception {
     	User user = new User();

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import beans.Group;
 import beans.Person;
+import beans.QuestionSecrete;
 import database.daoUtils.IDaoUtils;
 import database.daoUtils.DaoUtilsGroup;
 import database.daoUtils.DaoUtilsPerson;
+import database.daoUtils.DaoUtilsQuestionSecrete;
 
 @Service
 public class DaoPerson implements IDaoPerson {
@@ -293,6 +295,25 @@ public class DaoPerson implements IDaoPerson {
 	}
 	
 	/**
+	 * Recherche la question secrete d'une personne en base de données 
+	 * @param id L'identifiant de la personne
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return La question secrete trouvé 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
+	public QuestionSecrete findQuestionSecrete(long id) throws DaoException {
+		QuestionSecrete questionSecrete = null;
+		try {
+			QuestionSecrete qs = new QuestionSecrete();
+			qs.setId(id);
+			questionSecrete = findBean(new DaoUtilsQuestionSecrete(), qs);
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		}
+		return questionSecrete;
+	}
+	
+	/**
 	 * Recherche un Groupe en base de données 
 	 * @param id L'identifiant du groupe
 	 * @author Bernardini Mickael De Barros Sylvain 
@@ -341,6 +362,22 @@ public class DaoPerson implements IDaoPerson {
 			g.setId(newId);
 		} else {
 			updateBean(new DaoUtilsGroup(), g);
+		}
+	}
+	
+	/**
+	 * Sauvegarde une question secrete en base de données 
+	 * @param g La question secrete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
+	@Override
+	public void saveQuestionSecrete(QuestionSecrete qs) throws DaoException {
+		if (qs.getId() == null) {
+			long newId = insertBean(new DaoUtilsQuestionSecrete(), qs);
+			qs.setId(newId);
+		} else {
+			updateBean(new DaoUtilsQuestionSecrete(), qs);
 		}
 	}
 

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import beans.Group;
 import beans.Person;
+import beans.QuestionSecrete;
 import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 
@@ -21,7 +22,7 @@ public interface IDirectoryManager {
 	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié	
 	 */
     Person findPerson(User user, long personId) throws UserNotLoggedException;
-    
+	
     /**
 	 * Recherche Toute les instances de Person entre la borne start et end en base de données 
 	 * @param user utilisateur de l'application 
@@ -82,7 +83,6 @@ public interface IDirectoryManager {
 	 */
     long nbGroups(User user) throws UserNotLoggedException;
 
-
     /**
 	 * Teste si le personId et le password est correct 
 	 * @param user utilisateur de l'applicationa authentifié
@@ -111,6 +111,7 @@ public interface IDirectoryManager {
 	 */
     void savePerson(User user, Person p) throws UserNotLoggedException;
     
+    
     /**
 	 * Enregistre un Group dans la base de donné
 	 * @param user utilisateur de l'applicationa authentifié
@@ -132,5 +133,9 @@ public interface IDirectoryManager {
 	 * @exception UserNotLoggedException si l'utilisateur n'est pas authentifié	
 	 */
 	Collection<Person> findPersons(User user, String name, String firstname) throws UserNotLoggedException;
-
+	
+	Person resetPasswordMail(String mail) throws PersonNotFoundException;
+	QuestionSecrete resetPassword(long id);
+	void savePerson(Person p);
+	Person resetPasswordId(long id);
 }

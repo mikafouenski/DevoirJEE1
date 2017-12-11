@@ -28,6 +28,7 @@ import mockit.Verifications;
 @ContextConfiguration(locations = "/spring.xml")
 public class TestDirectoryManager {
     
+	@Autowired
     @Tested
     IDirectoryManager manager;
     

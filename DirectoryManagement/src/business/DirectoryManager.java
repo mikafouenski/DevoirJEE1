@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import beans.Group;
 import beans.Person;
+import beans.QuestionSecrete;
 import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
@@ -188,6 +189,16 @@ public class DirectoryManager implements IDirectoryManager {
 		dao.savePerson(p);
 	}
 	
+	 /**
+	 * Enregistre une Person dans la base de donné
+	 * @param p La Person à sauvegarder 
+	 * @param password le mot de passe correspondant à l'id.
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 */
+    public void savePerson(Person p) {
+    	dao.savePerson(p);
+    }
+	
 	/**
 	 * Enregistre un Group dans la base de donné
 	 * @param user utilisateur de l'applicationa authentifié
@@ -202,4 +213,22 @@ public class DirectoryManager implements IDirectoryManager {
 		dao.saveGroup(g);
 	}
 
+	@Override
+	public Person resetPasswordMail(String mail) throws PersonNotFoundException {
+		Person p = dao.findPerson(mail);
+		if (p == null)
+			throw new PersonNotFoundException();
+		return p;
+	}
+
+	@Override
+	public QuestionSecrete resetPassword(long id) {
+		return dao.findQuestionSecrete(id);
+	}
+
+	@Override
+	public Person resetPasswordId(long id) {
+		return dao.findPerson(id);
+	}
+	
 }

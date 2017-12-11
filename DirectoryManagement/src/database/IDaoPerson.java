@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import beans.Group;
 import beans.Person;
+import beans.QuestionSecrete;
 
 public interface IDaoPerson {
 
@@ -99,6 +100,15 @@ public interface IDaoPerson {
 	Person findPerson(long id) throws DaoException;
 	
 	/**
+	 * Recherche la question secrete d'une personne en base de données 
+	 * @param id L'identifiant de la personne
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return La question secrete trouvé 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
+	QuestionSecrete findQuestionSecrete(long id) throws DaoException;
+	
+	/**
 	 * Recherche une personne en base de données 
 	 * @param id L'identifiant de la personne
 	 * @author Bernardini Mickael De Barros Sylvain 
@@ -123,6 +133,12 @@ public interface IDaoPerson {
 	 */
 	void saveGroup(Group g) throws DaoException;
 	
-	
+	/**
+	 * Sauvegarde une question secrete en base de données 
+	 * @param g La question secrete
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
+	void saveQuestionSecrete(QuestionSecrete qs) throws DaoException;
 	
 }

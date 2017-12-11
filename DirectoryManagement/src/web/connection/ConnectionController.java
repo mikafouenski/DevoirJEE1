@@ -1,5 +1,8 @@
 package web.connection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +11,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import beans.Person;
+import beans.QuestionSecrete;
 import business.IDirectoryManager;
 import business.User;
+import business.exception.PersonNotFoundException;
+import hashage.HashageSha3;
 import validator.ValidatorConnection;
+import validator.ValidatorQs;
+import validator.ValidatorResetPassword;
 import web.ControllerHelpers;
 
 @Controller()
@@ -87,5 +98,49 @@ public class ConnectionController {
 	public String logout(@ModelAttribute Connection co, BindingResult result, HttpServletRequest request) {
 		request.getSession().invalidate();
 		return "redirect:/login";
+	}
+	
+	@ModelAttribute("passid")
+	PassId passid() {
+		return new PassId();
+	}
+	@ModelAttribute("passqs")
+	PassQs passqs() {
+		return new PassQs();
+	}
+	@RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
+	public String resetpassword(HttpServletRequest request) {
+		return "connection/passwordreset";
+	}
+	@RequestMapping(value = "/resetpasswordid", method = RequestMethod.POST)
+	public ModelAndView displayResetFormID(@ModelAttribute PassId ps, BindingResult result, HttpServletRequest request) {
+		Person p;
+		ValidatorResetPassword validatorResetPassword = new ValidatorResetPassword();
+		validatorResetPassword.validate(ps, result);
+		if (result.hasErrors())
+			return new ModelAndView("cconnection/passwordreset");
+		try {
+			p = manager.resetPasswordMail(ps.getMail());
+		} catch (PersonNotFoundException e) {
+			return new ModelAndView("redirect:/login");
+		}
+		return new ModelAndView("connection/passordresetQS", "qs", manager.resetPassword(p.getId()));
+	}
+	@RequestMapping(value = "/resetpasswordid", method = RequestMethod.POST)
+	public ModelAndView displayResetFormQS(@RequestParam(value = "id", required = true) long id,
+			@ModelAttribute PassQs ps, BindingResult result, HttpServletRequest request) {
+		ValidatorQs validatorQs = new ValidatorQs();
+		validatorQs.validate(ps, result);
+		if (result.hasErrors())
+			return new ModelAndView("connection/passordresetQS", "qs", manager.resetPassword(id));
+		QuestionSecrete qsBDD = manager.resetPassword(id);
+		if (! HashageSha3.digest(ps.getReponse()).equals(qsBDD.getReponse())) {
+			result.rejectValue("mail", "connect.mail", "Reponse non valide");
+			return new ModelAndView("connection/passordresetQS", "qs", qsBDD);
+		}
+		Person p = manager.resetPasswordId(id);
+		p.setPassword(ps.getNewPass());
+		manager.savePerson(p);
+		return new ModelAndView("redirect:/login");
 	}
 }

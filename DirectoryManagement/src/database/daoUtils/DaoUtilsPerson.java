@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import beans.Person;
 
-public class DaoUtilsPerson implements DaoUtils<Person> {
+public class DaoUtilsPerson implements IDaoUtils<Person> {
 
 	private final String FIND_PERSON_BY_ID = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idPER = ?";
 	private final String LIST_PERSONS_BY_GROUP_ID_FULL = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idGRP = ?";

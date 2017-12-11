@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface DaoUtils<T> {
+public interface IDaoUtils<T> {
 	
 	/**
 	 * Insere en base de données

@@ -13,8 +13,8 @@
 		<form:errors path="*" cssClass="alert alert-danger" element="div" />
 		<div class="form-group">
 			<label for="price">Identifiant :</label>
-			<form:input path="id" class="form-control" />
-			<form:errors path="id" cssClass="alert alert-warning" element="div" />
+			<form:input path="mail" class="form-control" />
+			<form:errors path="mail" cssClass="alert alert-warning" element="div" />
 		</div>
 		<div class="form-group">
 			<label for="price">Mot de passe</label>

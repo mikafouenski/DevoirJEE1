@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import beans.Group;
 import beans.Person;
-import database.daoUtils.DaoUtils;
+import database.daoUtils.IDaoUtils;
 import database.daoUtils.DaoUtilsGroup;
 import database.daoUtils.DaoUtilsPerson;
 
@@ -31,7 +31,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @return Une Collection contenant les T trouvées 
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, int start, int range) throws SQLException {
+	private <T> Collection<T> findBeans(IDaoUtils<T> utils, T template, int start, int range) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewList(c, template, start, range);
@@ -54,7 +54,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @return Une Collection contenant les T trouvées 
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template, String param1, String param2) throws SQLException {
+	private <T> Collection<T> findBeans(IDaoUtils<T> utils, T template, String param1, String param2) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createSearch(c,template,param1,param2) ;
@@ -75,7 +75,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @return Une Collection contenant les T trouvées
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> Collection<T> findBeans(DaoUtils<T> utils, T template) throws SQLException {
+	private <T> Collection<T> findBeans(IDaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewList(c, template);
@@ -96,7 +96,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @return Une Collection contenant les T trouvées
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> T findBean(DaoUtils<T> utils, T template) throws SQLException {
+	private <T> T findBean(IDaoUtils<T> utils, T template) throws SQLException {
 		Collection<T> array = new ArrayList<T>();
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewSingleton(c, template);
@@ -116,7 +116,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> void updateBean(DaoUtils<T> utils, T template) throws DaoException {
+	private <T> void updateBean(IDaoUtils<T> utils, T template) throws DaoException {
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewSingleton(c, template);
 				ResultSet result = prep.executeQuery()) {
@@ -133,7 +133,7 @@ public class DaoPerson implements IDaoPerson {
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @exception SQLException si la requete n'a pas fonctionée
 	 */
-	private <T> long insertBean(DaoUtils<T> utils, T template) throws DaoException {
+	private <T> long insertBean(IDaoUtils<T> utils, T template) throws DaoException {
 		long id = 0;
 		try (Connection c = db.getConnection();
 				PreparedStatement prep = utils.createTableViewList(c, template);

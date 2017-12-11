@@ -65,7 +65,7 @@ public class GroupListController {
 	// p.setName("l" + (i + 1));
 	// p.setBirthdate(Date.valueOf("2017-12-11"));
 	// p.setMail("m" + (i + 1) + "@test.com");
-	// p.setPassword(HachageSha3.digest("pass" + (i + 1)));
+	// p.setPassword(HashageSha3.digest("pass" + (i + 1)));
 	// p.setWebsite("perdu.com");
 	// p.setIdGroup(groups.get(j).getId());
 	// daoPerson.savePerson(p);

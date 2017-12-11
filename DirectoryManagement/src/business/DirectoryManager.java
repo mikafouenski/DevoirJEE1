@@ -10,7 +10,7 @@ import beans.Person;
 import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 import database.IDaoPerson;
-import hachage.HachageSha3;
+import hashage.HashageSha3;
 
 @Service
 public class DirectoryManager implements IDirectoryManager {
@@ -155,7 +155,7 @@ public class DirectoryManager implements IDirectoryManager {
 		Person person = dao.findPerson(mail);
 		if (person == null)
 			throw new PersonNotFoundException();
-		if (!HachageSha3.digest(password).equals(person.getPassword()))
+		if (!HashageSha3.digest(password).equals(person.getPassword()))
 			return false;
 		user.setAnonymous(false);
 		user.setPersonId(person.getId());

@@ -16,7 +16,7 @@ import beans.Person;
 import business.IDirectoryManager;
 import business.User;
 import database.IDaoPerson;
-import hachage.HachageSha3;
+import hashage.HashageSha3;
 import business.exception.PersonNotFoundException;
 import business.exception.UserNotLoggedException;
 import mockit.Expectations;
@@ -84,7 +84,7 @@ public class TestDirectoryManager {
     public void testLoginIsLog() throws PersonNotFoundException {
         new Expectations() {{
         	Person p = new Person();
-        	p.setPassword(HachageSha3.digest("juste"));
+        	p.setPassword(HashageSha3.digest("juste"));
         	p.setIdGroup(12L);
             dao.findPerson("email"); result = p;
         }};
@@ -103,7 +103,7 @@ public class TestDirectoryManager {
     public void testLoginGroup() throws PersonNotFoundException {
         new Expectations() {{
         	Person p = new Person();
-        	p.setPassword(HachageSha3.digest("juste"));
+        	p.setPassword(HashageSha3.digest("juste"));
         	p.setIdGroup(12L);
             dao.findPerson("email"); result = p;
         }};

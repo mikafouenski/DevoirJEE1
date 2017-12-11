@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import beans.Group;
 
-public class DaoUtilsGroup implements DaoUtils<Group> {
+public class DaoUtilsGroup implements IDaoUtils<Group> {
 
 	private final String FIND_GROUP_BY_ID = "SELECT idGRP,name FROM GROUPS WHERE idGRP = ?";
 	private final String COUNT_GROUPS = "SELECT COUNT(idGRP) as nb FROM GROUPS";

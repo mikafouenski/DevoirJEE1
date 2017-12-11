@@ -10,6 +10,7 @@ import beans.Person;
 public class DaoUtilsPerson implements IDaoUtils<Person> {
 
 	private final String FIND_PERSON_BY_ID = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idPER = ?";
+	private final String FIND_PERSON_BY_MAIL = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE mail = ?";
 	private final String LIST_PERSONS_BY_GROUP_ID_FULL = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idGRP = ?";
 	private final String LIST_PERSONS_BY_GROUP_ID_RECORD = "SELECT idPER,name,firstname,mail,website,password,birthdate,idGRP FROM PERSON WHERE idGRP = ? LIMIT ? , ?";
 	private final String COUNT_PERSONS_BY_GROUP_ID = "SELECT COUNT(idPER) as nb FROM PERSON WHERE idGRP = ?";
@@ -143,12 +144,19 @@ public class DaoUtilsPerson implements IDaoUtils<Person> {
 	 */
 	@Override
 	public PreparedStatement createTableViewSingleton(Connection c, Person p) throws SQLException {
-		PreparedStatement prep = c.prepareStatement(FIND_PERSON_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_UPDATABLE);
-		prep.setLong(1, p.getId());
+		PreparedStatement prep;
+		if(p.getId() > 0) {
+			prep = c.prepareStatement(FIND_PERSON_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			prep.setLong(1, p.getId());
+		} else 
+			prep = c.prepareStatement(FIND_PERSON_BY_MAIL, ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			prep.setString(1, p.getMail());
 		return prep;
 	}
 
+	
 	/**
 	 * Prépare une requete de recherche des beans T en base de données
 	 * @param c La connection en base

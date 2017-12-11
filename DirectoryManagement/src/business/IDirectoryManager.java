@@ -90,9 +90,9 @@ public interface IDirectoryManager {
 	 * @param password le mot de passe correspondant à l'id.
 	 * @author Bernardini Mickael De Barros Sylvain 
 	 * @return True si l'authentification à marché et changer l'attribut anonymous de user a false sinon renvoie false
-	 * @exception PersonNotFoundException si l'id est introuvable en base de donné 	
+	 * @exception PersonNotFoundException si le mail est introuvable en base de donné 	
 	 */
-    boolean login(User user, long personId, String password) throws PersonNotFoundException;
+    boolean login(User user, String mail, String password) throws PersonNotFoundException;
 
     /**
 	 * Rend l'user anonyme 

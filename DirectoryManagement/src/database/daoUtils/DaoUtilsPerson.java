@@ -145,14 +145,16 @@ public class DaoUtilsPerson implements IDaoUtils<Person> {
 	@Override
 	public PreparedStatement createTableViewSingleton(Connection c, Person p) throws SQLException {
 		PreparedStatement prep;
-		if(p.getId() > 0) {
+		if(p.getId() > 0L) {
 			prep = c.prepareStatement(FIND_PERSON_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
 			prep.setLong(1, p.getId());
-		} else 
+			
+		} else {
 			prep = c.prepareStatement(FIND_PERSON_BY_MAIL, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
 			prep.setString(1, p.getMail());
+		}
 		return prep;
 	}
 

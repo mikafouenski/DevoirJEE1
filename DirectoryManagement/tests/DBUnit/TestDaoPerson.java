@@ -173,7 +173,7 @@ public class TestDaoPerson extends DBTestCase {
 	 */
 	@Test 
 	public void testFindPerson() {
-		Person c = daoPerson.findPerson(1);
+		Person c = daoPerson.findPerson(2L);
 		Assert.assertNotNull(c);
 	}
 	

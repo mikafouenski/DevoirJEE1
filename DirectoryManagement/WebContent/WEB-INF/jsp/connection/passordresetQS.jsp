@@ -10,7 +10,7 @@
 <body>
     <h1>Reset Password</h1>
     <h3><c:out value="${qs.question}"></c:out> </h3>
-    <form:form method="POST" modelAttribute="passqs">
+    <form:form method="POST" modelAttribute="passqs" action="${pageContext.request.contextPath}/resetpasswordid?id=${qs.id}">
         <form:errors path="*" cssClass="alert alert-danger" element="div" />
         <div class="form-group">
             <label for="reponse">Reponse :</label>

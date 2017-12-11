@@ -82,8 +82,10 @@ public class ConnectionController {
 		if (connection) {
 			request.getSession().setAttribute("user", user);
 			return "redirect:/groups/list";
-		} else 
-			return "connection/connection";
+		}
+		result.rejectValue("mail", "connect.mail", "Identifiant ou Mot de passe incorect");
+		result.rejectValue("password", "connect.password", "Identifiant ou Mot de passe incorect");
+		return "connection/connection";
 	}
 
 	/**
@@ -112,17 +114,18 @@ public class ConnectionController {
 	public String resetpassword(HttpServletRequest request) {
 		return "connection/passwordreset";
 	}
-	@RequestMapping(value = "/resetpasswordid", method = RequestMethod.POST)
+	@RequestMapping(value = "/resetpassword", method = RequestMethod.POST)
 	public ModelAndView displayResetFormID(@ModelAttribute PassId ps, BindingResult result, HttpServletRequest request) {
 		Person p;
 		ValidatorResetPassword validatorResetPassword = new ValidatorResetPassword();
 		validatorResetPassword.validate(ps, result);
 		if (result.hasErrors())
-			return new ModelAndView("cconnection/passwordreset");
+			return new ModelAndView("connection/passwordreset");
 		try {
 			p = manager.resetPasswordMail(ps.getMail());
 		} catch (PersonNotFoundException e) {
-			return new ModelAndView("redirect:/login");
+			result.rejectValue("mail", "ps.mail", "La personne n'existe pas !");
+			return new ModelAndView("connection/passwordreset");
 		}
 		return new ModelAndView("connection/passordresetQS", "qs", manager.resetPassword(p.getId()));
 	}
@@ -131,15 +134,15 @@ public class ConnectionController {
 			@ModelAttribute PassQs ps, BindingResult result, HttpServletRequest request) {
 		ValidatorQs validatorQs = new ValidatorQs();
 		validatorQs.validate(ps, result);
-		if (result.hasErrors())
-			return new ModelAndView("connection/passordresetQS", "qs", manager.resetPassword(id));
 		QuestionSecrete qsBDD = manager.resetPassword(id);
+		if (result.hasErrors())
+			return new ModelAndView("connection/passordresetQS", "qs", qsBDD);
 		if (! HashageSha3.digest(ps.getReponse()).equals(qsBDD.getReponse())) {
-			result.rejectValue("mail", "connect.mail", "Reponse non valide");
+			result.rejectValue("reponse", "ps.reponse", "Reponse non valide");
 			return new ModelAndView("connection/passordresetQS", "qs", qsBDD);
 		}
 		Person p = manager.resetPasswordId(id);
-		p.setPassword(ps.getNewPass());
+		p.setPassword(HashageSha3.digest(ps.getNewPass()));
 		manager.savePerson(p);
 		return new ModelAndView("redirect:/login");
 	}

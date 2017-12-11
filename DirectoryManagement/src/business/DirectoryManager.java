@@ -151,14 +151,14 @@ public class DirectoryManager implements IDirectoryManager {
 	 * @exception PersonNotFoundException si l'id est introuvable en base de donné 	
 	 */
 	@Override
-	public boolean login(User user, long personId, String password) throws PersonNotFoundException {
-		Person person = dao.findPerson(personId);
+	public boolean login(User user, String mail, String password) throws PersonNotFoundException {
+		Person person = dao.findPerson(mail);
 		if (person == null)
 			throw new PersonNotFoundException();
 		if (!HachageSha3.digest(password).equals(person.getPassword()))
 			return false;
 		user.setAnonymous(false);
-		user.setPersonId(personId);
+		user.setPersonId(person.getId());
 		user.setGroupId(person.getIdGroup());
 		return true;
 	}

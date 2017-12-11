@@ -88,12 +88,12 @@ public class TestConnectionController {
 	@Test	
 	public void Testlogin() throws PersonNotFoundException {
 		Connection co = new Connection();
-		co.setId(1);
+		co.setMail("email");
 		co.setPassword("juste");
 		new Expectations() {{
 			validator.validate(co, (Errors) any);
 			bindingresult.hasErrors(); result = false;
-			manager.login((User)any,1,"juste"); result = true;
+			manager.login((User)any,"email","juste"); result = true;
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
 		assertEquals(retour, "redirect:/groups/list");
@@ -110,12 +110,12 @@ public class TestConnectionController {
 	@Test	
 	public void TestloginFail() throws PersonNotFoundException {
 		Connection co = new Connection();
-		co.setId(1);
+		co.setMail("email");
 		co.setPassword("juste");
 		new Expectations() {{
 			validator.validate(co, (Errors) any);
 			bindingresult.hasErrors(); result = false;
-			manager.login((User)any,1,"juste"); result = new PersonNotFoundException();
+			manager.login((User)any,"email","juste"); result = new PersonNotFoundException();
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
 		assertEquals(retour, "connection/connection");
@@ -130,12 +130,12 @@ public class TestConnectionController {
 	@Test	
 	public void TestloginFalse() throws PersonNotFoundException {
 		Connection co = new Connection();
-		co.setId(1);
+		co.setMail("email");
 		co.setPassword("juste");
 		new Expectations() {{
 			validator.validate(co, (Errors) any);
 			bindingresult.hasErrors(); result = false;
-			manager.login((User)any,1,"juste"); result = false;
+			manager.login((User)any,"email","juste"); result = false;
 		}};
 		String retour = connectionController.login(co, bindingresult, request);
 		assertEquals(retour, "connection/connection");
@@ -149,7 +149,7 @@ public class TestConnectionController {
 	@Test	
 	public void TestloginFailVerification() throws PersonNotFoundException {
 		Connection co = new Connection();
-		co.setId(1);
+		co.setMail("email");
 		co.setPassword("");
 		new Expectations() {{
 			validator.validate(co, (Errors) any);

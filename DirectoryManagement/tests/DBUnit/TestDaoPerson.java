@@ -178,6 +178,18 @@ public class TestDaoPerson extends DBTestCase {
 	}
 	
 	/**
+	 *  Verification si la recherche d'un personne existante
+	 *  renvoie bien une personne
+	 *  @author Bernardini Mickael De Barros Sylvain
+	 */
+	@Test 
+	public void testFindPersonMail() {
+		Person c = daoPerson.findPerson("sit.amet@libero.edu");
+		Assert.assertNotNull(c);
+	}
+	
+	
+	/**
 	 *  Verification si la recherche d'un groupe existant
 	 *  renvoie bien un groupe
 	 *  @author Bernardini Mickael De Barros Sylvain

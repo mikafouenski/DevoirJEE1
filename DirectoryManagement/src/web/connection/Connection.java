@@ -1,14 +1,14 @@
 package web.connection;
 
 public class Connection {
-	int id;
+	String mail;
 	String password;
 	
-	public int getId() {
-		return id;
+	public String getMail() {
+		return mail;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	public String getPassword() {
 		return password;

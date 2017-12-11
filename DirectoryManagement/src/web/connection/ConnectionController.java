@@ -62,9 +62,9 @@ public class ConnectionController {
 			return "connection/connection";
 		}
 		try {
-			connection = manager.login(user, co.getId(), co.getPassword());
+			connection = manager.login(user, co.getMail(), co.getPassword());
 		} catch (Exception e) {
-			result.rejectValue("id", "connect.id", "Identifiant ou Mot de passe incorect");
+			result.rejectValue("mail", "connect.mail", "Identifiant ou Mot de passe incorect");
 			result.rejectValue("password", "connect.password", "Identifiant ou Mot de passe incorect");
 			return "connection/connection";
 		}

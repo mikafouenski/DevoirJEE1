@@ -86,10 +86,10 @@ public class TestDirectoryManager {
         	Person p = new Person();
         	p.setPassword(HachageSha3.digest("juste"));
         	p.setIdGroup(12L);
-            dao.findPerson(1); result = p;
+            dao.findPerson("email"); result = p;
         }};
         User user = new User();
-        manager.login(user, 1, "juste");
+        manager.login(user,"email", "juste");
         assertFalse(user.isAnonymous());
         new Verifications() {{ dao.findPerson(1); times = 1; }};
     }
@@ -105,12 +105,12 @@ public class TestDirectoryManager {
         	Person p = new Person();
         	p.setPassword(HachageSha3.digest("juste"));
         	p.setIdGroup(12L);
-            dao.findPerson(1); result = p;
+            dao.findPerson("email"); result = p;
         }};
         User user = new User();
-        manager.login(user, 1, "juste");
+        manager.login(user, "email", "juste");
         assertEquals(12L, user.getGroupId());
-        new Verifications() {{ dao.findPerson(1); times = 1; }};
+        new Verifications() {{ dao.findPerson("email"); times = 1; }};
     }
     
     /**
@@ -182,12 +182,12 @@ public class TestDirectoryManager {
         	Person p = new Person();
         	p.setPassword("juste");
         	p.setIdGroup(12L);
-            dao.findPerson(1); result = p;
+            dao.findPerson("email"); result = p;
         }};
         User user = new User();
-        boolean isCo = manager.login(user, 1, "false");
+        boolean isCo = manager.login(user, "email", "false");
         assertFalse(isCo || !user.isAnonymous());
-        new Verifications() {{ dao.findPerson(1); times = 1; }};
+        new Verifications() {{ dao.findPerson("email"); times = 1; }};
     }
     /**
    	 *  Vérifie que la méthode login renvoie une execption si l'id est inconnue
@@ -196,11 +196,11 @@ public class TestDirectoryManager {
     @Test(expected = PersonNotFoundException.class)
     public void testLoginFailId() throws PersonNotFoundException {
         new Expectations() {{;
-            dao.findPerson(1); result = null;
+            dao.findPerson("email"); result = null;
         }};
         User user = new User();
-        manager.login(user, 1, "false");
-        new Verifications() {{ dao.findPerson(1); times = 1; }};
+        manager.login(user, "email", "false");
+        new Verifications() {{ dao.findPerson("email"); times = 1; }};
     }
     
     

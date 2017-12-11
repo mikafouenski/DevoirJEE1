@@ -279,6 +279,19 @@ public class DaoPerson implements IDaoPerson {
 		return person;
 	}
 	
+	public Person findPerson(String email) throws DaoException {
+		Person person = null;
+		try {
+			Person p = new Person();
+			p.setId(-1L);
+			p.setMail(email);
+			person = findBean(new DaoUtilsPerson(), p);
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		}
+		return person;
+	}
+	
 	/**
 	 * Recherche un Groupe en base de données 
 	 * @param id L'identifiant du groupe

@@ -97,7 +97,16 @@ public interface IDaoPerson {
 	 * @exception DaoException si la requete n'a pas fonctionée
 	 */
 	Person findPerson(long id) throws DaoException;
-
+	
+	/**
+	 * Recherche une personne en base de données 
+	 * @param id L'identifiant de la personne
+	 * @author Bernardini Mickael De Barros Sylvain 
+	 * @return Le groupe trouvé 
+	 * @exception DaoException si la requete n'a pas fonctionée
+	 */
+	Person findPerson(String email) throws DaoException;
+	
 	/**
 	 * Sauvegarde une personne en base de données 
 	 * @param p La personne
@@ -115,5 +124,5 @@ public interface IDaoPerson {
 	void saveGroup(Group g) throws DaoException;
 	
 	
-
+	
 }

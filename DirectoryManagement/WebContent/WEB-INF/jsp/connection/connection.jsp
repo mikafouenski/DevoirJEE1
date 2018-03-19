@@ -26,4 +26,5 @@
 			<button type="submit" class="btn btn-info">Valider</button>
 		</div>
 	</form:form>
+	<a class="btn btn-info" href="${pageContext.request.contextPath}/resetpassword">Mot de passe oublié ?</a>
 </body>
